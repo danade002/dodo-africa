@@ -3,7 +3,6 @@ import {
   Menu,
   X,
   ArrowRight,
-  Bird,
   Egg,
   Store,
   UtensilsCrossed,
@@ -20,9 +19,7 @@ import {
   Fish,
   Shell,
   Truck,
-  Leaf,
   Users,
-  Target,
   Building2,
   HeartHandshake,
   Globe2,
@@ -53,10 +50,14 @@ const C = {
   greenDeep: "#052E14",
   footerGreen: "#0F5A2B",
   footerGreenDeep: "#0A431F",
+  leaf: "#7DBB6A",
+  harvest: "#F2B94B",
 
   // Deliberately extremely close to white.
   mist: "#F8FBF8",
   mist2: "#F3F8F4",
+  greenMist: "#EAF7EE",
+  paper: "#FCFEFC",
 
   white: "#FFFFFF",
 
@@ -72,17 +73,18 @@ const C = {
 };
 
 const SERIF = {
-  fontFamily: "'Fraunces', Georgia, 'Times New Roman', serif",
+  fontFamily:
+    "'Host Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 };
 
 const BODY = {
   fontFamily:
-    "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    "'Host Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 };
 
 const MONO = {
   fontFamily:
-    "'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace",
+    "'Host Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 };
 
 /* ============================================================
@@ -115,13 +117,13 @@ function siteImage(name) {
 }
 
 const IMG = {
-  hero: siteImage("home-farmers-field"),
+  hero: `${SITE_IMAGE_DIR}/african-greenhouse-farmer.jpg`,
 
-  plantain: siteImage("plantain-harvest"),
+  plantain: siteImage("hero-plantain"),
 
   poultry: siteImage("poultry-barn"),
 
-  fish: siteImage("catfish-farming"),
+  fish: siteImage("fish-farm-river"),
 
   snail: siteImage("snail-farming"),
 
@@ -133,9 +135,9 @@ const IMG = {
 
   model: siteImage("model-plantain-truck"),
 
-  martHero: siteImage("mart-african-market"),
+  martHero: `${SITE_IMAGE_DIR}/supermarket-produce.jpg`,
 
-  market: siteImage("mart-fruit-market"),
+  market: `${SITE_IMAGE_DIR}/supermarket-produce.jpg`,
 
   eatery: siteImage("eatery-plantain-skewers"),
 
@@ -184,6 +186,56 @@ const PATH_PAGES = {
   "/farm-mart-eatery": "mart",
   "/partner": "partners",
   "/partners": "partners",
+};
+
+const AFRICA_HERO_PATH =
+  "M158 42L210 28L282 32L338 52L376 84L393 128L386 160L412 190L462 210L512 242L466 254L424 239L398 254L383 301L357 337L338 382L359 427L380 466L365 514L330 566L296 626L263 609L248 558L211 516L188 464L177 416L148 374L111 357L64 344L34 309L23 259L47 218L91 191L117 160L130 108Z M440 425L466 469L462 523L439 575L407 621L397 581L409 520L421 471Z";
+
+const HERO_SHAPES = {
+  leaf: {
+    clipA:
+      "polygon(10% 18%, 47% 2%, 89% 11%, 100% 48%, 82% 88%, 43% 100%, 7% 80%, 0% 41%)",
+    clipB:
+      "polygon(7% 22%, 44% 0%, 91% 15%, 98% 53%, 78% 92%, 40% 99%, 5% 76%, 2% 36%)",
+    clipC:
+      "polygon(14% 15%, 52% 1%, 88% 18%, 100% 45%, 84% 84%, 47% 100%, 10% 83%, 0% 45%)",
+    radiusA: "58% 42% 62% 38% / 42% 58% 42% 58%",
+    radiusB: "49% 51% 66% 34% / 45% 61% 39% 55%",
+    radiusC: "62% 38% 56% 44% / 44% 55% 45% 56%",
+  },
+  pod: {
+    clipA:
+      "polygon(5% 35%, 20% 10%, 53% 0%, 87% 12%, 100% 43%, 91% 77%, 64% 98%, 25% 91%, 1% 62%)",
+    clipB:
+      "polygon(3% 40%, 18% 13%, 49% 1%, 86% 9%, 98% 39%, 94% 73%, 67% 100%, 24% 94%, 0% 65%)",
+    clipC:
+      "polygon(7% 31%, 24% 8%, 57% 0%, 89% 16%, 100% 47%, 87% 80%, 60% 99%, 20% 88%, 0% 57%)",
+    radiusA: "47% 53% 44% 56% / 55% 42% 58% 45%",
+    radiusB: "42% 58% 51% 49% / 49% 48% 52% 51%",
+    radiusC: "53% 47% 40% 60% / 58% 39% 61% 42%",
+  },
+  harvest: {
+    clipA:
+      "polygon(13% 5%, 62% 0%, 98% 30%, 100% 73%, 71% 100%, 25% 93%, 0% 58%)",
+    clipB:
+      "polygon(9% 8%, 60% 1%, 96% 25%, 99% 71%, 74% 98%, 28% 96%, 1% 62%)",
+    clipC:
+      "polygon(17% 3%, 65% 0%, 100% 34%, 96% 76%, 67% 100%, 22% 89%, 0% 54%)",
+    radiusA: "40% 60% 54% 46% / 36% 47% 53% 64%",
+    radiusB: "47% 53% 50% 50% / 41% 52% 48% 59%",
+    radiusC: "36% 64% 58% 42% / 34% 44% 56% 66%",
+  },
+  market: {
+    clipA:
+      "polygon(0% 21%, 28% 2%, 74% 0%, 100% 25%, 93% 82%, 56% 100%, 11% 88%)",
+    clipB:
+      "polygon(2% 16%, 31% 0%, 78% 3%, 99% 29%, 91% 79%, 58% 98%, 8% 91%)",
+    clipC:
+      "polygon(0% 26%, 25% 4%, 70% 0%, 100% 22%, 96% 84%, 51% 100%, 12% 84%)",
+    radiusA: "38% 62% 44% 56% / 31% 42% 58% 69%",
+    radiusB: "44% 56% 39% 61% / 36% 47% 53% 64%",
+    radiusC: "34% 66% 47% 53% / 30% 39% 61% 70%",
+  },
 };
 
 function cleanPath(pathname) {
@@ -248,15 +300,13 @@ const FARMS = [
     name: "Plantain",
     qty: "8,500",
     unit: "suckers planned for cultivation",
-    Icon: Sprout,
     photo: IMG.plantain,
     photoPosition: "center 34%",
   },
   {
     name: "Poultry",
-    qty: "2,000",
-    unit: "birds currently in the growing stage",
-    Icon: Bird,
+    qty: "500",
+    unit: "birds currently growing",
     photo: IMG.poultry,
     photoPosition: "center 44%",
   },
@@ -264,7 +314,6 @@ const FARMS = [
     name: "Fishery",
     qty: "20,000",
     unit: "planned production capacity per cycle",
-    Icon: Fish,
     photo: IMG.fish,
     photoPosition: "center 42%",
   },
@@ -272,7 +321,6 @@ const FARMS = [
     name: "Snail",
     qty: "1,000",
     unit: "planned breeder stock",
-    Icon: Shell,
     photo: IMG.snail,
     photoPosition: "center",
   },
@@ -280,7 +328,6 @@ const FARMS = [
     name: "Goat",
     qty: "50",
     unit: "planned foundation herd",
-    Icon: Leaf,
     photo: IMG.goat,
     photoPosition: "center 45%",
   },
@@ -395,7 +442,7 @@ const FOUNDERS = [
   },
   {
     initials: "TM",
-    name: "Temitope Menowonu",
+    name: "Temitope Menawonu",
     role: "Co-Founder, Agribusiness & Operations",
     desc:
       "Brings a background in law and agricultural business. Leads farm operations, legal and regulatory matters, partnerships, procurement and commercial execution.",
@@ -417,6 +464,13 @@ const FOUNDERS = [
    ============================================================ */
 
 const PHOTO_CREDITS = [
+  {
+    label: "African greenhouse farmer",
+    author: "Mukhtar Shuaib Mukhtar",
+    license: "Pexels License",
+    href:
+      "https://www.pexels.com/photo/african-farmer-holding-melon-in-greenhouse-29091325/",
+  },
   {
     label: "Farmers in field",
     author: "Alex Gamaliel",
@@ -451,6 +505,19 @@ const PHOTO_CREDITS = [
     license: "Pexels License",
     href:
       "https://www.pexels.com/photo/lively-african-market-scene-with-fresh-produce-36943006/",
+  },
+  {
+    label: "Supermarket produce aisle",
+    author: "Spencer Backman-Chilcott",
+    license: "Unsplash License",
+    href:
+      "https://unsplash.com/photos/people-shopping-for-produce-in-a-grocery-store-Vqya4pNt-bY",
+  },
+  {
+    label: "Supermarket produce wall",
+    author: "nrd",
+    license: "Unsplash License",
+    href: "https://unsplash.com/@nrd",
   },
   {
     label: "Plantain skewers",
@@ -725,7 +792,9 @@ function SiteLoader() {
 function Eyebrow({ children, light = false }) {
   return (
     <div
-      className="mb-3 text-xs font-extrabold uppercase"
+      className={`section-eyebrow mb-3 text-xs font-extrabold uppercase ${
+        light ? "is-light" : ""
+      }`}
       style={{
         ...MONO,
         color: light ? "#B9DFC4" : C.red,
@@ -809,12 +878,15 @@ function Card({
 
   return (
     <div
-      className={`motion-card rounded-lg ${className}`}
+      className={`motion-card surface-card rounded-lg ${className}`}
       style={{
+        position: "relative",
         background,
         border: `1px solid ${border}`,
         color,
-        boxShadow: green || red ? "none" : "none",
+        boxShadow: green || red ? "none" : C.shadow,
+        transition:
+          "transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease, background-color 260ms ease",
       }}
     >
       {children}
@@ -859,6 +931,8 @@ function Tag({ children, tone = "green" }) {
 
 function PrimaryButton({ children, onClick, href }) {
   const styles = {
+    position: "relative",
+    overflow: "hidden",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
@@ -867,45 +941,28 @@ function PrimaryButton({ children, onClick, href }) {
     padding: "13px 20px",
     color: "#fff",
     background: C.red,
-    borderRadius: 10,
+    border: `2px solid ${C.greenDeep}`,
+    borderRadius: 999,
     fontSize: 14,
     fontWeight: 800,
     textAlign: "center",
-    boxShadow: "0 8px 22px rgba(239,25,18,.18)",
+    boxShadow: "0 4px 0 rgba(5,46,20,.24)",
   };
 
   if (href) {
     return (
-      <a href={href} style={styles}>
+      <a className="primary-button" href={href} style={styles}>
         {children}
       </a>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} style={styles}>
-      {children}
-    </button>
-  );
-}
-
-function SecondaryButton({ children, onClick }) {
-  return (
     <button
+      className="primary-button"
       type="button"
       onClick={onClick}
-      className="inline-flex items-center justify-center gap-2"
-      style={{
-        flexWrap: "wrap",
-        padding: "12px 20px",
-        background: C.mist2,
-        border: `1px solid ${C.borderStrong}`,
-        color: C.green,
-        borderRadius: 10,
-        fontSize: 14,
-        fontWeight: 800,
-        textAlign: "center",
-      }}
+      style={styles}
     >
       {children}
     </button>
@@ -919,7 +976,7 @@ function SecondaryButton({ children, onClick }) {
    There is NO separate text "Dodo Africa".
    Only the supplied logo / wordmark is used.
 
-   Logo enlarged sufficiently on desktop and mobile.
+   Logo sizing is intentionally compact and shared across all routes.
    ============================================================ */
 
 function NavLink({ active, children, onClick }) {
@@ -930,7 +987,7 @@ function NavLink({ active, children, onClick }) {
       className="relative px-3 py-2 text-sm font-semibold"
       style={{
         background: "transparent",
-        color: active ? C.red : C.inkSoft,
+        color: "#020702",
       }}
     >
       {children}
@@ -955,6 +1012,7 @@ function NavLink({ active, children, onClick }) {
 function NavBar({ page, setPage }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const settled = scrolled || open;
 
   const links = [
     ["home", "Home"],
@@ -980,20 +1038,38 @@ function NavBar({ page, setPage }) {
 
   return (
     <nav
+      className={`site-nav ${settled ? "is-scrolled" : ""}`}
       style={{
-        position: "sticky",
+        position: "fixed",
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 100,
-        background: "rgba(255,255,255,.97)",
-        backdropFilter: "blur(16px)",
+        background: settled
+          ? "rgba(248,251,248,.98)"
+          : "rgba(234,247,238,.98)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
         borderBottom: `1px solid ${C.border}`,
-        boxShadow: scrolled
-          ? "0 8px 30px rgba(5,46,20,.075)"
-          : "none",
+        pointerEvents: "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8">
-        <div className="flex min-h-[72px] md:min-h-[88px] items-center justify-between">
+      <div
+        className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8"
+      >
+        <div
+          className="nav-frame flex min-h-[58px] md:min-h-[64px] items-center justify-between gap-4"
+          style={{
+            pointerEvents: "auto",
+            padding: "0 12px",
+            borderRadius: 0,
+            background: "transparent",
+            border: "1px solid transparent",
+            backdropFilter: "none",
+            WebkitBackdropFilter: "none",
+            boxShadow: "none",
+          }}
+        >
           <button
             type="button"
             aria-label="Dodo Africa home"
@@ -1042,9 +1118,15 @@ function NavBar({ page, setPage }) {
 
         {open && (
           <div
-            className="mobile-menu-panel lg:hidden pb-5 pt-2"
+            className="mobile-menu-panel lg:hidden mt-2 p-3"
             style={{
-              borderTop: `1px solid ${C.border}`,
+              pointerEvents: "auto",
+              borderRadius: 16,
+              background: "rgba(255,255,255,.97)",
+              border: `1px solid ${C.border}`,
+              boxShadow: "0 18px 48px rgba(5,46,20,.16)",
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
             }}
           >
             <div className="flex flex-col gap-2">
@@ -1056,7 +1138,7 @@ function NavBar({ page, setPage }) {
                   className="w-full rounded-lg px-4 py-3 text-left text-sm font-bold"
                   style={{
                     background: page === id ? C.mist2 : C.white,
-                    color: page === id ? C.red : C.inkSoft,
+                    color: "#020702",
                   }}
                 >
                   {label}
@@ -1098,49 +1180,34 @@ function PageHeader({
   photo,
   photoAlt,
   photoPosition = "center",
+  shape = "leaf",
 }) {
+  const shapeData = HERO_SHAPES[shape] || HERO_SHAPES.leaf;
+
   return (
     <section
-      className="page-hero"
+      className="page-hero page-hero-light"
       style={{
         position: "relative",
         overflow: "hidden",
-        background: C.greenDeep,
+        background: C.greenMist,
       }}
     >
-      <div
-        role="img"
-        aria-label={photoAlt}
-        className="hero-image absolute inset-0 h-full w-full object-cover"
-        style={{
-          backgroundImage: `url("${photo}")`,
-          backgroundPosition: photoPosition,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      />
+      <div className="page-hero-grain" aria-hidden="true" />
 
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(5,46,20,.94), rgba(5,46,20,.68) 48%, rgba(5,46,20,.18)), linear-gradient(180deg, rgba(5,46,20,.18), rgba(5,46,20,.8))",
-        }}
-      />
-
-      <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-18 md:py-24">
+      <div className="page-hero-soft-inner max-w-7xl mx-auto px-5 md:px-8">
         <div className="hero-copy page-hero-copy">
-          <Eyebrow light>{eyebrow}</Eyebrow>
+          <Eyebrow>{eyebrow}</Eyebrow>
 
           <h1
-            style={{
-              ...SERIF,
-              color: "#fff",
-              fontSize: "clamp(40px,6.6vw,82px)",
-              lineHeight: 0.98,
-              fontWeight: 700,
-              letterSpacing: 0,
-            }}
+              style={{
+                ...SERIF,
+                color: "#020702",
+                fontSize: "clamp(38px,5.8vw,74px)",
+                lineHeight: 1.02,
+                fontWeight: 900,
+                letterSpacing: 0,
+              }}
           >
             {title}
           </h1>
@@ -1148,8 +1215,9 @@ function PageHeader({
           <p
             className="mt-6 max-w-2xl text-base md:text-xl"
             style={{
-              color: "#E7F2E9",
-              lineHeight: 1.72,
+              color: "#15231A",
+              lineHeight: 1.65,
+              fontWeight: 700,
             }}
           >
             {lede}
@@ -1160,11 +1228,11 @@ function PageHeader({
               (item) => (
                 <span
                   key={item}
-                  className="rounded-full px-4 py-2 text-sm font-bold"
+                  className="hero-pill rounded-full px-4 py-2 text-sm font-bold"
                   style={{
-                    color: "#fff",
-                    background: "rgba(255,255,255,.12)",
-                    border: "1px solid rgba(255,255,255,.22)",
+                    color: C.greenDeep,
+                    background: "rgba(255,255,255,.7)",
+                    border: `1px solid ${C.borderStrong}`,
                   }}
                 >
                   {item}
@@ -1172,6 +1240,29 @@ function PageHeader({
               )
             )}
           </div>
+        </div>
+
+        <div
+          role="img"
+          aria-label={photoAlt}
+          className="page-hero-photo-wrap hero-image"
+          style={{
+            "--hero-clip-a": shapeData.clipA,
+            "--hero-clip-b": shapeData.clipB,
+            "--hero-clip-c": shapeData.clipC,
+            "--hero-radius-a": shapeData.radiusA,
+            "--hero-radius-b": shapeData.radiusB,
+            "--hero-radius-c": shapeData.radiusC,
+          }}
+        >
+          <img
+            src={photo}
+            alt=""
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            style={{ objectPosition: photoPosition }}
+          />
         </div>
       </div>
     </section>
@@ -1187,9 +1278,10 @@ function HomeMetric({ icon: Icon, value, label }) {
     <div
       className="motion-card home-metric rounded-lg p-5 md:p-6 h-full"
       style={{
-        background: C.white,
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,1), rgba(248,251,248,.96))",
         border: `1px solid ${C.border}`,
-        boxShadow: "0 10px 28px rgba(5,46,20,.045)",
+        boxShadow: "0 12px 32px rgba(5,46,20,.055)",
       }}
     >
       <div className="flex items-start justify-between gap-4">
@@ -1220,7 +1312,8 @@ function HomeMetric({ icon: Icon, value, label }) {
         <div
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
           style={{
-            background: "#EAF5ED",
+            background:
+              "linear-gradient(135deg, #EAF5ED, #FFFFFF)",
             color: C.green,
             border: `1px solid ${C.border}`,
           }}
@@ -1233,8 +1326,6 @@ function HomeMetric({ icon: Icon, value, label }) {
 }
 
 function FarmCard({ farm, index, visible }) {
-  const Icon = farm.Icon;
-
   return (
     <Card className="farm-card overflow-hidden h-full">
       <div
@@ -1254,29 +1345,16 @@ function FarmCard({ farm, index, visible }) {
         />
 
         <div className="p-5">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-full"
-              style={{
-                background: C.mist2,
-                color: C.green,
-                border: `1px solid ${C.border}`,
-              }}
-            >
-              <Icon size={18} />
-            </div>
-
-            <h3
-              style={{
-                ...SERIF,
-                color: C.greenDeep,
-                fontSize: 19,
-                fontWeight: 700,
-              }}
-            >
-              {farm.name}
-            </h3>
-          </div>
+          <h3
+            style={{
+              ...SERIF,
+              color: C.greenDeep,
+              fontSize: 20,
+              fontWeight: 800,
+            }}
+          >
+            {farm.name}
+          </h3>
 
           <div
             className="mt-5"
@@ -1314,76 +1392,115 @@ function HomePage({ setPage }) {
       {/* HERO */}
 
       <section
-        className="home-hero"
+        className="home-hero home-hero-light"
         style={{
           position: "relative",
           overflow: "hidden",
-          background: C.greenDeep,
+          background: C.greenMist,
         }}
       >
-        <div
-          className="hero-image absolute inset-0 h-full w-full"
-          role="img"
-          aria-label="African farmers in a cultivated field"
-          style={{
-            backgroundImage: `url("${IMG.hero}")`,
-            backgroundPosition: "center 48%",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
-        />
-
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(5,46,20,.94) 0%, rgba(5,46,20,.76) 43%, rgba(5,46,20,.22) 74%, rgba(5,46,20,.08) 100%), linear-gradient(180deg, rgba(5,46,20,.08), rgba(5,46,20,.42))",
-          }}
-        />
-
-        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-18 md:py-24">
-          <div className="hero-copy max-w-3xl">
-            <Eyebrow light>Integrated Agribusiness</Eyebrow>
-
+        <div className="home-hero-inner relative max-w-7xl mx-auto px-5 md:px-8 py-18 md:py-24">
+          <div className="hero-copy home-hero-copy max-w-3xl">
             <h1
+              className="hero-title"
               style={{
                 ...SERIF,
-                color: "#fff",
-                fontSize: "clamp(44px,6vw,78px)",
+                color: "#020702",
+                fontSize: "clamp(38px,5vw,68px)",
                 lineHeight: 0.98,
                 letterSpacing: 0,
-                fontWeight: 700,
+                fontWeight: 900,
               }}
             >
               Feeding Africa,
               <br />
-              <span>Building Generations.</span>
+              <span className="hero-title-line">
+                <span>Building</span>{" "}
+                <span>Generations.</span>
+              </span>
             </h1>
 
             <p
-              className="mt-6 md:mt-7 max-w-2xl text-base md:text-xl"
+              className="home-hero-lede mt-6 md:mt-8 max-w-2xl text-base md:text-xl"
               style={{
-                color: "#E7F2E9",
-                lineHeight: 1.72,
+                color: "#06130B",
+                lineHeight: 1.55,
+                fontWeight: 800,
               }}
             >
-              Dodo Africa is building a Nigerian food business from
-              the ground up, starting with farm production and growing
-              into market channels, food products and consumer
-              experiences.
+              Dodo Africa is building an integrated agriculture and
+              food business from the ground up, starting with farm
+              production and growing into market channels, food
+              products and consumer experiences.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
+            <div className="home-hero-actions mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3">
               <PrimaryButton onClick={() => setPage("model")}>
                 Explore Our Model
                 <ArrowRight size={16} />
               </PrimaryButton>
-
-              <SecondaryButton onClick={() => setPage("partners")}>
-                Partner With Us
-              </SecondaryButton>
             </div>
           </div>
+        </div>
+
+        <div
+          className="home-hero-media"
+          role="img"
+          aria-label="African farmer in a modern greenhouse"
+        >
+          <img
+            className="home-hero-preload"
+            src={IMG.hero}
+            alt=""
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+
+          <svg
+            className="home-hero-africa hero-image"
+            viewBox="0 0 520 640"
+            aria-hidden="true"
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              <clipPath id="homeAfricaClip" clipPathUnits="userSpaceOnUse">
+                <path d={AFRICA_HERO_PATH} />
+              </clipPath>
+
+              <linearGradient
+                id="homeAfricaWash"
+                x1="0"
+                x2="1"
+                y1="0"
+                y2="0"
+              >
+                <stop offset="0%" stopColor={C.greenMist} stopOpacity=".55" />
+                <stop offset="28%" stopColor={C.greenMist} stopOpacity=".18" />
+                <stop offset="100%" stopColor={C.greenMist} stopOpacity="0" />
+              </linearGradient>
+            </defs>
+
+            <image
+              href={IMG.hero}
+              x="-170"
+              y="0"
+              width="840"
+              height="640"
+              preserveAspectRatio="xMidYMid slice"
+              clipPath="url(#homeAfricaClip)"
+            />
+
+            <path d={AFRICA_HERO_PATH} fill="url(#homeAfricaWash)" />
+
+            <path
+              d={AFRICA_HERO_PATH}
+              fill="none"
+              stroke="rgba(5,46,20,.18)"
+              strokeWidth="2.3"
+            />
+          </svg>
         </div>
       </section>
 
@@ -1402,29 +1519,17 @@ function HomePage({ setPage }) {
             description="We start with primary production, strengthen dependable routes to market, and expand carefully into processing, food service and technology around the same agricultural base."
           />
 
-          <div className="mt-9 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="mt-9 grid sm:grid-cols-2 gap-4">
             <HomeMetric
               icon={MapPin}
-              value="85"
-              label="plots forming the agricultural base"
+              value="100"
+              label="plots of land"
             />
 
             <HomeMetric
               icon={Sprout}
               value="5"
               label="production enterprises in the broader plan"
-            />
-
-            <HomeMetric
-              icon={Bird}
-              value="2,000"
-              label="poultry birds currently growing"
-            />
-
-            <HomeMetric
-              icon={Target}
-              value="1"
-              label="integrated route from farm to market"
             />
           </div>
         </div>
@@ -1615,7 +1720,7 @@ function HomePage({ setPage }) {
 
       {/* CTA */}
 
-      <section style={{ background: C.mist }}>
+      <section style={{ background: C.greenMist }}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 pb-16 md:pb-20">
           <div
             className="overflow-hidden rounded-lg"
@@ -1777,6 +1882,7 @@ function StoryPage({ setPage }) {
         photo={IMG.story}
         photoAlt="Smiling Nigerian farmer in a cultivated field"
         photoPosition="center 35%"
+        shape="leaf"
       />
 
       <section style={{ background: C.white }}>
@@ -1804,11 +1910,11 @@ function StoryPage({ setPage }) {
                   lineHeight: 1.8,
                 }}
               >
-                The business already has access to 85 plots of land,
-                existing farm infrastructure and a poultry operation
-                with 2,000 birds. The next major production focus is
-                the cultivation of approximately 8,500 plantain
-                suckers.
+                The business already has access to 100 plots of land,
+                existing farm infrastructure and a clear plan for
+                integrated agriculture. The next major production
+                focus is the cultivation of approximately 8,500
+                plantain suckers.
               </p>
 
               <p
@@ -1828,9 +1934,9 @@ function StoryPage({ setPage }) {
             <Card pale className="p-7 md:p-8">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  ["85", "Plots of agricultural land"],
+                  ["100", "Plots of land"],
                   ["8,500", "Plantain suckers planned"],
-                  ["2,000", "Existing poultry birds"],
+                  ["5", "Production enterprises planned"],
                   ["Ondo State", "Operating base in Nigeria"],
                 ].map(([value, label]) => (
                   <div
@@ -2092,6 +2198,7 @@ function ModelPage({ setPage }) {
         photo={IMG.model}
         photoAlt="Plantain produce being transported to market"
         photoPosition="center 42%"
+        shape="pod"
       />
 
       <section
@@ -2232,7 +2339,6 @@ function ModelPage({ setPage }) {
    ============================================================ */
 
 function ConsumerBusinessCard({
-  Icon,
   title,
   description,
   points,
@@ -2257,17 +2363,7 @@ function ConsumerBusinessCard({
         />
 
         <div className="p-6 sm:p-7 md:p-8">
-          <div className="flex items-center justify-between gap-4">
-            <div
-              className="flex h-12 w-12 items-center justify-center rounded-full"
-              style={{
-                background: primary,
-                color: "#fff",
-              }}
-            >
-              <Icon size={21} />
-            </div>
-
+          <div className="flex justify-start">
             <span
               className="rounded-full px-3 py-1 text-[11px] font-extrabold uppercase"
               style={{
@@ -2304,22 +2400,17 @@ function ConsumerBusinessCard({
 
           <div className="mt-6 space-y-3">
             {points.map((point) => (
-              <div key={point} className="flex items-start gap-3">
-                <CheckCircle2
-                  size={17}
-                  className="mt-[2px] shrink-0"
-                  style={{ color: C.green }}
-                />
-
-                <span
-                  className="text-sm"
-                  style={{
-                    color: C.inkSoft,
-                    lineHeight: 1.55,
-                  }}
-                >
-                  {point}
-                </span>
+              <div
+                key={point}
+                className="text-sm"
+                style={{
+                  color: C.inkSoft,
+                  lineHeight: 1.55,
+                  paddingTop: 10,
+                  borderTop: `1px solid ${C.border}`,
+                }}
+              >
+                {point}
               </div>
             ))}
           </div>
@@ -2380,8 +2471,9 @@ function MartPage() {
         title="Farm Mart & Eatery."
         lede="These businesses create direct routes from agricultural production to buyers and consumers, from fresh produce and commercial supply to a future food concept built around the Dodo brand."
         photo={IMG.martHero}
-        photoAlt="Real Nigerian open market in Ilorin"
-        photoPosition="center 54%"
+        photoAlt="Supermarket produce aisle with shoppers"
+        photoPosition="center 50%"
+        shape="market"
       />
 
       <section style={{ background: C.white }}>
@@ -2422,7 +2514,6 @@ function MartPage() {
 
           <div className="mt-9 grid xl:grid-cols-2 gap-6">
             <ConsumerBusinessCard
-              Icon={Store}
               title="Dodo Farm Mart"
               description="A retail, wholesale and distribution channel designed to move agricultural products efficiently from production to households and commercial customers."
               points={[
@@ -2432,12 +2523,11 @@ function MartPage() {
                 "Direct-to-consumer retail",
               ]}
               image={IMG.market}
-              alt="Real fruit market in Makurdi, Nigeria"
+              alt="Supermarket produce wall with fresh vegetables"
               accent="green"
             />
 
             <ConsumerBusinessCard
-              Icon={UtensilsCrossed}
               title="Dodo Eatery"
               description="A future consumer food concept built around plantain and complementary products, creating a recognizable Dodo experience beyond the farm."
               points={[
@@ -2596,6 +2686,7 @@ function PartnersPage() {
         photo={IMG.partners}
         photoAlt="Farm workers filling sacks after harvest"
         photoPosition="center 45%"
+        shape="harvest"
       />
 
       <section style={{ background: C.white }}>
@@ -2916,7 +3007,7 @@ function Footer({ setPage }) {
     <>
       <footer
         style={{
-          background: `linear-gradient(180deg, ${C.footerGreen}, ${C.footerGreenDeep})`,
+          background: `linear-gradient(180deg, ${C.greenDeep}, #031E0D)`,
           color: "#fff",
         }}
       >
@@ -3248,6 +3339,7 @@ export default function App() {
         body {
           margin: 0;
           min-width: 0;
+          background: ${C.paper};
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
@@ -3318,6 +3410,17 @@ export default function App() {
           transform: translateY(-1px);
         }
 
+        h1,
+        h2,
+        h3 {
+          text-wrap: balance;
+        }
+
+        p,
+        li {
+          text-wrap: pretty;
+        }
+
         a {
           text-decoration: none;
         }
@@ -3346,16 +3449,343 @@ export default function App() {
           color: #ffffff;
         }
 
+        .page-shell {
+          background:
+            linear-gradient(180deg, ${C.paper} 0%, ${C.mist} 54%, ${C.paper} 100%);
+        }
+
+        .page-shell section:not(.home-hero):not(.page-hero) {
+          position: relative;
+          isolation: isolate;
+          overflow: hidden;
+        }
+
+        .page-shell section:not(.home-hero):not(.page-hero)::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          opacity: .44;
+          background:
+            linear-gradient(135deg, rgba(234,247,238,.65), transparent 34%, rgba(255,255,255,.45) 72%, transparent),
+            repeating-linear-gradient(90deg, rgba(5,46,20,.028) 0 1px, transparent 1px 86px);
+        }
+
+        .page-shell section:not(.home-hero):not(.page-hero):nth-of-type(even)::before {
+          background:
+            linear-gradient(45deg, rgba(255,255,255,.72), transparent 42%, rgba(234,247,238,.72)),
+            repeating-linear-gradient(0deg, rgba(5,46,20,.024) 0 1px, transparent 1px 72px);
+        }
+
+        .page-shell section:not(.home-hero):not(.page-hero) > .max-w-7xl {
+          position: relative;
+          z-index: 1;
+        }
+
+        .section-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .section-eyebrow::before {
+          content: "";
+          display: inline-block;
+          width: 34px;
+          height: 2px;
+          border-radius: 999px;
+          background: linear-gradient(90deg, ${C.red}, ${C.green});
+        }
+
+        .section-eyebrow.is-light::before {
+          background: linear-gradient(90deg, #ffffff, #B9DFC4);
+        }
+
+        .primary-button::after {
+          content: "";
+          position: absolute;
+          inset: -2px;
+          transform: translateX(-115%) skewX(-16deg);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.32), transparent);
+          transition: transform 520ms ease;
+        }
+
+        .primary-button:hover::after {
+          transform: translateX(115%) skewX(-16deg);
+        }
+
+        .primary-button svg {
+          position: relative;
+          z-index: 1;
+          transition: transform 220ms ease;
+        }
+
+        .primary-button:hover svg {
+          transform: translateX(3px);
+        }
+
+        .primary-button > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .surface-card {
+          overflow: hidden;
+        }
+
+        .surface-card::before {
+          content: "";
+          position: absolute;
+          inset: 0 0 auto;
+          height: 3px;
+          opacity: .9;
+          background: linear-gradient(90deg, rgba(239,25,18,.68), rgba(11,69,31,.72));
+          transform: scaleX(.36);
+          transform-origin: left;
+          transition: transform 300ms ease, opacity 300ms ease;
+        }
+
+        .surface-card > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .surface-card:hover {
+          transform: translateY(-3px);
+          border-color: ${C.borderStrong};
+          box-shadow: 0 18px 42px rgba(5,46,20,.09);
+        }
+
+        .surface-card:hover::before {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+
+        .home-metric {
+          position: relative;
+          overflow: hidden;
+          transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+        }
+
+        .home-metric::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 4px;
+          background: linear-gradient(90deg, ${C.red}, ${C.green});
+          transform: scaleX(.24);
+          transform-origin: left;
+          transition: transform 280ms ease;
+        }
+
+        .home-metric:hover {
+          transform: translateY(-3px);
+          border-color: ${C.borderStrong};
+          box-shadow: 0 18px 42px rgba(5,46,20,.08);
+        }
+
+        .home-metric:hover::after {
+          transform: scaleX(1);
+        }
+
+        .site-nav,
+        .nav-frame {
+          transition:
+            background-color 220ms ease,
+            border-color 220ms ease,
+            box-shadow 220ms ease,
+            transform 220ms ease;
+        }
+
+        .site-nav > div {
+          width: 100%;
+          max-width: min(80rem, 100vw);
+        }
+
+        .nav-frame {
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+        }
+
+        .nav-frame > * {
+          flex-shrink: 0;
+        }
+
         .home-hero {
-          min-height: calc(100vh - 72px);
+          min-height: 100vh;
           display: grid;
           align-items: center;
         }
 
-        .page-hero {
-          min-height: 470px;
+        .home-hero-light {
+          min-height: 100svh;
+          display: block;
+          isolation: isolate;
+        }
+
+        .home-hero-light::before {
+          content: "";
+          position: absolute;
+          inset: auto 0 0;
+          height: 42%;
+          pointer-events: none;
+          opacity: .42;
+          background:
+            repeating-linear-gradient(112deg, rgba(5,46,20,.05) 0 1px, transparent 1px 36px),
+            linear-gradient(180deg, transparent, rgba(255,255,255,.7));
+        }
+
+        .home-hero-media {
+          position: absolute;
+          top: clamp(86px, 10vh, 118px);
+          right: 0;
+          bottom: clamp(10px, 3vh, 36px);
+          z-index: 0;
+          width: min(61vw, 1040px);
           display: grid;
+          place-items: center end;
+          overflow: visible;
+          background: transparent;
+          pointer-events: none;
+        }
+
+        .home-hero-preload {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .home-hero-africa {
+          width: min(112%, 860px);
+          height: min(82svh, 770px);
+          overflow: visible;
+          filter: drop-shadow(-24px 24px 52px rgba(5,46,20,.14));
+        }
+
+        .home-hero-africa image {
+          filter: saturate(.94) contrast(1.02) brightness(1.03);
+        }
+
+        .home-hero-inner {
+          min-height: 100svh;
+          display: flex;
           align-items: center;
+          position: relative;
+          z-index: 3;
+        }
+
+        .home-hero-copy {
+          width: min(600px, 50vw);
+        }
+
+        .page-hero {
+          min-height: min(760px, 100svh);
+          display: grid;
+          align-items: stretch;
+        }
+
+        .page-hero-light {
+          isolation: isolate;
+          color: #020702;
+        }
+
+        .page-hero-light::before {
+          content: "";
+          position: absolute;
+          inset: auto 0 0;
+          height: 44%;
+          pointer-events: none;
+          opacity: .48;
+          background:
+            repeating-linear-gradient(112deg, rgba(5,46,20,.05) 0 1px, transparent 1px 38px),
+            linear-gradient(180deg, transparent, rgba(255,255,255,.72));
+        }
+
+        .page-hero-soft-inner {
+          position: relative;
+          z-index: 2;
+          min-height: inherit;
+          display: grid;
+          grid-template-columns: minmax(0, .84fr) minmax(390px, .96fr);
+          gap: clamp(30px, 4.6vw, 64px);
+          align-items: center;
+          padding-top: clamp(112px, 13vh, 150px);
+          padding-bottom: clamp(58px, 9vh, 96px);
+        }
+
+        .page-hero-photo-wrap {
+          position: relative;
+          justify-self: end;
+          width: min(100%, 690px);
+          aspect-ratio: 1.18 / 1;
+          min-height: auto;
+          border-radius: var(--hero-radius-a, 58% 42% 62% 38% / 42% 58% 42% 58%);
+          clip-path: var(--hero-clip-a, polygon(14% 17%, 51% 0%, 87% 14%, 100% 49%, 82% 88%, 45% 100%, 10% 80%, 0% 42%));
+          overflow: hidden;
+          border: 2px solid rgba(5,46,20,.18);
+          background: ${C.mist2};
+          box-shadow: 0 22px 54px rgba(5,46,20,.13);
+          transform-origin: center;
+        }
+
+        .page-hero-photo-wrap img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          filter: saturate(.94) contrast(1.03) brightness(1.03);
+          transform: scale(1.012);
+          animation: page-photo-pan 9000ms ease-in-out infinite alternate;
+        }
+
+        .page-hero-photo-wrap::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.05), rgba(5,46,20,.1)),
+            linear-gradient(90deg, rgba(234,247,238,.22), rgba(234,247,238,0) 46%, rgba(239,25,18,.04));
+          mix-blend-mode: multiply;
+        }
+
+        .page-hero-grain {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: .45;
+          background:
+            repeating-linear-gradient(90deg, rgba(5,46,20,.045) 0 1px, transparent 1px 96px),
+            repeating-linear-gradient(0deg, rgba(5,46,20,.025) 0 1px, transparent 1px 72px);
+        }
+
+        .hero-pill {
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: transform 220ms ease, background-color 220ms ease;
+        }
+
+        .hero-pill:hover {
+          transform: translateY(-2px);
+          background: rgba(255,255,255,.92) !important;
+        }
+
+        .home-hero > .relative {
+          padding-top: clamp(148px, 16vh, 190px);
+          padding-bottom: clamp(74px, 10vh, 120px);
+        }
+
+        .page-hero:not(.page-hero-light) > .relative {
+          padding-top: clamp(136px, 13vh, 164px);
+          padding-bottom: clamp(76px, 9vh, 112px);
         }
 
         .hero-copy,
@@ -3367,7 +3797,11 @@ export default function App() {
         }
 
         .page-hero-copy {
-          max-width: 760px;
+          max-width: 700px;
+        }
+
+        .hero-title-line {
+          display: block;
         }
 
         .consumer-business-photo {
@@ -3423,6 +3857,16 @@ export default function App() {
           will-change: transform;
         }
 
+        .home-hero-africa.hero-image {
+          animation:
+            home-africa-settle 1600ms ease both,
+            hero-map-drift 5600ms ease-in-out 1600ms infinite alternate;
+        }
+
+        .page-hero-photo-wrap.hero-image {
+          animation: page-photo-float 7400ms ease-in-out infinite alternate;
+        }
+
         .hero-copy > * {
           opacity: 0;
           transform: translateY(18px);
@@ -3472,6 +3916,25 @@ export default function App() {
           transform: scale(1);
         }
 
+        .farm-card:hover .motion-photo img,
+        .consumer-business-card:hover .motion-photo img,
+        .founder-card:hover .motion-photo img {
+          transform: scale(1.045);
+        }
+
+        .photo-frame:not(.founder-portrait)::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.04), rgba(5,46,20,.1)),
+            linear-gradient(90deg, rgba(239,25,18,.04), rgba(11,69,31,.05));
+          opacity: .72;
+          mix-blend-mode: multiply;
+        }
+
         .mobile-menu-panel {
           animation: menu-drop 240ms ease both;
           transform-origin: top;
@@ -3494,6 +3957,60 @@ export default function App() {
 
           to {
             transform: scale(1);
+          }
+        }
+
+        @keyframes home-africa-settle {
+          from {
+            transform: scaleX(1.12) scale(1.045);
+          }
+
+          to {
+            transform: scaleX(1.12) scale(1);
+          }
+        }
+
+        @keyframes hero-map-drift {
+          0% {
+            transform: translate3d(0, 0, 0) rotate(0deg) scaleX(1.12) scale(1);
+          }
+
+          45% {
+            transform: translate3d(-10px, 8px, 0) rotate(-1.1deg) scaleX(1.12) scale(1.018);
+          }
+
+          100% {
+            transform: translate3d(8px, -7px, 0) rotate(.9deg) scaleX(1.12) scale(1.032);
+          }
+        }
+
+        @keyframes page-photo-float {
+          0% {
+            border-radius: var(--hero-radius-a, 58% 42% 62% 38% / 42% 58% 42% 58%);
+            clip-path: var(--hero-clip-a, polygon(14% 17%, 51% 0%, 87% 14%, 100% 49%, 82% 88%, 45% 100%, 10% 80%, 0% 42%));
+            transform: translate3d(0, 0, 0) rotate(-1deg) scale(1);
+          }
+
+          50% {
+            border-radius: var(--hero-radius-b, 50% 50% 66% 34% / 48% 62% 38% 52%);
+            clip-path: var(--hero-clip-b, polygon(11% 20%, 48% 2%, 90% 17%, 98% 52%, 78% 91%, 42% 99%, 8% 76%, 2% 38%));
+            transform: translate3d(-8px, 7px, 0) rotate(.8deg) scale(1.018);
+          }
+
+          100% {
+            border-radius: var(--hero-radius-c, 62% 38% 56% 44% / 44% 55% 45% 56%);
+            clip-path: var(--hero-clip-c, polygon(16% 14%, 55% 1%, 88% 20%, 100% 46%, 84% 84%, 48% 100%, 12% 83%, 0% 45%));
+            transform: translate3d(7px, -8px, 0) rotate(-.6deg) scale(1.026);
+          }
+        }
+
+        @keyframes page-photo-pan {
+          from {
+            transform: scale(1.015) translate3d(-.8%, 0, 0);
+          }
+
+          to {
+            transform: scale(1.04) translate3d(.8%, -.6%, 0);
           }
         }
 
@@ -3542,6 +4059,26 @@ export default function App() {
           to {
             opacity: 1;
             transform: scaleY(1) translateY(0);
+          }
+        }
+
+        @supports (animation-timeline: view()) {
+          .page-shell section:not(.home-hero):not(.page-hero) > .max-w-7xl {
+            animation: section-lift both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 24%;
+          }
+        }
+
+        @keyframes section-lift {
+          from {
+            opacity: .55;
+            transform: translateY(18px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
 
@@ -3676,81 +4213,89 @@ export default function App() {
           }
         }
 
-        /*
-         * The supplied logo already contains the wordmark.
-         * It is deliberately larger than the previous nav branding.
-         */
         .dodo-logo {
-          height: 47px;
-          width: 118px;
+          height: 34px;
+          width: 85px;
         }
 
         @media (min-width: 640px) {
           .dodo-logo {
-            height: 56px;
-            width: 140px;
+            height: 36px;
+            width: 90px;
           }
         }
 
         @media (min-width: 1024px) {
-          .home-hero {
+          .home-hero:not(.home-hero-light) {
             min-height: min(680px, calc(100vh - 88px));
           }
 
+          .home-hero-light {
+            min-height: 100svh;
+          }
+
           .page-hero {
-            min-height: 560px;
+            min-height: min(760px, 100svh);
           }
 
-          .dodo-logo {
-            height: 64px;
-            width: 160px;
-          }
-        }
-
-        @media (max-width: 420px) {
-          .dodo-logo {
-            height: 43px;
-            width: 108px;
-          }
-        }
-
-        @media (max-width: 360px) {
           .dodo-logo {
             height: 38px;
             width: 95px;
           }
         }
 
+        @media (max-width: 420px) {
+          .dodo-logo {
+            height: 32px;
+            width: 80px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .dodo-logo {
+            height: 30px;
+            width: 75px;
+          }
+        }
+
         .footer-logo {
-          height: 56px;
-          width: 140px;
+          height: 32px;
+          width: 80px;
         }
 
         @media (min-width: 640px) {
           .footer-logo {
-            height: 62px;
-            width: 155px;
+            height: 34px;
+            width: 85px;
           }
         }
 
         @media (max-width: 360px) {
           .footer-logo {
-            height: 50px;
-            width: 125px;
+            height: 30px;
+            width: 75px;
           }
         }
 
         @media (max-width: 1100px) {
-          .home-hero {
+          .home-hero:not(.home-hero-light) {
             min-height: auto;
           }
 
-          .home-hero h1 {
+          .home-hero:not(.home-hero-light) h1 {
             font-size: clamp(44px, 8vw, 72px) !important;
           }
 
+          .home-hero-light h1 {
+            font-size: clamp(38px, 6.4vw, 60px) !important;
+          }
+
+          .home-hero-copy {
+            width: min(560px, 54vw);
+          }
+
           .page-hero h1 {
-            font-size: clamp(38px, 7vw, 64px) !important;
+            font-size: clamp(36px, 6.4vw, 60px) !important;
           }
         }
 
@@ -3784,9 +4329,60 @@ export default function App() {
           }
 
           .home-hero > .relative,
-          .page-hero > .relative {
+          .page-hero:not(.page-hero-light) > .relative {
             padding-top: 64px;
             padding-bottom: 58px;
+          }
+
+          .page-hero-light {
+            min-height: auto;
+          }
+
+          .page-hero-soft-inner {
+            min-height: auto;
+            grid-template-columns: 1fr;
+            gap: 34px;
+            padding-top: 118px;
+            padding-bottom: 50px;
+          }
+
+          .page-hero-photo-wrap {
+            width: min(100%, 560px);
+            min-height: auto;
+            aspect-ratio: 1.12 / 1;
+            justify-self: center;
+          }
+
+          .home-hero-light {
+            min-height: auto;
+          }
+
+          .home-hero-light .home-hero-inner {
+            min-height: auto;
+            display: block;
+            padding-top: 118px;
+            padding-bottom: 0;
+          }
+
+          .home-hero-light .home-hero-copy {
+            width: 100%;
+            max-width: 620px;
+          }
+
+          .home-hero-media {
+            position: relative;
+            inset: auto;
+            display: grid;
+            place-items: center;
+            width: min(114%, 620px);
+            aspect-ratio: 520 / 640;
+            margin: 42px auto -70px;
+          }
+
+          .home-hero-africa {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 14px 32px rgba(5,46,20,.1));
           }
 
           .page-shell button,
@@ -3815,6 +4411,19 @@ export default function App() {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
           }
+
+          .page-shell section:not(.home-hero):not(.page-hero) > .max-w-7xl,
+          .home-hero-africa.hero-image,
+          .page-hero .hero-image {
+            animation: none !important;
+            transform: none !important;
+            opacity: 1 !important;
+          }
+
+          .page-hero-photo-wrap img {
+            animation: none !important;
+            transform: none !important;
+          }
         }
 
         @media (max-width: 640px) {
@@ -3823,7 +4432,17 @@ export default function App() {
             transform: none;
           }
 
-          .home-hero {
+          .site-nav > div {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+
+          .nav-frame {
+            min-height: 54px !important;
+            padding: 0 8px !important;
+          }
+
+          .home-hero:not(.home-hero-light) {
             min-height: auto;
             align-items: start;
           }
@@ -3837,30 +4456,71 @@ export default function App() {
             min-height: 255px;
           }
 
-          .home-hero > .relative,
-          .page-hero > .relative {
-            padding-top: 52px;
+          .home-hero:not(.home-hero-light) > .relative,
+          .page-hero:not(.page-hero-light) > .relative {
+            padding-top: 118px;
             padding-bottom: 46px;
           }
 
-          .home-hero h1 {
-            font-size: 42px !important;
+          .page-hero-soft-inner {
+            padding-top: 104px;
+            padding-bottom: 42px;
+          }
+
+          .home-hero-light .home-hero-inner {
+            padding-top: 106px;
+            padding-bottom: 0;
+          }
+
+          .home-hero-light h1 {
+            font-size: clamp(34px, 9.4vw, 42px) !important;
             line-height: 1 !important;
+            max-width: 100%;
+          }
+
+          .home-hero-light .home-hero-lede {
+            font-size: 16px !important;
+            line-height: 1.5 !important;
+            max-width: 100%;
+          }
+
+          .home-hero-media {
+            width: min(116%, 460px);
+            margin-top: 34px;
+            margin-bottom: -66px;
+          }
+
+          .hero-title-line > span {
+            display: block;
           }
 
           .page-hero h1 {
-            font-size: 38px !important;
-            line-height: 1.02 !important;
+            font-size: clamp(34px, 9vw, 42px) !important;
+            line-height: 1.04 !important;
+            max-width: 100%;
+          }
+
+          .page-hero-photo-wrap {
+            width: min(100%, 420px);
+            min-height: auto;
+            aspect-ratio: 1.1 / 1;
           }
 
           .hero-copy p {
             font-size: 15px !important;
             line-height: 1.65 !important;
+            max-width: 100%;
           }
 
-          .home-hero .hero-copy button,
-          .home-hero .hero-copy a {
+          .home-hero:not(.home-hero-light) .hero-copy button,
+          .home-hero:not(.home-hero-light) .hero-copy a {
             width: 100%;
+          }
+
+          .home-hero-light .home-hero-actions button,
+          .home-hero-light .home-hero-actions a {
+            width: auto;
+            align-self: flex-start;
           }
 
           .site-loader-card {
@@ -3870,12 +4530,16 @@ export default function App() {
         }
 
         @media (max-width: 380px) {
-          .home-hero h1 {
+          .home-hero:not(.home-hero-light) h1 {
             font-size: 38px !important;
           }
 
-          .page-hero h1 {
+          .home-hero-light h1 {
             font-size: 34px !important;
+          }
+
+          .page-hero h1 {
+            font-size: 32px !important;
           }
         }
       `}</style>

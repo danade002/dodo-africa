@@ -11,18 +11,13 @@ import {
   TrendingUp,
   Check,
   ShieldCheck,
-  Handshake,
   Activity,
   Flame,
   Quote,
-  Mail,
   Fish,
   Shell,
   Truck,
-  Users,
-  Building2,
   HeartHandshake,
-  Globe2,
   Package,
   Smartphone,
   CheckCircle2,
@@ -41,35 +36,35 @@ import {
    ============================================================ */
 
 const C = {
-  red: "#EF1912",
-  redDeep: "#B81208",
-  redSoft: "#FFF1F0",
+  red: "#FF0000",
+  redDeep: "#D90000",
+  redSoft: "#FFF0F0",
 
-  green: "#0B451F",
-  green2: "#17612F",
-  greenDeep: "#052E14",
-  footerGreen: "#0F5A2B",
-  footerGreenDeep: "#0A431F",
-  leaf: "#7DBB6A",
+  green: "#006837",
+  green2: "#0F7C46",
+  greenDeep: "#006837",
+  footerGreen: "#006837",
+  footerGreenDeep: "#002D18",
+  leaf: "#8CF9BB",
   harvest: "#F2B94B",
 
   // Deliberately extremely close to white.
-  mist: "#F8FBF8",
-  mist2: "#F3F8F4",
-  greenMist: "#EAF7EE",
-  paper: "#FCFEFC",
+  mist: "#F8FFFB",
+  mist2: "#F1FFF7",
+  greenMist: "#F1FFF7",
+  paper: "#FDFFFE",
 
   white: "#FFFFFF",
 
-  ink: "#172019",
-  inkSoft: "#56605A",
+  ink: "#173126",
+  inkSoft: "#5C6B63",
   muted: "#78817B",
 
-  border: "#DCE8DF",
-  borderStrong: "#C8DACD",
+  border: "rgba(0,104,55,0.14)",
+  borderStrong: "#8CF9BB",
 
-  shadow: "0 8px 24px rgba(5,46,20,0.055)",
-  shadowLarge: "0 22px 70px rgba(5,46,20,0.14)",
+  shadow: "0 8px 24px rgba(0,104,55,0.055)",
+  shadowLarge: "0 22px 70px rgba(0,104,55,0.14)",
 };
 
 const SERIF = {
@@ -91,15 +86,17 @@ const MONO = {
    LOGO
 
    IMPORTANT:
-   Put the logo you just supplied at:
-
-   public/images/dodo-africa-logo-red.png
+   Logo files:
+   - public/images/dodo-africa-logo-red.png for light surfaces
+   - public/images/dodo-africa-logo-white.png for dark green,
+     red and photo-overlay surfaces
 
    The logo ALREADY includes the Dodo Africa wordmark.
    We therefore never place "Dodo Africa" text beside it in nav.
    ============================================================ */
 
 const LOGO_SRC = "/images/dodo-africa-logo-red.png";
+const NAV_LOGO_SRC = "/images/dodo-africa-logo-white.png";
 const FOOTER_LOGO_SRC = "/images/dodo-africa-logo-white.png";
 
 /* ============================================================
@@ -116,35 +113,52 @@ function siteImage(name) {
   return `${SITE_IMAGE_DIR}/${name}.webp`;
 }
 
-const IMG = {
-  hero: `${SITE_IMAGE_DIR}/african-greenhouse-farmer.jpg`,
+function siteJpg(name) {
+  return `${SITE_IMAGE_DIR}/${name}.jpg`;
+}
 
-  plantain: siteImage("hero-plantain"),
+const IMG = {
+  hero: siteJpg("home-farmers-harvest-hero"),
+
+  plantain: siteJpg("plantain-grove-close"),
+  enterpriseCollage: siteImage("enterprise-collage"),
 
   poultry: siteImage("poultry-barn"),
+  poultryStory: siteImage("poultry-barn"),
 
-  fish: siteImage("fish-farm-river"),
+  fish: siteImage("catfish-farming"),
 
   snail: siteImage("snail-farming"),
 
   goat: siteImage("goats-farm"),
+  goatPeople: siteJpg("goat-farm-people-color"),
 
   story: siteImage("story-smiling-farmer"),
+  fieldWork: siteImage("farm-worker-crops"),
 
   founderDaniel: `${SITE_IMAGE_DIR}/ademeso-daniel.jpeg`,
 
-  model: siteImage("model-plantain-truck"),
+  model: siteJpg("model-integrated-farm-aerial"),
 
-  martHero: `${SITE_IMAGE_DIR}/supermarket-produce.jpg`,
+  martHero: siteJpg("farm-mart-nigerian-hero"),
 
   market: `${SITE_IMAGE_DIR}/supermarket-produce.jpg`,
+  openMarket: siteImage("mart-open-market"),
 
   eatery: siteImage("eatery-plantain-skewers"),
 
   partners: siteImage("farmers-harvest-sacks"),
+
+  partnerOfftake: siteJpg("partner-real-offtake-buyers"),
+  partnerSuppliers: siteJpg("partner-suppliers-truck"),
+  partnerFinance: siteJpg("partner-real-financial-institutions"),
+  partnerDistribution: siteJpg("partner-distribution-market"),
+  partnerTechnology: siteJpg("partner-real-technology"),
+  partnerCommunities: siteJpg("partner-real-communities"),
 };
 
 const IMAGE_PRELOADS = [
+  NAV_LOGO_SRC,
   LOGO_SRC,
   IMG.hero,
   IMG.plantain,
@@ -156,17 +170,27 @@ const IMAGE_PRELOADS = [
 const PAGE_PRELOADS = Array.from(
   new Set([
     IMG.story,
+    IMG.fieldWork,
     IMG.founderDaniel,
     IMG.model,
     IMG.martHero,
     IMG.market,
+    IMG.openMarket,
     IMG.eatery,
     IMG.partners,
     IMG.plantain,
     IMG.poultry,
+    IMG.poultryStory,
     IMG.fish,
     IMG.snail,
     IMG.goat,
+    IMG.goatPeople,
+    IMG.partnerOfftake,
+    IMG.partnerSuppliers,
+    IMG.partnerFinance,
+    IMG.partnerDistribution,
+    IMG.partnerTechnology,
+    IMG.partnerCommunities,
   ])
 );
 
@@ -187,9 +211,6 @@ const PATH_PAGES = {
   "/partner": "partners",
   "/partners": "partners",
 };
-
-const AFRICA_HERO_PATH =
-  "M158 42L210 28L282 32L338 52L376 84L393 128L386 160L412 190L462 210L512 242L466 254L424 239L398 254L383 301L357 337L338 382L359 427L380 466L365 514L330 566L296 626L263 609L248 558L211 516L188 464L177 416L148 374L111 357L64 344L34 309L23 259L47 218L91 191L117 160L130 108Z M440 425L466 469L462 523L439 575L407 621L397 581L409 520L421 471Z";
 
 const HERO_SHAPES = {
   leaf: {
@@ -236,6 +257,23 @@ const HERO_SHAPES = {
     radiusB: "44% 56% 39% 61% / 36% 47% 53% 64%",
     radiusC: "34% 66% 47% 53% / 30% 39% 61% 70%",
   },
+};
+
+/* ============================================================
+   AFRICA CONTINENT SHAPE
+
+   Traced continent outline (mainland + Madagascar) used to clip
+   the home page enterprise photo mosaic into a recognisable
+   Africa silhouette.
+   ============================================================ */
+
+const AFRICA_SHAPE = {
+  viewBox: "0 0 854 1008",
+  transform: "translate(0,1008) scale(0.1,-0.1)",
+  mainland:
+    "M3295 10019 c-25 -16 -41 -19 -90 -14 -180 17 -215 17 -215 1 0 -19 3 -19 -210 -21 -117 -1 -172 -5 -190 -14 -13 -8 -63 -18 -110 -23 -94 -9 -185 -46 -195 -78 -4 -13 -15 -20 -33 -20 -46 0 -102 -20 -115 -41 -34 -56 -187 -84 -202 -36 -4 13 -8 17 -12 10 -3 -9 -35 -13 -108 -13 -111 0 -112 0 -150 65 -13 22 -73 12 -82 -13 -60 -173 -121 -250 -230 -291 -77 -29 -169 -116 -179 -170 -4 -19 -20 -53 -36 -76 -30 -42 -55 -156 -37 -163 28 -11 8 -85 -38 -143 -86 -110 -196 -188 -294 -208 -64 -13 -76 -25 -108 -102 -22 -56 -48 -87 -107 -127 -35 -24 -68 -91 -85 -174 -10 -46 -20 -61 -75 -115 -44 -42 -64 -69 -64 -86 0 -13 -13 -49 -30 -80 -16 -31 -30 -62 -30 -68 0 -6 -13 -23 -29 -38 -28 -26 -56 -101 -63 -166 -2 -24 1 -31 19 -33 12 -2 25 -12 28 -23 4 -10 13 -19 21 -19 17 0 19 -52 4 -130 -7 -37 -7 -56 0 -60 35 -22 41 -200 10 -288 -11 -31 -29 -92 -40 -134 -22 -87 -59 -153 -95 -170 -30 -14 -32 -24 -5 -31 42 -11 61 -84 54 -205 l-7 -110 27 -17 c22 -15 26 -24 26 -66 0 -27 5 -49 10 -49 6 0 10 -13 10 -30 0 -16 5 -30 10 -30 6 0 10 5 10 10 0 6 23 10 50 10 44 0 52 -3 61 -24 7 -14 22 -27 34 -30 16 -4 26 -16 30 -36 4 -16 10 -30 15 -30 4 0 25 -16 46 -35 22 -19 42 -35 47 -35 4 0 7 -7 7 -16 0 -9 9 -27 20 -41 15 -19 20 -41 20 -82 0 -44 4 -60 20 -74 14 -12 20 -29 20 -57 0 -37 3 -41 30 -46 16 -4 30 -9 30 -13 0 -4 21 -18 48 -31 44 -23 68 -42 135 -104 16 -15 46 -38 67 -51 21 -13 56 -45 77 -70 40 -49 125 -107 207 -143 59 -27 61 -27 95 -3 15 11 40 23 57 27 16 4 46 15 67 26 125 62 371 58 493 -10 18 -10 26 -8 48 9 14 11 49 28 79 38 29 10 78 33 108 50 36 20 69 31 94 31 31 0 44 6 64 30 32 37 146 60 305 60 90 0 102 -2 131 -24 29 -22 95 -137 95 -165 0 -25 32 -71 58 -84 19 -9 45 -11 87 -5 33 4 108 10 168 14 l107 7 0 -44 c-1 -35 -6 -50 -30 -73 -33 -33 -38 -51 -14 -60 22 -9 22 -9 39 24 14 26 21 30 59 30 55 0 56 -3 56 -134 0 -96 -2 -106 -27 -142 -26 -36 -28 -48 -33 -164 l-5 -124 -30 -16 c-16 -8 -31 -16 -33 -16 -1 -1 10 -30 26 -65 17 -35 39 -84 50 -109 11 -25 41 -65 67 -90 26 -25 64 -70 86 -101 21 -31 61 -80 89 -108 27 -28 50 -56 50 -63 0 -8 10 -31 22 -53 20 -39 30 -72 47 -163 4 -24 17 -56 29 -71 58 -78 96 -254 68 -309 -11 -22 -13 -38 -7 -54 5 -13 16 -48 26 -78 10 -30 27 -71 39 -90 45 -75 13 -273 -46 -282 -16 -2 -26 -13 -33 -35 -6 -18 -20 -42 -31 -55 -20 -23 -35 -72 -69 -233 -10 -44 -23 -89 -30 -100 -7 -11 -15 -77 -19 -150 -8 -153 3 -202 58 -270 20 -24 47 -72 61 -107 53 -140 96 -232 143 -310 l49 -83 7 -136 c5 -93 13 -152 25 -185 10 -27 21 -91 25 -143 3 -52 10 -99 15 -105 5 -6 11 -24 14 -41 18 -98 59 -178 120 -233 36 -31 79 -113 97 -182 17 -65 54 -149 95 -217 43 -71 53 -193 16 -193 -24 0 -37 -31 -19 -45 22 -17 38 -63 38 -110 0 -67 6 -75 56 -75 34 0 49 -5 65 -24 32 -37 62 -40 105 -11 30 21 49 25 104 25 58 0 71 3 95 26 28 26 29 26 174 24 234 -5 252 -3 258 20 4 16 14 20 47 20 59 0 128 36 231 121 118 96 292 280 336 353 19 32 43 74 54 93 34 56 75 103 90 103 8 0 15 5 15 10 0 6 7 10 15 10 20 0 42 47 71 153 14 51 30 100 35 109 5 10 9 56 9 102 l0 85 43 25 c23 14 79 39 124 57 120 47 146 77 155 182 14 175 10 287 -11 287 -15 0 -19 9 -23 55 -3 31 -12 63 -21 73 -25 27 -23 99 3 107 11 3 43 33 72 66 33 38 62 62 80 66 16 3 30 14 34 26 3 11 19 31 35 45 16 13 29 29 29 35 1 30 129 111 219 138 23 7 45 18 48 25 3 7 24 25 48 38 24 15 57 47 74 73 17 27 43 63 56 82 14 19 25 46 25 60 0 15 5 32 12 39 9 9 9 23 0 59 -14 63 -25 404 -14 468 10 59 -6 95 -56 125 -25 15 -31 27 -37 72 -4 29 -14 62 -21 73 -22 31 -19 145 4 145 19 0 42 18 42 32 0 4 -12 8 -26 8 l-26 0 7 93 c5 50 7 97 6 102 -15 83 -12 113 11 117 28 4 41 68 14 68 -37 0 -4 164 46 229 10 13 18 36 18 50 0 32 16 51 43 51 10 0 21 9 24 20 3 11 9 20 14 20 5 0 9 6 9 14 0 7 12 19 28 25 25 11 92 105 92 130 0 6 4 11 9 11 5 0 36 38 69 83 82 113 210 241 307 309 118 82 294 268 341 361 9 17 39 67 67 111 29 44 58 106 68 143 10 35 32 87 49 114 17 28 34 65 37 82 3 18 14 40 24 50 10 10 22 30 25 45 4 15 22 55 41 90 26 50 33 76 33 118 0 51 2 54 24 54 14 0 28 5 31 10 3 6 -1 10 -9 10 -12 0 -16 18 -18 97 l-3 97 -30 8 c-26 7 -33 4 -55 -21 -33 -39 -97 -55 -315 -77 -37 -4 -74 -16 -97 -30 -30 -19 -51 -24 -103 -24 -55 0 -72 -4 -99 -25 -26 -20 -45 -25 -89 -25 -61 0 -72 7 -112 71 -14 20 -29 40 -35 44 -6 4 -10 33 -9 68 2 64 -29 147 -55 147 -14 1 -76 56 -76 69 0 5 -26 35 -57 68 -32 32 -68 70 -80 86 -13 15 -29 27 -35 27 -32 1 -68 49 -68 90 0 28 -4 40 -15 40 -8 0 -19 9 -25 20 -8 15 -21 20 -55 20 -44 0 -44 1 -55 43 -6 23 -15 58 -20 77 -14 52 -74 190 -83 190 -9 0 -23 11 -68 53 -16 15 -34 27 -39 27 -29 0 -60 144 -60 279 0 52 -5 74 -19 92 -10 13 -21 38 -25 54 -7 32 -85 120 -115 130 -40 12 -73 146 -39 157 6 2 -9 25 -33 50 -43 45 -170 283 -198 369 -20 64 -15 109 13 109 22 0 25 7 41 78 9 42 22 97 29 122 12 43 10 49 -34 165 -39 101 -49 120 -65 117 -84 -12 -113 -14 -179 -7 -71 6 -76 8 -76 30 0 21 -5 23 -52 27 -29 2 -54 0 -56 -4 -2 -4 -16 -8 -32 -8 -32 0 -60 -13 -112 -53 -33 -25 -44 -28 -85 -24 -80 10 -123 19 -129 28 -3 5 -13 9 -23 9 -10 0 -31 7 -48 15 -40 20 -123 35 -194 35 -45 0 -59 4 -59 14 0 25 -30 46 -68 46 -69 1 -167 34 -170 59 -4 24 -58 56 -114 66 -58 11 -174 -29 -221 -76 l-39 -38 8 -91 c6 -86 5 -92 -16 -115 -34 -36 -126 -36 -159 -1 -34 36 -128 74 -212 86 -89 12 -119 32 -139 92 -20 57 -37 78 -64 78 -12 0 -44 12 -71 27 -42 22 -66 27 -145 31 -143 6 -230 52 -230 122 0 16 -7 20 -30 20 -28 0 -30 2 -30 41 0 32 7 49 30 76 40 45 42 102 5 131 -35 28 -35 89 0 122 41 38 30 64 -27 68 -27 2 -48 7 -48 13 0 18 -113 9 -145 -12z",
+  madagascar:
+    "M8160 3236 c0 -8 -11 -23 -25 -34 -21 -17 -25 -28 -25 -71 l0 -51 -40 0 c-33 0 -40 -4 -40 -19 0 -10 -9 -21 -20 -24 -16 -4 -20 -14 -20 -47 0 -23 -6 -48 -15 -56 -8 -9 -15 -24 -15 -35 0 -10 -6 -19 -13 -19 -14 0 -57 -52 -57 -70 0 -5 -9 -10 -20 -10 -10 0 -35 -14 -53 -30 -19 -17 -50 -33 -68 -37 -19 -3 -40 -12 -47 -20 -7 -7 -24 -13 -36 -13 -13 0 -29 -7 -36 -15 -7 -8 -25 -15 -41 -15 -26 0 -29 -3 -29 -32 0 -20 -14 -55 -35 -89 -37 -61 -38 -85 -6 -254 19 -100 14 -157 -19 -209 -17 -27 -34 -62 -37 -78 -3 -17 -14 -33 -26 -37 -44 -16 -73 -173 -43 -235 10 -22 16 -61 16 -109 0 -108 52 -217 103 -217 10 0 30 -9 44 -20 34 -27 63 -25 107 5 20 14 47 25 60 25 84 0 109 39 197 310 37 113 57 169 180 525 34 100 65 207 68 240 5 53 9 60 31 65 24 6 25 9 21 73 -3 67 -3 67 23 67 34 0 61 56 51 104 -3 17 -12 80 -20 140 -14 106 -40 206 -54 206 -3 0 -15 23 -26 50 -19 48 -35 65 -35 36z",
 };
 
 function cleanPath(pathname) {
@@ -377,8 +415,8 @@ const SUBS = [
   {
     name: "Dodo Digital",
     desc:
-      "Farm management, inventory, analytics, traceability, automation and operational systems.",
-    status: "Technology Backbone",
+      "Farm records, inventory, traceability, field data and operational systems.",
+    status: "Operations Backbone",
     tone: "live",
     Icon: Activity,
   },
@@ -419,6 +457,57 @@ const MENU = [
     name: "Dodo + Snail",
     note: "Plantain paired with peppered snail.",
     Icon: Shell,
+  },
+];
+
+const PARTNER_OPPORTUNITIES = [
+  {
+    title: "Offtake & Buyers",
+    body:
+      "Hotels, retailers, restaurants, processors and commercial buyers looking for dependable supply.",
+    image: IMG.partnerOfftake,
+    imageAlt: "Commercial buyer inspecting fresh Dodo Africa produce",
+    imagePosition: "center",
+  },
+  {
+    title: "Suppliers & Logistics",
+    body:
+      "Input suppliers, equipment providers, transport businesses and operational service partners.",
+    image: IMG.partnerSuppliers,
+    imageAlt: "Farm logistics team loading supplies and produce",
+    imagePosition: "center 48%",
+  },
+  {
+    title: "Financial Institutions",
+    body:
+      "Banks, agricultural finance providers and development institutions supporting productive enterprise.",
+    image: IMG.partnerFinance,
+    imageAlt: "Agribusiness founder reviewing farm finance records",
+    imagePosition: "center",
+  },
+  {
+    title: "Distribution",
+    body:
+      "Partners capable of strengthening routes into retail, hospitality and regional markets.",
+    image: IMG.partnerDistribution,
+    imageAlt: "Produce distribution team moving crates into a delivery van",
+    imagePosition: "center 48%",
+  },
+  {
+    title: "Technology",
+    body:
+      "Systems, data, automation and infrastructure partnerships for modern agricultural operations.",
+    image: IMG.partnerTechnology,
+    imageAlt: "Farm technology operator using a tablet in a plantain field",
+    imagePosition: "center 48%",
+  },
+  {
+    title: "Communities",
+    body:
+      "Collaboration around agricultural skills, jobs, local supply chains and sustainable production.",
+    image: IMG.partnerCommunities,
+    imageAlt: "Agricultural training with local farming communities",
+    imagePosition: "center",
   },
 ];
 
@@ -465,11 +554,70 @@ const FOUNDERS = [
 
 const PHOTO_CREDITS = [
   {
-    label: "African greenhouse farmer",
-    author: "Mukhtar Shuaib Mukhtar",
+    label: "Dodo Africa harvest hero",
+    author: "Generated for Dodo Africa",
+    license: "Project asset",
+  },
+  {
+    label: "Integrated farm aerial",
+    author: "Generated for Dodo Africa",
+    license: "Project asset",
+  },
+  {
+    label: "Plantain grove",
+    author: "Generated for Dodo Africa",
+    license: "Project asset",
+  },
+  {
+    label: "Modern poultry house",
+    author: "Provided project asset",
+    license: "Project asset",
+  },
+  {
+    label: "Partner buyers market",
+    author: "That Photographer",
     license: "Pexels License",
-    href:
-      "https://www.pexels.com/photo/african-farmer-holding-melon-in-greenhouse-29091325/",
+    href: "https://www.pexels.com/photo/african-fruit-market-with-woman-shopping-36925519/",
+  },
+  {
+    label: "Partner supplier logistics",
+    author: "JC Presco",
+    license: "Pexels License",
+    href: "https://www.pexels.com/photo/busy-market-scene-with-trucks-and-produce-34756097/",
+  },
+  {
+    label: "Partner finance meeting",
+    author: "Gustavo Fring",
+    license: "Pexels License",
+    href: "https://www.pexels.com/photo/two-businessmen-having-a-meeting-6285075/",
+  },
+  {
+    label: "Partner produce distribution",
+    author: "Muktar Zubairu",
+    license: "Pexels License",
+    href: "https://www.pexels.com/photo/pineapples-being-transported-in-nigerian-truck-37088334/",
+  },
+  {
+    label: "Partner farm technology",
+    author: "Magda Ehlers",
+    license: "Pexels License",
+    href: "https://www.pexels.com/photo/farmers-utilizing-drone-technology-in-fields-34182409/",
+  },
+  {
+    label: "Partner farming communities",
+    author: "Safari Consoler",
+    license: "Pexels License",
+    href: "https://www.pexels.com/photo/senior-men-working-on-a-farm-field-11350430/",
+  },
+  {
+    label: "Catfish rearing",
+    author: "Provided project asset",
+    license: "Project asset",
+  },
+  {
+    label: "Plantain harvest",
+    author: "Provided project asset",
+    license: "Project asset",
   },
   {
     label: "Farmers in field",
@@ -484,13 +632,6 @@ const PHOTO_CREDITS = [
     license: "Pexels License",
     href:
       "https://www.pexels.com/photo/smiling-african-farmer-in-nigerian-field-33993456/",
-  },
-  {
-    label: "Plantain truck",
-    author: "Zeal Creative Studios",
-    license: "Pexels License",
-    href:
-      "https://www.pexels.com/photo/street-market-scene-in-accra-with-plantain-truck-36392321/",
   },
   {
     label: "Ibadan tomato market",
@@ -539,13 +680,6 @@ const PHOTO_CREDITS = [
     license: "Pexels License",
     href:
       "https://www.pexels.com/photo/free-range-chickens-grazing-on-a-farm-34433157/",
-  },
-  {
-    label: "Fish farm",
-    author: "Co Hai",
-    license: "Pexels License",
-    href:
-      "https://www.pexels.com/photo/outdoor-fish-farm-by-tropical-riverbank-31291832/",
   },
   {
     label: "Snail closeup",
@@ -616,8 +750,8 @@ function useReveal() {
    SHARED COMPONENTS
    ============================================================ */
 
-function Logo({ footer = false }) {
-  const src = footer ? FOOTER_LOGO_SRC : LOGO_SRC;
+function Logo({ footer = false, nav = false }) {
+  const src = footer ? FOOTER_LOGO_SRC : nav ? NAV_LOGO_SRC : LOGO_SRC;
 
   return (
     <div
@@ -637,7 +771,7 @@ function Logo({ footer = false }) {
         style={{
           display: "block",
           backgroundImage: `url("${src}")`,
-          backgroundPosition: "center",
+          backgroundPosition: "left center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
         }}
@@ -814,8 +948,10 @@ function SectionHeading({
 }) {
   return (
     <div
-      className={center ? "mx-auto text-center" : ""}
+      className={`section-heading ${center ? "mx-auto text-center" : ""}`}
       style={{
+        width: "100%",
+        minWidth: 0,
         maxWidth: center ? 790 : 800,
       }}
     >
@@ -825,9 +961,9 @@ function SectionHeading({
         style={{
           ...SERIF,
           color: C.greenDeep,
-          fontSize: "clamp(30px,4vw,48px)",
-          lineHeight: 1.07,
-          fontWeight: 700,
+          fontSize: "clamp(25px,3.2vw,40px)",
+          lineHeight: 1.12,
+          fontWeight: 650,
           letterSpacing: 0,
         }}
       >
@@ -836,11 +972,11 @@ function SectionHeading({
 
       {description && (
         <p
-          className="mt-4 text-base md:text-lg"
-          style={{
-            color: C.inkSoft,
-            lineHeight: 1.75,
-          }}
+            className="mt-4 text-sm md:text-base"
+            style={{
+              color: C.inkSoft,
+              lineHeight: 1.68,
+            }}
         >
           {description}
         </p>
@@ -855,7 +991,16 @@ function Card({
   green = false,
   pale = false,
   red = false,
+  style = {},
 }) {
+  const toneClass = green
+    ? "surface-card-dark"
+    : red
+    ? "surface-card-red"
+    : pale
+    ? "surface-card-pale"
+    : "";
+
   let background = C.white;
   let border = C.border;
   let color = C.ink;
@@ -878,7 +1023,7 @@ function Card({
 
   return (
     <div
-      className={`motion-card surface-card rounded-lg ${className}`}
+      className={`motion-card surface-card ${toneClass} rounded-lg ${className}`}
       style={{
         position: "relative",
         background,
@@ -887,6 +1032,7 @@ function Card({
         boxShadow: green || red ? "none" : C.shadow,
         transition:
           "transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease, background-color 260ms ease",
+        ...style,
       }}
     >
       {children}
@@ -938,15 +1084,15 @@ function PrimaryButton({ children, onClick, href }) {
     justifyContent: "center",
     flexWrap: "wrap",
     gap: 8,
-    padding: "13px 20px",
+    padding: "12px 17px",
     color: "#fff",
-    background: C.red,
-    border: `2px solid ${C.greenDeep}`,
+    background: C.greenDeep,
+    border: "1px solid rgba(0,104,55,.2)",
     borderRadius: 999,
-    fontSize: 14,
-    fontWeight: 800,
+    fontSize: 13,
+    fontWeight: 650,
     textAlign: "center",
-    boxShadow: "0 4px 0 rgba(5,46,20,.24)",
+    boxShadow: "0 12px 28px rgba(0,104,55,.16)",
   };
 
   if (href) {
@@ -987,24 +1133,28 @@ function NavLink({ active, children, onClick }) {
       className="relative px-3 py-2 text-sm font-semibold"
       style={{
         background: "transparent",
-        color: "#020702",
+        color: "inherit",
+        lineHeight: 1.15,
       }}
     >
-      {children}
+      <span style={{ position: "relative", display: "inline-block" }}>
+        {children}
 
-      <span
-        style={{
-          position: "absolute",
-          bottom: -2,
-          left: 12,
-          right: 12,
-          height: 2,
-          borderRadius: 99,
-          background: C.red,
-          transform: active ? "scaleX(1)" : "scaleX(0)",
-          transition: "transform 180ms ease",
-        }}
-      />
+        <span
+          style={{
+            position: "absolute",
+            bottom: -8,
+            left: 0,
+            right: 0,
+            height: 2,
+            borderRadius: 999,
+            background: C.red,
+            transform: active ? "scaleX(1)" : "scaleX(0)",
+            transformOrigin: "center",
+            transition: "transform 180ms ease",
+          }}
+        />
+      </span>
     </button>
   );
 }
@@ -1045,23 +1195,25 @@ function NavBar({ page, setPage }) {
         left: 0,
         right: 0,
         zIndex: 100,
-        background: settled
-          ? "rgba(248,251,248,.98)"
-          : "rgba(234,247,238,.98)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: `1px solid ${C.border}`,
+        background: settled ? C.footerGreenDeep : "transparent",
+        color: "#fff",
+        backdropFilter: "none",
+        WebkitBackdropFilter: "none",
+        borderBottom: settled
+          ? "1px solid rgba(255,255,255,.14)"
+          : "1px solid transparent",
+        boxShadow: settled
+          ? "0 12px 34px rgba(0,40,18,.18)"
+          : "none",
         pointerEvents: "none",
       }}
     >
-      <div
-        className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8"
-      >
+      <div className="mx-auto">
         <div
           className="nav-frame flex min-h-[58px] md:min-h-[64px] items-center justify-between gap-4"
           style={{
             pointerEvents: "auto",
-            padding: "0 12px",
+            padding: 0,
             borderRadius: 0,
             background: "transparent",
             border: "1px solid transparent",
@@ -1079,10 +1231,10 @@ function NavBar({ page, setPage }) {
               padding: 0,
             }}
           >
-            <Logo />
+            <Logo nav />
           </button>
 
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+          <div className="desktop-nav-links items-center gap-1 xl:gap-2">
             {links.map(([id, label]) => (
               <NavLink
                 key={id}
@@ -1094,22 +1246,27 @@ function NavBar({ page, setPage }) {
             ))}
           </div>
 
-          <div className="hidden lg:block">
-            <PrimaryButton onClick={() => go("partners")}>
+          <div className="desktop-nav-cta">
+            <button
+              type="button"
+              onClick={() => go("partners")}
+              className={`nav-partner-button ${
+                page === "partners" ? "is-active" : ""
+              }`}
+            >
               Partner With Us
-              <ArrowRight size={15} />
-            </PrimaryButton>
+            </button>
           </div>
 
           <button
             type="button"
-            className="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg"
+            className="nav-menu-button h-10 w-10 items-center justify-center"
             onClick={() => setOpen((current) => !current)}
             aria-label="Toggle navigation"
             style={{
-              color: C.green,
-              background: C.mist2,
-              border: `1px solid ${C.border}`,
+              color: "#fff",
+              background: "transparent",
+              border: "0",
             }}
           >
             {open ? <X size={25} /> : <Menu size={25} />}
@@ -1122,11 +1279,9 @@ function NavBar({ page, setPage }) {
             style={{
               pointerEvents: "auto",
               borderRadius: 16,
-              background: "rgba(255,255,255,.97)",
-              border: `1px solid ${C.border}`,
-              boxShadow: "0 18px 48px rgba(5,46,20,.16)",
-              backdropFilter: "blur(18px)",
-              WebkitBackdropFilter: "blur(18px)",
+              background: C.footerGreenDeep,
+              border: "1px solid rgba(255,255,255,.18)",
+              boxShadow: "0 18px 48px rgba(0,40,18,.24)",
             }}
           >
             <div className="flex flex-col gap-2">
@@ -1137,8 +1292,11 @@ function NavBar({ page, setPage }) {
                   onClick={() => go(id)}
                   className="w-full rounded-lg px-4 py-3 text-left text-sm font-bold"
                   style={{
-                    background: page === id ? C.mist2 : C.white,
-                    color: "#020702",
+                    background:
+                      page === id
+                        ? "rgba(255,255,255,.16)"
+                        : "rgba(255,255,255,.06)",
+                    color: "#FFFFFF",
                   }}
                 >
                   {label}
@@ -1150,13 +1308,18 @@ function NavBar({ page, setPage }) {
                 onClick={() => go("partners")}
                 className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-extrabold"
                 style={{
-                  background: C.red,
-                  color: "#fff",
-                  boxShadow: "0 8px 22px rgba(239,25,18,.16)",
+                  background: page === "partners" ? C.greenDeep : C.leaf,
+                  color: page === "partners" ? "#fff" : C.greenDeep,
+                  border: `1px solid ${
+                    page === "partners" ? "rgba(140,249,187,.6)" : C.leaf
+                  }`,
+                  boxShadow:
+                    page === "partners"
+                      ? "0 0 0 2px rgba(140,249,187,.45), 0 8px 22px rgba(0,40,18,.28)"
+                      : "0 8px 22px rgba(0,40,18,.2)",
                 }}
               >
                 Partner With Us
-                <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -1181,31 +1344,43 @@ function PageHeader({
   photoAlt,
   photoPosition = "center",
   shape = "leaf",
+  compactTitle = false,
+  deepOverlay = false,
+  chips = ["Production", "Market channels", "Consumer food"],
 }) {
   const shapeData = HERO_SHAPES[shape] || HERO_SHAPES.leaf;
+  const overlay = deepOverlay
+    ? `linear-gradient(90deg, rgba(0,28,12,.9) 0%, rgba(0,104,55,.66) 46%, rgba(0,28,12,.36) 100%), linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.58)), url("${photo}") ${photoPosition} / cover no-repeat`
+    : `linear-gradient(90deg, rgba(0,28,12,.82) 0%, rgba(0,104,55,.52) 46%, rgba(0,28,12,.18) 100%), linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.46)), url("${photo}") ${photoPosition} / cover no-repeat`;
 
   return (
     <section
-      className="page-hero page-hero-light"
+      className="page-hero page-photo-hero"
+      aria-label={photoAlt}
       style={{
         position: "relative",
         overflow: "hidden",
-        background: C.greenMist,
+        background: overlay,
       }}
     >
       <div className="page-hero-grain" aria-hidden="true" />
 
-      <div className="page-hero-soft-inner max-w-7xl mx-auto px-5 md:px-8">
-        <div className="hero-copy page-hero-copy">
-          <Eyebrow>{eyebrow}</Eyebrow>
+      <div className="page-photo-hero-inner max-w-7xl mx-auto px-5 md:px-8">
+        <div className="hero-copy page-photo-hero-copy">
+          <Eyebrow light>{eyebrow}</Eyebrow>
 
           <h1
+              className={`page-hero-title ${
+                compactTitle ? "is-compact" : ""
+              }`}
               style={{
-                ...SERIF,
-                color: "#020702",
-                fontSize: "clamp(38px,5.8vw,74px)",
-                lineHeight: 1.02,
-                fontWeight: 900,
+                  ...SERIF,
+                color: "rgba(248,255,251,.92)",
+                fontSize: compactTitle
+                  ? "clamp(30px,3.8vw,48px)"
+                  : "clamp(32px,4.4vw,54px)",
+                lineHeight: 1.06,
+                fontWeight: 680,
                 letterSpacing: 0,
               }}
           >
@@ -1213,39 +1388,35 @@ function PageHeader({
           </h1>
 
           <p
-            className="mt-6 max-w-2xl text-base md:text-xl"
-            style={{
-              color: "#15231A",
-              lineHeight: 1.65,
-              fontWeight: 700,
+              className="mt-5 max-w-2xl text-sm md:text-base"
+              style={{
+              color: "rgba(242,255,248,.82)",
+              lineHeight: 1.62,
+              fontWeight: 400,
             }}
           >
             {lede}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            {["Production", "Market channels", "Consumer food"].map(
-              (item) => (
+            {chips.map((item) => (
                 <span
                   key={item}
-                  className="hero-pill rounded-full px-4 py-2 text-sm font-bold"
+                  className="hero-pill rounded-full px-4 py-2 text-xs font-semibold"
                   style={{
-                    color: C.greenDeep,
-                    background: "rgba(255,255,255,.7)",
-                    border: `1px solid ${C.borderStrong}`,
+                    color: "#fff",
+                    background: "rgba(255,255,255,.13)",
+                    border: "1px solid rgba(255,255,255,.24)",
                   }}
                 >
                   {item}
                 </span>
-              )
-            )}
+              ))}
           </div>
         </div>
 
         <div
-          role="img"
-          aria-label={photoAlt}
-          className="page-hero-photo-wrap hero-image"
+          className="page-photo-hero-card hero-copy"
           style={{
             "--hero-clip-a": shapeData.clipA,
             "--hero-clip-b": shapeData.clipB,
@@ -1255,14 +1426,20 @@ function PageHeader({
             "--hero-radius-c": shapeData.radiusC,
           }}
         >
-          <img
-            src={photo}
-            alt=""
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            style={{ objectPosition: photoPosition }}
-          />
+          <div className="page-photo-card-title">
+            Our Focus
+          </div>
+
+          <p
+            className="page-photo-card-copy mt-4 text-sm"
+            style={{
+              color: "rgba(242,255,248,.82)",
+              lineHeight: 1.62,
+              fontWeight: 400,
+            }}
+          >
+            {chips.join(" / ")}
+          </p>
         </div>
       </div>
     </section>
@@ -1273,61 +1450,14 @@ function PageHeader({
    HOME
    ============================================================ */
 
-function HomeMetric({ icon: Icon, value, label }) {
-  return (
-    <div
-      className="motion-card home-metric rounded-lg p-5 md:p-6 h-full"
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,1), rgba(248,251,248,.96))",
-        border: `1px solid ${C.border}`,
-        boxShadow: "0 12px 32px rgba(5,46,20,.055)",
-      }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div
-            style={{
-              ...SERIF,
-              color: C.red,
-              fontSize: "clamp(29px,3vw,39px)",
-              lineHeight: 1,
-              fontWeight: 700,
-            }}
-          >
-            {value}
-          </div>
-
-          <div
-            className="mt-2 text-sm"
-            style={{
-              color: C.inkSoft,
-              lineHeight: 1.5,
-            }}
-          >
-            {label}
-          </div>
-        </div>
-
-        <div
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
-          style={{
-            background:
-              "linear-gradient(135deg, #EAF5ED, #FFFFFF)",
-            color: C.green,
-            border: `1px solid ${C.border}`,
-          }}
-        >
-          <Icon size={19} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function FarmCard({ farm, index, visible }) {
   return (
-    <Card className="farm-card overflow-hidden h-full">
+    <Card
+      className="farm-card overflow-hidden h-full"
+      style={{
+        "--card-index": index,
+      }}
+    >
       <div
         style={{
           opacity: 1,
@@ -1335,22 +1465,13 @@ function FarmCard({ farm, index, visible }) {
           transition: `all 480ms ease ${index * 65}ms`,
         }}
       >
-        <Photo
-          src={farm.photo}
-          alt={`${farm.name} production reference`}
-          ratio="4 / 3"
-          radius={0}
-          eager
-          position={farm.photoPosition}
-        />
-
         <div className="p-5">
           <h3
             style={{
               ...SERIF,
               color: C.greenDeep,
               fontSize: 20,
-              fontWeight: 800,
+              fontWeight: 650,
             }}
           >
             {farm.name}
@@ -1361,8 +1482,8 @@ function FarmCard({ farm, index, visible }) {
             style={{
               ...SERIF,
               color: C.red,
-              fontSize: 29,
-              fontWeight: 700,
+              fontSize: 25,
+              fontWeight: 650,
             }}
           >
             {farm.qty}
@@ -1378,6 +1499,15 @@ function FarmCard({ farm, index, visible }) {
             {farm.unit}
           </p>
         </div>
+
+        <Photo
+          src={farm.photo}
+          alt={`${farm.name} production reference`}
+          ratio="4 / 3"
+          radius={0}
+          eager
+          position={farm.photoPosition}
+        />
       </div>
     </Card>
   );
@@ -1392,145 +1522,255 @@ function HomePage({ setPage }) {
       {/* HERO */}
 
       <section
-        className="home-hero home-hero-light"
+        className="home-hero home-hero-story"
         style={{
           position: "relative",
           overflow: "hidden",
-          background: C.greenMist,
+          background:
+            "linear-gradient(180deg, #F8FFFB 0%, #E9FFF3 100%)",
         }}
       >
-        <div className="home-hero-inner relative max-w-7xl mx-auto px-5 md:px-8 py-18 md:py-24">
-          <div className="hero-copy home-hero-copy max-w-3xl">
-            <h1
-              className="hero-title"
-              style={{
-                ...SERIF,
-                color: "#020702",
-                fontSize: "clamp(38px,5vw,68px)",
-                lineHeight: 0.98,
-                letterSpacing: 0,
-                fontWeight: 900,
-              }}
-            >
-              Feeding Africa,
-              <br />
-              <span className="hero-title-line">
-                <span>Building</span>{" "}
-                <span>Generations.</span>
-              </span>
-            </h1>
-
-            <p
-              className="home-hero-lede mt-6 md:mt-8 max-w-2xl text-base md:text-xl"
-              style={{
-                color: "#06130B",
-                lineHeight: 1.55,
-                fontWeight: 800,
-              }}
-            >
-              Dodo Africa is building an integrated agriculture and
-              food business from the ground up, starting with farm
-              production and growing into market channels, food
-              products and consumer experiences.
-            </p>
-
-            <div className="home-hero-actions mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3">
-              <PrimaryButton onClick={() => setPage("model")}>
-                Explore Our Model
-                <ArrowRight size={16} />
-              </PrimaryButton>
-            </div>
+        <div className="home-hero-shell max-w-7xl mx-auto">
+          <div className="home-hero-photo" aria-hidden="true">
+            <img
+              src={IMG.hero}
+              alt=""
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
           </div>
-        </div>
 
-        <div
-          className="home-hero-media"
-          role="img"
-          aria-label="African farmer in a modern greenhouse"
-        >
-          <img
-            className="home-hero-preload"
-            src={IMG.hero}
-            alt=""
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-          />
-
-          <svg
-            className="home-hero-africa hero-image"
-            viewBox="0 0 520 640"
-            aria-hidden="true"
-            focusable="false"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <defs>
-              <clipPath id="homeAfricaClip" clipPathUnits="userSpaceOnUse">
-                <path d={AFRICA_HERO_PATH} />
-              </clipPath>
-
-              <linearGradient
-                id="homeAfricaWash"
-                x1="0"
-                x2="1"
-                y1="0"
-                y2="0"
+          <div className="home-hero-inner relative">
+            <div className="hero-copy home-hero-copy">
+              <span
+                className="home-hero-badge"
+                style={{
+                  color: "#F2FFF8",
+                  borderColor: "rgba(242,255,248,.3)",
+                  background: "rgba(255,255,255,.1)",
+                }}
               >
-                <stop offset="0%" stopColor={C.greenMist} stopOpacity=".55" />
-                <stop offset="28%" stopColor={C.greenMist} stopOpacity=".18" />
-                <stop offset="100%" stopColor={C.greenMist} stopOpacity="0" />
-              </linearGradient>
-            </defs>
+                Sustainable Food Systems
+              </span>
 
-            <image
-              href={IMG.hero}
-              x="-170"
-              y="0"
-              width="840"
-              height="640"
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#homeAfricaClip)"
-            />
+	              <h1
+	                className="hero-title"
+	                style={{
+	                  ...SERIF,
+	                  color: "rgba(248,255,251,.92)",
+                  fontSize: "clamp(32px,3.8vw,50px)",
+                  lineHeight: 1.04,
+                  letterSpacing: 0,
+                  fontWeight: 680,
+                }}
+              >
+                Feeding Africa,
+                <br />
+                Building Generations.
+              </h1>
 
-            <path d={AFRICA_HERO_PATH} fill="url(#homeAfricaWash)" />
+              <p
+                className="home-hero-lede mt-5 md:mt-6 max-w-3xl text-base"
+                style={{
+                  color: "rgba(242,255,248,.78)",
+                  lineHeight: 1.48,
+                  fontWeight: 400,
+                  fontSize: "clamp(13px,1vw,15px)",
+                }}
+              >
+                Dodo Africa is a farm-led Nigerian food business
+                growing from land, plantain, livestock and aquaculture
+                into market channels, processing and everyday meals.
+              </p>
 
-            <path
-              d={AFRICA_HERO_PATH}
-              fill="none"
-              stroke="rgba(5,46,20,.18)"
-              strokeWidth="2.3"
-            />
-          </svg>
+              <div className="home-hero-actions mt-8 md:mt-9 flex flex-col sm:flex-row flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPage("story")}
+                  className="home-story-button"
+                >
+                  Our Story
+                  <span>
+                    <ArrowRight size={15} />
+                  </span>
+                </button>
+
+              </div>
+            </div>
+
+            <aside className="home-hero-mission hero-copy">
+              <div
+                className="font-extrabold"
+                style={{
+                  color: "rgba(248,255,251,.92)",
+                  letterSpacing: 0,
+                  fontSize: "clamp(13px,1.05vw,14px)",
+                }}
+              >
+                Our Mission
+              </div>
+
+              <p
+                className="mt-4 text-sm md:text-base"
+                style={{
+                  color: "rgba(242,255,248,.8)",
+                  lineHeight: 1.62,
+                  fontWeight: 400,
+                  fontSize: "clamp(13px,1vw,14px)",
+                }}
+              >
+                Build dependable agricultural capacity, create better
+                routes to market and turn farm output into stronger
+                food products for Nigerian communities.
+              </p>
+
+            </aside>
+          </div>
         </div>
       </section>
 
       {/* COMPANY SNAPSHOT */}
 
       <section
+        className="home-today-section"
         style={{
           background: C.mist,
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-15 md:py-16">
-          <SectionHeading
-            eyebrow="Dodo Africa Today"
-            title="Building from the farm outward."
-            description="We start with primary production, strengthen dependable routes to market, and expand carefully into processing, food service and technology around the same agricultural base."
+        <svg
+          className="home-today-africa-mark"
+          viewBox={AFRICA_SHAPE.viewBox}
+          aria-hidden="true"
+        >
+          <path
+            d={AFRICA_SHAPE.mainland}
+            transform={AFRICA_SHAPE.transform}
           />
+          <path
+            d={AFRICA_SHAPE.madagascar}
+            transform={AFRICA_SHAPE.transform}
+          />
+        </svg>
 
-          <div className="mt-9 grid sm:grid-cols-2 gap-4">
-            <HomeMetric
-              icon={MapPin}
-              value="100"
-              label="plots of land"
-            />
+        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+          <div className="home-today-intro">
+            <div
+              className="home-today-copy"
+              style={{
+                width: "min(100%, calc(100vw - 40px))",
+                maxWidth: 800,
+                minWidth: 0,
+              }}
+            >
+              <Eyebrow>Dodo Africa Today</Eyebrow>
 
-            <HomeMetric
-              icon={Sprout}
-              value="5"
-              label="production enterprises in the broader plan"
-            />
+              <h2
+                className="mt-4"
+                style={{
+                  ...SERIF,
+                  color: C.greenDeep,
+                  fontSize: "clamp(31px,4vw,48px)",
+                  lineHeight: 1.08,
+                  fontWeight: 650,
+                }}
+              >
+                <span className="home-today-title-line">
+                  Building from the farm
+                </span>{" "}
+                <span className="home-today-title-line">outward.</span>
+              </h2>
+
+              <p
+                className="home-today-desktop-copy mt-4 text-sm md:text-base"
+                style={{
+                  color: C.inkSoft,
+                  lineHeight: 1.68,
+                  display: "block",
+                  width: "min(100%, calc(100vw - 40px))",
+                  maxWidth: "min(100%, calc(100vw - 40px))",
+                  whiteSpace: "normal",
+                  overflowWrap: "anywhere",
+                  wordBreak: "normal",
+                }}
+              >
+                We start with primary production, strengthen dependable
+                routes to market, and expand carefully into processing,
+                food service and technology around the same agricultural
+                base.
+              </p>
+
+              <p
+                className="home-today-mobile-copy mt-4 text-sm"
+                style={{
+                  color: C.inkSoft,
+                  lineHeight: 1.64,
+                }}
+              >
+                <span>Primary production comes first.</span>
+                <span>Routes to market grow next.</span>
+                <span>Processing, food service and technology follow.</span>
+              </p>
+
+              <div className="home-today-stats mt-7">
+                <div className="home-today-stat">
+                  <div
+                    style={{
+                      ...SERIF,
+                      color: C.red,
+                      fontSize: "clamp(26px,2.6vw,34px)",
+                      lineHeight: 1,
+                      fontWeight: 700,
+                    }}
+                  >
+                    100
+                  </div>
+
+                  <div
+                    className="mt-2 text-sm"
+                    style={{ color: C.inkSoft, lineHeight: 1.5 }}
+                  >
+                    plots of land
+                  </div>
+                </div>
+
+                <div className="home-today-stat">
+                  <div
+                    style={{
+                      ...SERIF,
+                      color: C.red,
+                      fontSize: "clamp(26px,2.6vw,34px)",
+                      lineHeight: 1,
+                      fontWeight: 700,
+                    }}
+                  >
+                    5
+                  </div>
+
+                  <div
+                    className="mt-2 text-sm"
+                    style={{ color: C.inkSoft, lineHeight: 1.5 }}
+                  >
+                    production enterprises in the broader plan
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="home-today-visual motion-card"
+              aria-label="Dodo Africa's five production enterprises"
+            >
+              <Photo
+                src={IMG.enterpriseCollage}
+                alt="Dodo Africa's five production enterprises: plantain, fish, goat, snail and poultry"
+                ratio="1672 / 941"
+                radius={8}
+                position="center"
+                className="home-today-photo"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -1692,7 +1932,7 @@ function HomePage({ setPage }) {
                     fontWeight: 700,
                   }}
                 >
-                  Dodo Digital, the technology backbone
+                  Dodo Digital, the operations backbone
                 </h3>
 
                 <p
@@ -1702,9 +1942,8 @@ function HomePage({ setPage }) {
                     lineHeight: 1.65,
                   }}
                 >
-                  Farm management • inventory • supply chain •
-                  operational data • automation • analytics •
-                  AI-enabled insights
+                  Farm records • inventory • supply chain •
+                  field data • traceability • operating insight
                 </p>
               </div>
 
@@ -1720,8 +1959,8 @@ function HomePage({ setPage }) {
 
       {/* CTA */}
 
-      <section style={{ background: C.greenMist }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 pb-16 md:pb-20">
+      <section className="home-closing-section" style={{ background: C.greenMist }}>
+        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-24">
           <div
             className="overflow-hidden rounded-lg"
             style={{
@@ -1729,7 +1968,7 @@ function HomePage({ setPage }) {
               boxShadow: C.shadowLarge,
             }}
           >
-            <div className="grid md:grid-cols-[1fr_auto] gap-8 items-center p-7 md:p-12">
+            <div className="home-closing-panel grid md:grid-cols-[.92fr_1.08fr] gap-8 items-center p-7 md:p-12">
               <div>
                 <Eyebrow light>Growing with discipline</Eyebrow>
 
@@ -1759,10 +1998,39 @@ function HomePage({ setPage }) {
                 </p>
               </div>
 
-              <PrimaryButton onClick={() => setPage("partners")}>
-                Work With Dodo Africa
-                <ArrowRight size={16} />
-              </PrimaryButton>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {[
+                  ["Production", "Start with real farm capacity."],
+                  ["Channels", "Move produce through dependable routes."],
+                  ["Consumer", "Build food experiences from the same base."],
+                ].map(([title, copy]) => (
+                  <div
+                    key={title}
+                    className="rounded-lg p-4"
+                    style={{
+                      background: "rgba(255,255,255,.08)",
+                      border: "1px solid rgba(255,255,255,.14)",
+                    }}
+                  >
+                    <div
+                      className="text-sm font-extrabold"
+                      style={{ color: "#fff" }}
+                    >
+                      {title}
+                    </div>
+
+                    <p
+                      className="mt-2 text-xs"
+                      style={{
+                        color: "#CDE4D4",
+                        lineHeight: 1.55,
+                      }}
+                    >
+                      {copy}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1825,8 +2093,6 @@ function FounderCard({ founder, index, active }) {
           transition: `all 500ms ease ${index * 100}ms`,
         }}
       >
-        <FounderPortrait founder={founder} />
-
         <div className="p-7 md:p-8">
           <div>
             <h3
@@ -1865,6 +2131,8 @@ function FounderCard({ founder, index, active }) {
             ))}
           </div>
         </div>
+
+        <FounderPortrait founder={founder} />
       </div>
     </Card>
   );
@@ -1878,99 +2146,178 @@ function StoryPage({ setPage }) {
       <PageHeader
         eyebrow="Our Story"
         title="Built in Nigeria. Designed for the long term."
-        lede="Dodo Africa began with a practical agricultural foundation and a broader ambition: build a Nigerian agribusiness that produces food, creates dependable routes to market, develops stronger consumer products and uses technology to improve how the entire operation works."
+        lede="Dodo Africa began from practical farm production and is growing into markets, food products and operating systems that make Nigerian agriculture more valuable."
         photo={IMG.story}
         photoAlt="Smiling Nigerian farmer in a cultivated field"
         photoPosition="center 35%"
         shape="leaf"
+        deepOverlay
+        chips={["Farm Roots", "Growth Journey", "Long-Term Vision"]}
       />
 
-      <section style={{ background: C.white }}>
+      <section className="story-editorial-section" style={{ background: C.white }}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <div className="grid lg:grid-cols-[.92fr_1.08fr] gap-8 items-start">
-            <div>
-              <Eyebrow>Where we are today</Eyebrow>
+          <div className="story-editorial-grid">
+            <div className="story-quote-panel">
+              <Eyebrow>Our Story</Eyebrow>
 
               <h2
+                className="mt-4"
                 style={{
                   ...SERIF,
                   color: C.greenDeep,
-                  fontSize: "clamp(30px,4vw,46px)",
+                  fontSize: "clamp(31px,4vw,48px)",
                   lineHeight: 1.08,
+                  fontWeight: 650,
+                }}
+              >
+                Born from the farm, built for the food system.
+              </h2>
+
+              <p
+                className="story-large-copy mt-6"
+                style={{
+                  color: C.ink,
+                  lineHeight: 1.68,
                   fontWeight: 700,
                 }}
               >
-                We are not starting with a PowerPoint farm.
-              </h2>
+                Dodo Africa connects primary production with the
+                market routes, food products and consumer experiences
+                that make agriculture more valuable.
+              </p>
 
               <p
                 className="mt-5"
                 style={{
                   color: C.inkSoft,
-                  lineHeight: 1.8,
+                  lineHeight: 1.82,
                 }}
               >
-                The business already has access to 100 plots of land,
-                existing farm infrastructure and a clear plan for
-                integrated agriculture. The next major production
-                focus is the cultivation of approximately 8,500
-                plantain suckers.
+                We begin with 100 plots of land and a clear
+                production focus. From there, the business grows
+                carefully into distribution, processing, hospitality
+                and digital systems without losing sight of the farm.
               </p>
 
-              <p
-                className="mt-4"
+              <button
+                type="button"
+                onClick={() => setPage("model")}
+                className="story-discover-button mt-7"
+              >
+                Discover the Model
+                <ArrowRight size={15} />
+              </button>
+            </div>
+
+            <div className="story-photo-strip" aria-label="Dodo Africa agricultural and market story">
+              <Photo
+                src={IMG.plantain}
+                alt="Plantain growing on the farm"
+                ratio="3 / 4"
+                radius={24}
+                position="center 42%"
+                className="story-strip-photo"
+              />
+
+              <Photo
+                src={IMG.goatPeople}
+                alt="Goat production on a rural farm"
+                ratio="3 / 4"
+                radius={24}
+                position="center 48%"
+                className="story-strip-photo is-tall"
+              />
+
+              <Photo
+                src={IMG.poultryStory}
+                alt="Chicken production on the farm"
+                ratio="3 / 4"
+                radius={24}
+                position="center 54%"
+                className="story-strip-photo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="story-identity-section"
+        style={{
+          background: `linear-gradient(180deg, ${C.mist2}, rgba(140,249,187,.14))`,
+          borderTop: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+          <SectionHeading
+            eyebrow="About Us"
+            title="Our identity, vision and values."
+            description="Dodo Africa exists to build a practical, trusted and scalable Nigerian agribusiness with production at its centre."
+            center
+          />
+
+          <div className="story-values-band mt-10">
+            {[
+              "Freshness",
+              "Trust",
+              "Sustainability",
+              "Operational Discipline",
+            ].map((value) => (
+              <div key={value} className="story-value-item">
+                <span />
+                {value}
+              </div>
+            ))}
+          </div>
+
+          <div className="story-vision-card mt-[-26px]">
+            <div>
+              <h3
                 style={{
-                  color: C.inkSoft,
-                  lineHeight: 1.8,
+                  ...SERIF,
+                  color: C.greenDeep,
+                  fontSize: 25,
+                  fontWeight: 650,
                 }}
               >
-                From that foundation, Dodo Africa can progressively
-                build stronger distribution, processing and
-                consumer-facing businesses without losing sight of
-                the farm itself.
+                Vision
+              </h3>
+
+              <p
+                className="mt-4 text-sm md:text-base"
+                style={{ color: C.inkSoft, lineHeight: 1.75 }}
+              >
+                To build an African food business that grows from
+                dependable farm production into stronger market and
+                consumer channels.
               </p>
             </div>
 
-            <Card pale className="p-7 md:p-8">
-              <div className="grid sm:grid-cols-2 gap-4">
-                {[
-                  ["100", "Plots of land"],
-                  ["8,500", "Plantain suckers planned"],
-                  ["5", "Production enterprises planned"],
-                  ["Ondo State", "Operating base in Nigeria"],
-                ].map(([value, label]) => (
-                  <div
-                    key={label}
-                    className="rounded-lg p-5"
-                    style={{
-                      background: C.white,
-                      border: `1px solid ${C.border}`,
-                    }}
-                  >
-                    <div
-                      style={{
-                        ...SERIF,
-                        color: C.red,
-                        fontSize: 29,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {value}
-                    </div>
+            <div className="story-vision-divider" />
 
-                    <div
-                      className="mt-2 text-sm"
-                      style={{
-                        color: C.inkSoft,
-                        lineHeight: 1.55,
-                      }}
-                    >
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
+            <div>
+              <h3
+                style={{
+                  ...SERIF,
+                  color: C.greenDeep,
+                  fontSize: 25,
+                  fontWeight: 650,
+                }}
+              >
+                Mission
+              </h3>
+
+              <p
+                className="mt-4 text-sm md:text-base"
+                style={{ color: C.inkSoft, lineHeight: 1.75 }}
+              >
+                To produce, move and improve food through disciplined
+                agriculture, honest partnerships, smart systems and
+                products people can trust.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -2048,7 +2395,7 @@ function StoryPage({ setPage }) {
                   [
                     HeartHandshake,
                     "Partnerships",
-                    "Strong supplier, buyer and community relationships matter.",
+                    "Strong relationships with suppliers, buyers and communities matter.",
                   ],
                   [
                     TrendingUp,
@@ -2094,7 +2441,7 @@ function StoryPage({ setPage }) {
           </div>
 
           <Card pale className="mt-7 p-7 md:p-9">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-4xl">
               <div>
                 <Eyebrow>Our Direction</Eyebrow>
 
@@ -2110,10 +2457,14 @@ function StoryPage({ setPage }) {
                 </h2>
               </div>
 
-              <PrimaryButton onClick={() => setPage("model")}>
-                Explore the Model
-                <ArrowRight size={16} />
-              </PrimaryButton>
+              <button
+                type="button"
+                onClick={() => setPage("partners")}
+                className="story-discover-button mt-6"
+              >
+                Partner with us
+                <ArrowRight size={15} />
+              </button>
             </div>
           </Card>
         </div>
@@ -2126,79 +2477,21 @@ function StoryPage({ setPage }) {
    MODEL PAGE
    ============================================================ */
 
-function SubsidiaryCard({ subsidiary, index, visible }) {
-  const Icon = subsidiary.Icon;
-
-  const tone =
-    subsidiary.tone === "live"
-      ? "green"
-      : subsidiary.tone === "building"
-      ? "red"
-      : "grey";
-
-  return (
-    <Card pale className="p-6 h-full">
-      <div
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0)" : "translateY(16px)",
-          transition: `all 470ms ease ${index * 65}ms`,
-        }}
-      >
-        <div
-          className="flex h-12 w-12 items-center justify-center rounded-full"
-          style={{
-            background:
-              subsidiary.tone === "live" ? C.green : C.red,
-            color: "#fff",
-          }}
-        >
-          <Icon size={20} />
-        </div>
-
-        <h3
-          className="mt-5"
-          style={{
-            ...SERIF,
-            color: C.greenDeep,
-            fontSize: 21,
-            fontWeight: 700,
-          }}
-        >
-          {subsidiary.name}
-        </h3>
-
-        <p
-          className="mt-3 text-sm"
-          style={{
-            color: C.inkSoft,
-            lineHeight: 1.7,
-          }}
-        >
-          {subsidiary.desc}
-        </p>
-
-        <div className="mt-5">
-          <Tag tone={tone}>{subsidiary.status}</Tag>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
 function ModelPage({ setPage }) {
   const [ref, visible] = useReveal();
 
   return (
     <>
       <PageHeader
-        eyebrow="The Dodo Africa Model"
-        title="One agricultural ecosystem. Multiple businesses."
+        eyebrow="The Model"
+        title="Production. Distribution. Processing."
         lede="Dodo Africa is structured to capture more value from the same agricultural base, beginning with production and progressively adding distribution, processing, hospitality, logistics and technology."
         photo={IMG.model}
-        photoAlt="Plantain produce being transported to market"
-        photoPosition="center 42%"
+        photoAlt="Aerial view of an integrated farm with fields, fish ponds and farm buildings"
+        photoPosition="center 52%"
         shape="pod"
+        compactTitle
+        chips={["Production", "Distribution", "Processing"]}
       />
 
       <section
@@ -2214,15 +2507,98 @@ function ModelPage({ setPage }) {
             description="Not every division is at the same stage. Farming is the foundation, while other business lines are introduced as operations and market demand support them."
           />
 
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SUBS.map((subsidiary, index) => (
-              <SubsidiaryCard
-                key={subsidiary.name}
-                subsidiary={subsidiary}
-                index={index}
-                visible={visible}
-              />
-            ))}
+          <div className="model-service-band mt-10">
+            <img
+              src={IMG.fieldWork}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+
+            <div className="model-service-band-copy hero-copy">
+              <Eyebrow light>Service Garden</Eyebrow>
+
+              <h3
+                style={{
+                  ...SERIF,
+                  color: "#fff",
+                  fontSize: "clamp(25px,3.2vw,42px)",
+                  lineHeight: 1.08,
+                  fontWeight: 680,
+                }}
+              >
+                The best choice for building an integrated food
+                business.
+              </h3>
+            </div>
+          </div>
+
+          <div className="model-service-cards">
+            {SUBS.map((subsidiary, index) => {
+              const Icon = subsidiary.Icon;
+              const tone =
+                subsidiary.tone === "live"
+                  ? "green"
+                  : subsidiary.tone === "building"
+                  ? "red"
+                  : "grey";
+
+              return (
+                <Card
+                  key={subsidiary.name}
+                  className="model-service-card"
+                >
+                  <div
+                    style={{
+                      opacity: visible ? 1 : 0,
+                      transform: visible
+                        ? "translateY(0)"
+                        : "translateY(14px)",
+                      transition: `all 470ms ease ${index * 65}ms`,
+                    }}
+                  >
+                    <div
+                      className="flex h-11 w-11 items-center justify-center rounded-full"
+                      style={{
+                        background:
+                          subsidiary.tone === "live" ? C.green : C.red,
+                        color: "#fff",
+                      }}
+                    >
+                      <Icon size={19} />
+                    </div>
+
+                    <h3
+                      className="mt-5"
+                      style={{
+                        ...SERIF,
+                        color: C.greenDeep,
+                        fontSize: 20,
+                        fontWeight: 650,
+                      }}
+                    >
+                      {subsidiary.name}
+                    </h3>
+
+                    <p
+                      className="mt-3 text-sm"
+                      style={{
+                        color: C.inkSoft,
+                        lineHeight: 1.68,
+                      }}
+                    >
+                      {subsidiary.desc}
+                    </p>
+
+                    <div className="mt-5 flex items-center justify-between gap-3">
+                      <Tag tone={tone}>{subsidiary.status}</Tag>
+
+                      <ArrowRight size={17} style={{ color: C.green }} />
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -2260,18 +2636,12 @@ function ModelPage({ setPage }) {
                 ))}
               </div>
 
-              <button
-                type="button"
-                onClick={() => setPage("mart")}
-                className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold"
-                style={{
-                  background: "transparent",
-                  color: C.red,
-                }}
-              >
-                Explore Farm Mart & Eatery
-                <ArrowRight size={15} />
-              </button>
+              <div className="mt-8">
+                <PrimaryButton onClick={() => setPage("mart")}>
+                  Farm Mart & Eatery
+                  <ArrowRight size={15} />
+                </PrimaryButton>
+              </div>
             </div>
 
             <Card green className="p-8">
@@ -2352,16 +2722,6 @@ function ConsumerBusinessCard({
   return (
     <Card className="consumer-business-card overflow-hidden h-full">
       <div className="flex h-full flex-col">
-        <Photo
-          src={image}
-          alt={alt}
-          ratio="16 / 9"
-          radius={0}
-          eager
-          position="center"
-          className="consumer-business-photo"
-        />
-
         <div className="p-6 sm:p-7 md:p-8">
           <div className="flex justify-start">
             <span
@@ -2415,6 +2775,16 @@ function ConsumerBusinessCard({
             ))}
           </div>
         </div>
+
+        <Photo
+          src={image}
+          alt={alt}
+          ratio="16 / 9"
+          radius={0}
+          eager
+          position="center"
+          className="consumer-business-photo"
+        />
       </div>
     </Card>
   );
@@ -2434,7 +2804,7 @@ function MartRouteStrip() {
       ].map(([Icon, title, copy]) => (
         <div
           key={title}
-          className="rounded-lg p-4"
+          className="mart-route-card rounded-lg p-4"
           style={{
             background: C.mist2,
             border: `1px solid ${C.border}`,
@@ -2467,13 +2837,19 @@ function MartPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Farm-to-Consumer"
-        title="Farm Mart & Eatery."
+        eyebrow="Farm Mart & Eatery"
+        title={
+          <>
+            <span className="hero-title-line">Farm Mart &</span>
+            <span className="hero-title-line">Eatery.</span>
+          </>
+        }
         lede="These businesses create direct routes from agricultural production to buyers and consumers, from fresh produce and commercial supply to a future food concept built around the Dodo brand."
         photo={IMG.martHero}
-        photoAlt="Supermarket produce aisle with shoppers"
+        photoAlt="Nigerian shoppers buying fresh produce in a modern farm mart"
         photoPosition="center 50%"
         shape="market"
+        chips={["Retail", "Commercial Supply", "Eatery"]}
       />
 
       <section style={{ background: C.white }}>
@@ -2687,6 +3063,7 @@ function PartnersPage() {
         photoAlt="Farm workers filling sacks after harvest"
         photoPosition="center 45%"
         shape="harvest"
+        chips={["Buyers", "Suppliers", "Strategic Partners"]}
       />
 
       <section style={{ background: C.white }}>
@@ -2696,61 +3073,18 @@ function PartnersPage() {
             title="Different partners. Shared growth."
           />
 
-          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              {
-                Icon: Handshake,
-                title: "Offtake & Buyers",
-                body:
-                  "Hotels, retailers, restaurants, processors and commercial buyers looking for dependable supply.",
-              },
-              {
-                Icon: Truck,
-                title: "Suppliers & Logistics",
-                body:
-                  "Input suppliers, equipment providers, transport businesses and operational service partners.",
-              },
-              {
-                Icon: Building2,
-                title: "Financial Institutions",
-                body:
-                  "Banks, agricultural finance providers and development institutions supporting productive enterprise.",
-              },
-              {
-                Icon: Globe2,
-                title: "Distribution",
-                body:
-                  "Partners capable of strengthening routes into retail, hospitality and regional markets.",
-              },
-              {
-                Icon: Activity,
-                title: "Technology",
-                body:
-                  "Systems, data, automation and infrastructure partnerships for modern agricultural operations.",
-              },
-              {
-                Icon: Users,
-                title: "Communities",
-                body:
-                  "Collaboration around agricultural skills, jobs, local supply chains and sustainable production.",
-              },
-            ].map((item) => {
-              const Icon = item.Icon;
-
-              return (
-                <Card key={item.title} pale className="p-6 h-full">
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{
-                      background: C.green,
-                      color: "#fff",
-                    }}
-                  >
-                    <Icon size={21} />
-                  </div>
-
+          <div className="partner-opportunity-grid mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PARTNER_OPPORTUNITIES.map((item, index) => (
+              <Card
+                key={item.title}
+                className="partner-image-card overflow-hidden h-full"
+                style={{
+                  "--card-index": index,
+                }}
+              >
+                <div className="p-5">
                   <h3
-                    className="mt-5"
+                    className="mt-1"
                     style={{
                       ...SERIF,
                       color: C.greenDeep,
@@ -2770,9 +3104,18 @@ function PartnersPage() {
                   >
                     {item.body}
                   </p>
-                </Card>
-              );
-            })}
+                </div>
+
+                <Photo
+                  src={item.image}
+                  alt={item.imageAlt}
+                  ratio="16 / 10"
+                  radius={0}
+                  position={item.imagePosition}
+                  className="partner-card-photo"
+                />
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -2870,7 +3213,41 @@ function PartnersPage() {
 
       <section style={{ background: C.white }}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16">
-          <div className="grid lg:grid-cols-[1fr_.9fr] gap-6">
+          <div className="partner-contact-grid grid lg:grid-cols-[.9fr_1fr] gap-6">
+            <Card pale className="p-8 md:p-10">
+              <Eyebrow>Contact</Eyebrow>
+
+              <h2
+                style={{
+                  ...SERIF,
+                  color: C.greenDeep,
+                  fontSize: 30,
+                  fontWeight: 700,
+                }}
+              >
+                Start a conversation.
+              </h2>
+
+              <p
+                className="mt-4"
+                style={{
+                  color: C.inkSoft,
+                  lineHeight: 1.75,
+                }}
+              >
+                Interested in buying, supplying, financing,
+                distributing or collaborating with Dodo Africa?
+                Reach out to the team.
+              </p>
+
+              <div className="mt-7">
+                <PrimaryButton href="mailto:hello@dodoafrica.com">
+                  Discuss a Partnership
+                  <ArrowRight size={16} />
+                </PrimaryButton>
+              </div>
+            </Card>
+
             <Card green className="p-8 md:p-10">
               <ShieldCheck
                 size={32}
@@ -2900,40 +3277,6 @@ function PartnersPage() {
                 operating performance, commercial relationships and
                 disciplined execution.
               </p>
-            </Card>
-
-            <Card pale className="p-8 md:p-10">
-              <Eyebrow>Contact</Eyebrow>
-
-              <h2
-                style={{
-                  ...SERIF,
-                  color: C.greenDeep,
-                  fontSize: 30,
-                  fontWeight: 700,
-                }}
-              >
-                Start a conversation.
-              </h2>
-
-              <p
-                className="mt-4"
-                style={{
-                  color: C.inkSoft,
-                  lineHeight: 1.75,
-                }}
-              >
-                Interested in buying, supplying, financing,
-                distributing or collaborating with Dodo Africa?
-                Reach out to the team.
-              </p>
-
-              <div className="mt-7">
-                <PrimaryButton href="mailto:hello@dodoafrica.com">
-                  <Mail size={16} />
-                  Get In Touch
-                </PrimaryButton>
-              </div>
             </Card>
           </div>
         </div>
@@ -2966,23 +3309,30 @@ function PhotoCredits() {
           maxWidth: 900,
         }}
       >
-        Agricultural, market and food photography used from Pexels
-        and Unsplash.
+        Some supporting visuals are generated for Dodo Africa.
+        Market and food photography also uses Pexels and Unsplash
+        sources.
         {" "}
 
         {PHOTO_CREDITS.map((credit, index) => (
-          <span key={credit.href}>
-            <a
-              href={credit.href}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#D8ECDD",
-                textDecoration: "underline",
-              }}
-            >
-              {credit.label}
-            </a>
+          <span key={credit.label}>
+            {credit.href ? (
+              <a
+                href={credit.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  color: "#D8ECDD",
+                  textDecoration: "underline",
+                }}
+              >
+                {credit.label}
+              </a>
+            ) : (
+              <span style={{ color: "#D8ECDD" }}>
+                {credit.label}
+              </span>
+            )}
 
             {` by ${credit.author}, ${credit.license}`}
 
@@ -3007,7 +3357,7 @@ function Footer({ setPage }) {
     <>
       <footer
         style={{
-          background: `linear-gradient(180deg, ${C.greenDeep}, #031E0D)`,
+          background: C.footerGreenDeep,
           color: "#fff",
         }}
       >
@@ -3019,7 +3369,7 @@ function Footer({ setPage }) {
               <p
                 className="mt-5 max-w-sm text-sm"
                 style={{
-                  color: "#CDE4D4",
+                  color: "rgba(255,255,255,.84)",
                   lineHeight: 1.75,
                 }}
               >
@@ -3031,7 +3381,7 @@ function Footer({ setPage }) {
               <div
                 className="mt-5 flex items-center gap-2 text-sm"
                 style={{
-                  color: "#CDE4D4",
+                  color: "rgba(255,255,255,.84)",
                 }}
               >
                 <MapPin size={16} />
@@ -3043,7 +3393,7 @@ function Footer({ setPage }) {
               <div
                 className="text-xs font-extrabold uppercase"
                 style={{
-                  color: "#9FC9AA",
+                  color: C.leaf,
                   letterSpacing: 0,
                 }}
               >
@@ -3060,10 +3410,10 @@ function Footer({ setPage }) {
                     type="button"
                     key={id}
                     onClick={() => go(id)}
-                    className="block text-sm"
+                    className="footer-link block text-sm"
                     style={{
                       background: "transparent",
-                      color: "#E6F3EA",
+                      color: "#FFFFFF",
                     }}
                   >
                     {label}
@@ -3076,7 +3426,7 @@ function Footer({ setPage }) {
               <div
                 className="text-xs font-extrabold uppercase"
                 style={{
-                  color: "#9FC9AA",
+                  color: C.leaf,
                   letterSpacing: 0,
                 }}
               >
@@ -3086,7 +3436,7 @@ function Footer({ setPage }) {
               <div
                 className="mt-5 space-y-3 text-sm"
                 style={{
-                  color: "#E6F3EA",
+                  color: "#FFFFFF",
                 }}
               >
                 <div>Dodo Africa Farms</div>
@@ -3101,7 +3451,7 @@ function Footer({ setPage }) {
               <div
                 className="text-xs font-extrabold uppercase"
                 style={{
-                  color: "#9FC9AA",
+                  color: C.leaf,
                   letterSpacing: 0,
                 }}
               >
@@ -3111,7 +3461,7 @@ function Footer({ setPage }) {
               <div
                 className="mt-5 space-y-3 text-sm"
                 style={{
-                  color: "#E6F3EA",
+                  color: "#FFFFFF",
                 }}
               >
                 <div>Plantain</div>
@@ -3126,7 +3476,7 @@ function Footer({ setPage }) {
           <div
             className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-7 text-xs"
             style={{
-              color: "#A9CDB2",
+              color: "rgba(255,255,255,.74)",
               borderTop: "1px solid rgba(255,255,255,.12)",
             }}
           >
@@ -3416,6 +3766,24 @@ export default function App() {
           text-wrap: balance;
         }
 
+        .page-shell {
+          font-size: 15px;
+        }
+
+        .page-shell h2 {
+          font-weight: 650 !important;
+        }
+
+        .page-shell h3 {
+          font-weight: 650 !important;
+        }
+
+        .page-shell p,
+        .page-shell li {
+          font-size: clamp(13px, .95vw, 15px);
+          line-height: 1.68;
+        }
+
         p,
         li {
           text-wrap: pretty;
@@ -3452,6 +3820,7 @@ export default function App() {
         .page-shell {
           background:
             linear-gradient(180deg, ${C.paper} 0%, ${C.mist} 54%, ${C.paper} 100%);
+          overflow-x: hidden;
         }
 
         .page-shell section:not(.home-hero):not(.page-hero) {
@@ -3468,14 +3837,14 @@ export default function App() {
           pointer-events: none;
           opacity: .44;
           background:
-            linear-gradient(135deg, rgba(234,247,238,.65), transparent 34%, rgba(255,255,255,.45) 72%, transparent),
-            repeating-linear-gradient(90deg, rgba(5,46,20,.028) 0 1px, transparent 1px 86px);
+            linear-gradient(135deg, rgba(140,249,187,.14), transparent 34%, rgba(255,255,255,.45) 72%, transparent),
+            repeating-linear-gradient(90deg, rgba(0,104,55,.028) 0 1px, transparent 1px 86px);
         }
 
         .page-shell section:not(.home-hero):not(.page-hero):nth-of-type(even)::before {
           background:
-            linear-gradient(45deg, rgba(255,255,255,.72), transparent 42%, rgba(234,247,238,.72)),
-            repeating-linear-gradient(0deg, rgba(5,46,20,.024) 0 1px, transparent 1px 72px);
+            linear-gradient(45deg, rgba(255,255,255,.72), transparent 42%, rgba(140,249,187,.14)),
+            repeating-linear-gradient(0deg, rgba(0,104,55,.024) 0 1px, transparent 1px 72px);
         }
 
         .page-shell section:not(.home-hero):not(.page-hero) > .max-w-7xl {
@@ -3511,6 +3880,21 @@ export default function App() {
           transition: transform 520ms ease;
         }
 
+        .primary-button {
+          transition:
+            background-color 220ms ease,
+            border-color 220ms ease,
+            box-shadow 220ms ease,
+            transform 220ms ease;
+        }
+
+        .primary-button:hover {
+          transform: translateY(-1px);
+          background: ${C.footerGreenDeep} !important;
+          border-color: ${C.footerGreenDeep} !important;
+          box-shadow: 0 16px 34px rgba(0,45,24,.22) !important;
+        }
+
         .primary-button:hover::after {
           transform: translateX(115%) skewX(-16deg);
         }
@@ -3532,18 +3916,42 @@ export default function App() {
 
         .surface-card {
           overflow: hidden;
+          isolation: isolate;
+          border-radius: 8px !important;
+          will-change: transform;
+        }
+
+        .surface-card:not(.surface-card-dark):not(.surface-card-red) {
+          background-image:
+            radial-gradient(circle at 84% 0%, rgba(140,249,187,.08), transparent 34%),
+            linear-gradient(180deg, rgba(255,255,255,.99), rgba(250,255,252,.97));
+          border-color: rgba(0,104,55,.12) !important;
+          box-shadow: 0 18px 46px rgba(23,49,38,.07) !important;
+        }
+
+        .surface-card-dark {
+          background-image:
+            linear-gradient(180deg, rgba(0,104,55,.98), ${C.footerGreenDeep}) !important;
+          box-shadow: 0 22px 54px rgba(0,45,24,.2) !important;
+        }
+
+        .surface-card-red {
+          background-image:
+            linear-gradient(180deg, ${C.red}, ${C.redDeep}) !important;
+          box-shadow: 0 22px 54px rgba(90,0,0,.16) !important;
         }
 
         .surface-card::before {
           content: "";
           position: absolute;
-          inset: 0 0 auto;
+          top: 0;
+          left: 0;
           height: 3px;
-          opacity: .9;
-          background: linear-gradient(90deg, rgba(239,25,18,.68), rgba(11,69,31,.72));
-          transform: scaleX(.36);
-          transform-origin: left;
-          transition: transform 300ms ease, opacity 300ms ease;
+          width: min(112px, 34%);
+          border-radius: 8px 999px 999px 0;
+          opacity: .86;
+          background: linear-gradient(90deg, rgba(255,0,0,.58), rgba(0,104,55,.62));
+          transition: width 300ms ease, opacity 300ms ease;
         }
 
         .surface-card > * {
@@ -3552,43 +3960,139 @@ export default function App() {
         }
 
         .surface-card:hover {
-          transform: translateY(-3px);
-          border-color: ${C.borderStrong};
-          box-shadow: 0 18px 42px rgba(5,46,20,.09);
+          transform: translateY(-1px);
+          border-color: rgba(0,104,55,.22) !important;
+          box-shadow: 0 22px 54px rgba(23,49,38,.095) !important;
         }
 
         .surface-card:hover::before {
-          transform: scaleX(1);
+          width: min(154px, 42%);
           opacity: 1;
         }
 
-        .home-metric {
+        .surface-card h2,
+        .surface-card h3 {
+          font-weight: 650 !important;
+        }
+
+        .surface-card h3 {
+          font-size: clamp(17px, 1.35vw, 20px) !important;
+          line-height: 1.22;
+        }
+
+        .surface-card p {
+          font-size: clamp(13px, .9vw, 14px) !important;
+          line-height: 1.62 !important;
+        }
+
+        .surface-card-dark p,
+        .surface-card-red p {
+          color: rgba(242,255,248,.78) !important;
+        }
+
+        .surface-card-dark h2,
+        .surface-card-dark h3,
+        .surface-card-red h2,
+        .surface-card-red h3 {
+          color: rgba(248,255,251,.92) !important;
+        }
+
+        .home-today-intro {
+          display: grid;
+          grid-template-columns: minmax(0, .8fr) minmax(420px, 1.15fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: start;
+        }
+
+        .home-today-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: clamp(28px, 4vw, 56px);
+        }
+
+        .home-today-intro > *,
+        .section-heading {
+          min-width: 0;
+        }
+
+        .home-today-title-line {
+          display: inline;
+        }
+
+        .home-today-mobile-copy {
+          display: none;
+        }
+
+        .home-today-mobile-copy span {
+          display: block;
+        }
+
+        .home-today-section {
           position: relative;
           overflow: hidden;
-          transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
         }
 
-        .home-metric::after {
+        .home-today-africa-mark {
+          position: absolute;
+          bottom: -54px;
+          right: -32px;
+          width: clamp(220px, 22vw, 340px);
+          height: auto;
+          fill: none;
+          stroke: rgba(0,104,55,.14);
+          stroke-width: 13;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .home-today-visual {
+          position: relative;
+        }
+
+        .home-today-photo {
+          position: relative;
+          z-index: 1;
+          height: 100%;
+          border: 1px solid rgba(0,104,55,.16);
+          box-shadow: 0 24px 58px rgba(23,49,38,.09);
+          border-radius: 8px !important;
+        }
+
+        .mart-route-card {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+          transition:
+            transform 260ms ease,
+            box-shadow 260ms ease,
+            border-color 260ms ease;
+          background:
+            radial-gradient(circle at 84% 0%, rgba(140,249,187,.08), transparent 34%),
+            linear-gradient(180deg, rgba(255,255,255,.99), rgba(250,255,252,.97)) !important;
+          border-color: rgba(0,104,55,.12) !important;
+          box-shadow: 0 18px 46px rgba(23,49,38,.07);
+        }
+
+        .mart-route-card::before {
           content: "";
           position: absolute;
+          top: 0;
           left: 0;
-          right: 0;
-          bottom: 0;
-          height: 4px;
-          background: linear-gradient(90deg, ${C.red}, ${C.green});
-          transform: scaleX(.24);
-          transform-origin: left;
-          transition: transform 280ms ease;
+          height: 3px;
+          width: min(88px, 38%);
+          border-radius: 8px 999px 999px 0;
+          background: linear-gradient(90deg, rgba(255,0,0,.58), rgba(0,104,55,.62));
         }
 
-        .home-metric:hover {
-          transform: translateY(-3px);
-          border-color: ${C.borderStrong};
-          box-shadow: 0 18px 42px rgba(5,46,20,.08);
+        .mart-route-card > * {
+          position: relative;
+          z-index: 1;
         }
 
-        .home-metric:hover::after {
-          transform: scaleX(1);
+        .mart-route-card:hover {
+          transform: translateY(-1px);
+          border-color: rgba(0,104,55,.22) !important;
+          box-shadow: 0 22px 54px rgba(23,49,38,.095);
         }
 
         .site-nav,
@@ -3601,93 +4105,519 @@ export default function App() {
         }
 
         .site-nav > div {
-          width: 100%;
-          max-width: min(80rem, 100vw);
+          width: min(100%, 80rem);
+          max-width: 80rem;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 1.25rem !important;
+          padding-right: 1.25rem !important;
+        }
+
+        @media (min-width: 768px) {
+          .site-nav > div {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+          }
+        }
+
+        .desktop-nav-links {
+          display: none;
+        }
+
+        .desktop-nav-cta {
+          display: none;
+        }
+
+        .floating-mobile-toggle {
+          display: none;
+        }
+
+        .nav-menu-button {
+          display: flex;
+          margin-left: auto;
+          flex-shrink: 0;
+          border: 0 !important;
+          border-radius: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          transition:
+            color 180ms ease,
+            transform 180ms ease;
+        }
+
+        .nav-menu-button:hover {
+          color: ${C.leaf} !important;
+          transform: translateY(-1px);
+        }
+
+        @media (min-width: 1024px) {
+          .desktop-nav-links {
+            display: flex;
+          }
+
+          .desktop-nav-cta {
+            display: block;
+          }
+
+          .nav-menu-button {
+            display: none !important;
+          }
         }
 
         .nav-frame {
           width: 100%;
           max-width: 100%;
-          overflow: hidden;
+          overflow: visible;
         }
 
         .nav-frame > * {
           flex-shrink: 0;
         }
 
-        .home-hero {
-          min-height: 100vh;
-          display: grid;
+        .nav-partner-button {
+          display: inline-flex;
           align-items: center;
+          justify-content: center;
+          min-height: 38px;
+          padding: 8px 17px;
+          border: 1px solid rgba(255,255,255,.34);
+          border-radius: 999px;
+          background: ${C.leaf};
+          color: ${C.greenDeep};
+          font-size: 13px;
+          font-weight: 800;
+          box-shadow: 0 8px 20px rgba(0,24,10,.16);
+          transition:
+            transform 220ms ease,
+            box-shadow 220ms ease,
+            background-color 220ms ease;
         }
 
-        .home-hero-light {
-          min-height: 100svh;
+        .nav-partner-button:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 12px 26px rgba(0,24,10,.22);
+        }
+
+        .nav-partner-button.is-active {
+          background: ${C.greenDeep};
+          color: #fff;
+          border-color: rgba(140,249,187,.65);
+          box-shadow: 0 0 0 2px rgba(140,249,187,.5), 0 12px 26px rgba(0,24,10,.28);
+        }
+
+        .nav-partner-button.is-active:hover {
+          background: ${C.footerGreenDeep};
+        }
+
+        .site-nav .dodo-logo {
+          filter: drop-shadow(0 2px 8px rgba(0,28,12,.18));
+        }
+
+        .home-closing-section {
+          background:
+            radial-gradient(circle at 15% 15%, rgba(255,255,255,.6), transparent 34%),
+            linear-gradient(180deg, ${C.greenMist}, rgba(140,249,187,.14) 56%, ${C.greenMist}) !important;
+        }
+
+        .home-hero {
+          min-height: auto;
           display: block;
-          isolation: isolate;
         }
 
-        .home-hero-light::before {
+        .home-hero-story {
+          min-height: auto !important;
+          padding: 0;
+          isolation: isolate;
+          color: #fff;
+        }
+
+        .home-hero-shell {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          max-width: none !important;
+          min-height: 100svh;
+          margin: 0 auto;
+          border: 0;
+          border-radius: 0;
+          background: ${C.greenDeep};
+          box-shadow: none;
+        }
+
+        .home-hero-shell::before,
+        .home-hero-shell::after {
           content: "";
           position: absolute;
-          inset: auto 0 0;
-          height: 42%;
+          inset: 0;
+          z-index: 1;
           pointer-events: none;
-          opacity: .42;
+        }
+
+        .home-hero-shell::before {
           background:
-            repeating-linear-gradient(112deg, rgba(5,46,20,.05) 0 1px, transparent 1px 36px),
-            linear-gradient(180deg, transparent, rgba(255,255,255,.7));
+            linear-gradient(90deg, rgba(0,16,7,.82) 0%, rgba(0,45,24,.58) 42%, rgba(0,16,7,.22) 100%),
+            linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.52));
         }
 
-        .home-hero-media {
+        .home-hero-shell::after {
+          background:
+            radial-gradient(circle at 16% 82%, rgba(140,249,187,.22), transparent 26%),
+            linear-gradient(180deg, transparent 62%, rgba(0,36,16,.82));
+        }
+
+        .home-hero-photo {
           position: absolute;
-          top: clamp(86px, 10vh, 118px);
-          right: 0;
-          bottom: clamp(10px, 3vh, 36px);
+          inset: 0;
           z-index: 0;
-          width: min(61vw, 1040px);
-          display: grid;
-          place-items: center end;
-          overflow: visible;
-          background: transparent;
-          pointer-events: none;
+          overflow: hidden;
+          background: ${C.footerGreenDeep};
         }
 
-        .home-hero-preload {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          opacity: 0;
-          pointer-events: none;
+        .home-hero-photo img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center;
+          filter: saturate(.94) contrast(1.04) brightness(.9);
+          transform: scale(1.02);
+          animation: home-photo-breathe 9800ms ease-in-out infinite alternate;
         }
 
-        .home-hero-africa {
-          width: min(112%, 860px);
-          height: min(82svh, 770px);
-          overflow: visible;
-          filter: drop-shadow(-24px 24px 52px rgba(5,46,20,.14));
-        }
-
-        .home-hero-africa image {
-          filter: saturate(.94) contrast(1.02) brightness(1.03);
-        }
-
-        .home-hero-inner {
-          min-height: 100svh;
-          display: flex;
-          align-items: center;
+        .home-hero-story .home-hero-inner {
           position: relative;
           z-index: 3;
+          min-height: inherit;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(285px, .42fr);
+          gap: clamp(28px, 4vw, 52px);
+          align-items: end;
+          padding: clamp(136px, 18vh, 188px) clamp(22px, 7vw, 132px) clamp(42px, 7vh, 72px);
         }
 
-        .home-hero-copy {
-          width: min(600px, 50vw);
+        .home-hero-story .home-hero-copy {
+          width: 100%;
+          max-width: 790px;
+          justify-self: start;
+        }
+
+        .home-hero-badge {
+          display: inline-flex;
+          align-items: center;
+          width: fit-content;
+          max-width: 100%;
+          padding: 8px 13px;
+          border: 1px solid;
+          border-radius: 999px;
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          font-size: 11px;
+	          font-weight: 700;
+          text-transform: none;
+          letter-spacing: 0;
+        }
+
+        .home-hero-badge + .hero-title {
+          margin-top: clamp(18px, 2.4vh, 30px);
+        }
+
+        .home-hero-story .hero-title,
+        .page-hero-title {
+          color: rgba(248,255,251,.92) !important;
+          font-weight: 680 !important;
+          letter-spacing: 0 !important;
+        }
+
+        .home-hero-story .home-hero-lede,
+        .page-photo-hero-copy > p {
+          color: rgba(242,255,248,.78) !important;
+          font-weight: 400 !important;
+        }
+
+        .page-photo-hero-card p,
+        .page-photo-hero-card div {
+          font-weight: 500 !important;
+        }
+
+        .home-story-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 9px;
+          width: fit-content;
+          min-height: 42px;
+          padding: 9px 10px 9px 17px;
+          border: 2px solid rgba(255,255,255,.38);
+          border-radius: 999px;
+          background: ${C.leaf};
+          color: #00351B;
+          font-size: 13px;
+          font-weight: 800;
+          box-shadow: 0 14px 36px rgba(0,0,0,.22);
+        }
+
+        .home-story-button span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex: 0 0 22px;
+          height: 22px;
+          width: 22px;
+          border-radius: 999px;
+          background: ${C.greenDeep};
+          color: #fff;
+          transition: transform 220ms ease;
+        }
+
+        .home-story-button:hover span {
+          transform: translateX(2px);
+        }
+
+        .home-hero-text-link {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          width: fit-content;
+          min-height: 48px;
+          padding: 13px 0;
+          background: transparent;
+          color: #fff;
+          font-size: 14px;
+	          font-weight: 700;
+        }
+
+        .home-hero-mission {
+          align-self: end;
+          width: 100%;
+          max-width: 355px;
+          margin-left: auto;
+          padding: 22px;
+          border: 1px solid rgba(255,255,255,.26);
+          border-radius: 8px;
+          background: rgba(255,255,255,.12);
+          box-shadow: 0 22px 50px rgba(0,0,0,.2);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
         }
 
         .page-hero {
           min-height: min(760px, 100svh);
           display: grid;
           align-items: stretch;
+        }
+
+        .page-photo-hero {
+          min-height: min(720px, 100svh);
+          isolation: isolate;
+          color: #fff;
+        }
+
+        .page-photo-hero::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background:
+            radial-gradient(circle at 16% 82%, rgba(140,249,187,.2), transparent 26%),
+            linear-gradient(180deg, transparent 55%, rgba(0,36,16,.68));
+        }
+
+        .page-photo-hero-inner {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: none !important;
+          min-height: inherit;
+          display: grid;
+          grid-template-columns: minmax(0, .8fr) minmax(260px, .35fr);
+          gap: clamp(28px, 4vw, 56px);
+          align-items: end;
+          padding-top: clamp(116px, 15vh, 154px);
+          padding-left: clamp(22px, 7vw, 132px) !important;
+          padding-right: clamp(22px, 7vw, 132px) !important;
+          padding-bottom: clamp(52px, 8vh, 86px);
+        }
+
+        .page-photo-hero-copy {
+          max-width: 720px;
+        }
+
+        .page-photo-hero-card {
+          justify-self: end;
+          width: min(100%, 350px);
+          padding: 22px;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 8px;
+          background: rgba(255,255,255,.12);
+          box-shadow: 0 22px 52px rgba(0,0,0,.2);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+        }
+
+        .page-photo-card-title {
+          color: rgba(248,255,251,.92);
+          font-size: clamp(13px, 1.05vw, 14px);
+          font-weight: 700;
+          letter-spacing: 0;
+        }
+
+        .page-photo-card-copy {
+          color: rgba(242,255,248,.8) !important;
+          font-size: clamp(13px, 1vw, 14px) !important;
+          line-height: 1.62 !important;
+          font-weight: 400 !important;
+        }
+
+        .model-service-band {
+          position: relative;
+          min-height: 335px;
+          overflow: hidden;
+          border-radius: 8px;
+          border: 1px solid ${C.border};
+          background: ${C.greenDeep};
+          box-shadow: 0 24px 58px rgba(0,104,55,.12);
+        }
+
+        .model-service-band img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center 52%;
+          filter: saturate(.96) contrast(1.03) brightness(.84);
+          transform: scale(1.015);
+          animation: page-photo-pan 9800ms ease-in-out infinite alternate;
+        }
+
+        .model-service-band::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(90deg, rgba(0,28,12,.76), rgba(0,104,55,.36) 52%, rgba(0,28,12,.12)),
+            linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,28,12,.42));
+        }
+
+        .model-service-band-copy {
+          position: relative;
+          z-index: 2;
+          width: min(620px, 100%);
+          padding: clamp(28px, 5vw, 58px);
+        }
+
+        .model-service-cards {
+          position: relative;
+          z-index: 3;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 18px;
+          width: min(1040px, calc(100% - 44px));
+          margin: -56px auto 0;
+        }
+
+        .model-service-card {
+          padding: 22px;
+          background: rgba(255,255,255,.96) !important;
+          border-color: rgba(0,104,55,.14) !important;
+          box-shadow: 0 16px 40px rgba(0,104,55,.075) !important;
+          transition:
+            transform 300ms cubic-bezier(.2,.7,.2,1),
+            box-shadow 300ms ease,
+            border-color 260ms ease;
+        }
+
+        .model-service-card.surface-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(0,104,55,.24) !important;
+          box-shadow: 0 26px 58px rgba(0,45,24,.115) !important;
+        }
+
+        .model-service-card::before {
+          content: "";
+          position: absolute;
+          top: -1px;
+          left: 0;
+          height: 3px;
+          width: 36%;
+          border-radius: 8px 0 999px 0;
+          background: linear-gradient(90deg, rgba(255,0,0,.55), rgba(0,104,55,.72));
+          z-index: 4;
+        }
+
+        .partner-image-card {
+          padding: 0;
+          transform-origin: center;
+          animation-delay: calc(var(--card-index, 0) * 70ms);
+          isolation: isolate;
+          transition:
+            transform 320ms cubic-bezier(.2,.7,.2,1),
+            border-color 260ms ease,
+            box-shadow 320ms ease,
+            background-color 260ms ease;
+        }
+
+        .partner-card-photo {
+          min-height: 172px;
+          background-color: ${C.mist2};
+        }
+
+        .partner-card-photo img {
+          filter: saturate(.96) contrast(1.03) brightness(.98);
+        }
+
+        .partner-card-photo.photo-frame::after {
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,104,55,.15)),
+            linear-gradient(90deg, rgba(255,0,0,.035), rgba(140,249,187,.08)) !important;
+          opacity: .58 !important;
+        }
+
+        .partner-image-card h3 {
+          position: relative;
+          display: inline-block;
+        }
+
+        .partner-image-card h3::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -7px;
+          height: 2px;
+          border-radius: 999px;
+          background: linear-gradient(90deg, ${C.red}, ${C.green});
+          transform: scaleX(.22);
+          transform-origin: left;
+          opacity: .55;
+          transition:
+            transform 260ms ease,
+            opacity 260ms ease;
+        }
+
+        .partner-image-card.surface-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 28px 64px rgba(0,45,24,.13) !important;
+        }
+
+        .partner-image-card:hover h3::after {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+
+        .consumer-business-card {
+          transition:
+            transform 320ms cubic-bezier(.2,.7,.2,1),
+            box-shadow 320ms ease,
+            border-color 260ms ease;
+        }
+
+        .consumer-business-card.surface-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 28px 64px rgba(0,45,24,.12) !important;
         }
 
         .page-hero-light {
@@ -3701,10 +4631,10 @@ export default function App() {
           inset: auto 0 0;
           height: 44%;
           pointer-events: none;
-          opacity: .48;
+          opacity: .32;
           background:
-            repeating-linear-gradient(112deg, rgba(5,46,20,.05) 0 1px, transparent 1px 38px),
-            linear-gradient(180deg, transparent, rgba(255,255,255,.72));
+            repeating-linear-gradient(112deg, rgba(0,104,55,.035) 0 1px, transparent 1px 46px),
+            linear-gradient(180deg, transparent, rgba(255,255,255,.82));
         }
 
         .page-hero-soft-inner {
@@ -3712,25 +4642,25 @@ export default function App() {
           z-index: 2;
           min-height: inherit;
           display: grid;
-          grid-template-columns: minmax(0, .84fr) minmax(390px, .96fr);
-          gap: clamp(30px, 4.6vw, 64px);
+          grid-template-columns: minmax(0, .78fr) minmax(430px, 1.05fr);
+          gap: clamp(34px, 5vw, 72px);
           align-items: center;
-          padding-top: clamp(112px, 13vh, 150px);
-          padding-bottom: clamp(58px, 9vh, 96px);
+          padding-top: clamp(126px, 14vh, 164px);
+          padding-bottom: clamp(62px, 9vh, 98px);
         }
 
         .page-hero-photo-wrap {
           position: relative;
           justify-self: end;
-          width: min(100%, 690px);
-          aspect-ratio: 1.18 / 1;
+          width: min(100%, 760px);
+          aspect-ratio: 1.24 / 1;
           min-height: auto;
           border-radius: var(--hero-radius-a, 58% 42% 62% 38% / 42% 58% 42% 58%);
           clip-path: var(--hero-clip-a, polygon(14% 17%, 51% 0%, 87% 14%, 100% 49%, 82% 88%, 45% 100%, 10% 80%, 0% 42%));
           overflow: hidden;
-          border: 2px solid rgba(5,46,20,.18);
+          border: 4px solid rgba(255,255,255,.86);
           background: ${C.mist2};
-          box-shadow: 0 22px 54px rgba(5,46,20,.13);
+          box-shadow: 0 26px 72px rgba(0,104,55,.17);
           transform-origin: center;
         }
 
@@ -3741,7 +4671,7 @@ export default function App() {
           height: 100%;
           display: block;
           object-fit: cover;
-          filter: saturate(.94) contrast(1.03) brightness(1.03);
+          filter: saturate(.98) contrast(1.04) brightness(1.02);
           transform: scale(1.012);
           animation: page-photo-pan 9000ms ease-in-out infinite alternate;
         }
@@ -3752,8 +4682,8 @@ export default function App() {
           inset: 0;
           pointer-events: none;
           background:
-            linear-gradient(180deg, rgba(255,255,255,.05), rgba(5,46,20,.1)),
-            linear-gradient(90deg, rgba(234,247,238,.22), rgba(234,247,238,0) 46%, rgba(239,25,18,.04));
+            linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,104,55,.1)),
+            linear-gradient(90deg, rgba(140,249,187,.22), rgba(140,249,187,0) 46%, rgba(255,0,0,.04));
           mix-blend-mode: multiply;
         }
 
@@ -3763,19 +4693,34 @@ export default function App() {
           pointer-events: none;
           opacity: .45;
           background:
-            repeating-linear-gradient(90deg, rgba(5,46,20,.045) 0 1px, transparent 1px 96px),
-            repeating-linear-gradient(0deg, rgba(5,46,20,.025) 0 1px, transparent 1px 72px);
+            repeating-linear-gradient(90deg, rgba(0,104,55,.045) 0 1px, transparent 1px 96px),
+            repeating-linear-gradient(0deg, rgba(0,104,55,.025) 0 1px, transparent 1px 72px);
         }
 
         .hero-pill {
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          transition: transform 220ms ease, background-color 220ms ease;
+          animation: chip-settle 620ms cubic-bezier(.2,.7,.2,1) both;
+          transition:
+            transform 220ms ease,
+            background-color 220ms ease,
+            border-color 220ms ease,
+            color 220ms ease;
+        }
+
+        .hero-pill:nth-child(2) {
+          animation-delay: 90ms;
+        }
+
+        .hero-pill:nth-child(3) {
+          animation-delay: 160ms;
         }
 
         .hero-pill:hover {
-          transform: translateY(-2px);
-          background: rgba(255,255,255,.92) !important;
+          transform: translateY(-1px);
+          color: rgba(248,255,251,.94) !important;
+          border-color: rgba(140,249,187,.42) !important;
+          background: rgba(255,255,255,.18) !important;
         }
 
         .home-hero > .relative {
@@ -3796,8 +4741,23 @@ export default function App() {
           max-width: 100%;
         }
 
+        .hero-copy p,
+        .hero-copy h1,
+        .hero-copy h2,
+        .hero-copy h3,
+        .story-large-copy {
+          overflow-wrap: anywhere;
+        }
+
         .page-hero-copy {
           max-width: 700px;
+          justify-self: start;
+        }
+
+        .page-hero-title.is-compact {
+          max-width: 720px;
+          font-size: clamp(30px, 3.8vw, 48px) !important;
+          line-height: 1.08 !important;
         }
 
         .hero-title-line {
@@ -3806,6 +4766,198 @@ export default function App() {
 
         .consumer-business-photo {
           min-height: 255px;
+        }
+
+        .story-editorial-grid {
+          display: grid;
+          grid-template-columns: minmax(0, .92fr) minmax(420px, 1fr);
+          gap: clamp(34px, 5vw, 68px);
+          align-items: center;
+        }
+
+        .story-quote-panel {
+          max-width: 560px;
+        }
+
+        .story-large-copy {
+          font-size: clamp(18px, 2vw, 25px);
+          font-weight: 500 !important;
+        }
+
+        .story-discover-button {
+          position: relative;
+          overflow: hidden;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 12px 17px;
+          border: 1px solid rgba(0,104,55,.2);
+          border-radius: 999px;
+          background: ${C.greenDeep};
+          color: #fff;
+          font-size: 13px;
+          font-weight: 650;
+          box-shadow: 0 12px 28px rgba(0,104,55,.16);
+          transition:
+            transform 220ms ease,
+            background-color 220ms ease,
+            color 220ms ease,
+            box-shadow 220ms ease;
+        }
+
+        .story-discover-button::after {
+          content: "";
+          position: absolute;
+          inset: -2px;
+          transform: translateX(-118%) skewX(-16deg);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.26), transparent);
+          transition: transform 560ms ease;
+        }
+
+        .story-discover-button > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .story-discover-button:hover {
+          transform: translateY(-1px);
+          background: ${C.footerGreenDeep};
+          box-shadow: 0 16px 34px rgba(0,45,24,.22);
+        }
+
+        .story-discover-button:hover::after {
+          transform: translateX(118%) skewX(-16deg);
+        }
+
+        .story-discover-button svg {
+          position: relative;
+          z-index: 1;
+          transition: transform 220ms ease;
+        }
+
+        .story-discover-button:hover svg {
+          transform: translateX(3px);
+        }
+
+        .model-cta-button {
+          background: ${C.greenDeep};
+          color: #fff;
+          box-shadow: 0 14px 32px rgba(0,104,55,.18);
+        }
+
+        .story-photo-strip {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          align-items: center;
+          perspective: 900px;
+        }
+
+        .story-strip-photo {
+          min-height: 330px;
+          box-shadow: 0 18px 42px rgba(0,104,55,.12);
+          transform-origin: center;
+          transition:
+            transform 360ms cubic-bezier(.2,.7,.2,1),
+            box-shadow 360ms ease,
+            opacity 260ms ease,
+            filter 260ms ease;
+          will-change: transform;
+        }
+
+        .story-strip-photo img {
+          filter: saturate(.95) contrast(1.02) brightness(.98);
+          animation: story-image-breathe 7600ms ease-in-out infinite alternate;
+        }
+
+        .story-strip-photo:nth-child(2) img {
+          animation-delay: -2200ms;
+        }
+
+        .story-strip-photo:nth-child(3) img {
+          animation-delay: -4100ms;
+        }
+
+        .story-strip-photo.photo-frame::after {
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,104,55,.12)),
+            linear-gradient(90deg, rgba(140,249,187,.09), rgba(255,0,0,.025)) !important;
+          opacity: .48 !important;
+          mix-blend-mode: multiply;
+        }
+
+        .story-strip-photo.is-tall {
+          min-height: 405px;
+          margin-top: -28px;
+        }
+
+        .story-photo-strip:hover .story-strip-photo:not(:hover) {
+          opacity: .86;
+          filter: saturate(.92);
+          transform: translateY(5px) scale(.985);
+        }
+
+        .story-strip-photo:hover {
+          transform: translateY(-9px) rotate(.5deg) scale(1.012);
+          box-shadow: 0 26px 58px rgba(0,104,55,.18);
+        }
+
+        .story-values-band {
+          position: relative;
+          z-index: 3;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
+          width: min(900px, 100%);
+          margin-left: auto;
+          margin-right: auto;
+          padding: 24px;
+          border-radius: 8px;
+          background: ${C.greenDeep};
+          box-shadow: 0 20px 46px rgba(0,104,55,.16);
+        }
+
+        .story-value-item {
+          display: grid;
+          justify-items: center;
+          gap: 10px;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 650;
+          text-align: center;
+        }
+
+        .story-value-item span {
+          display: block;
+          width: 11px;
+          height: 11px;
+          border-radius: 999px;
+          background: ${C.leaf};
+          box-shadow: 0 0 0 6px rgba(140,249,187,.16);
+        }
+
+        .story-vision-card {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+          gap: clamp(22px, 4vw, 42px);
+          width: min(980px, 100%);
+          margin-left: auto;
+          margin-right: auto;
+          padding: 66px clamp(24px, 5vw, 54px) 38px;
+          border: 1px solid ${C.border};
+          border-radius: 8px;
+          background: rgba(255,255,255,.94);
+          box-shadow: ${C.shadowLarge};
+        }
+
+        .story-vision-divider {
+          width: 1px;
+          min-height: 145px;
+          background: ${C.border};
         }
 
         .founder-card {
@@ -3825,8 +4977,8 @@ export default function App() {
           z-index: 2;
           pointer-events: none;
           background:
-            linear-gradient(180deg, rgba(5,46,20,.02), rgba(5,46,20,.16)),
-            linear-gradient(90deg, rgba(239,25,18,.06), rgba(11,69,31,.08));
+            linear-gradient(180deg, rgba(0,104,55,.02), rgba(0,104,55,.16)),
+            linear-gradient(90deg, rgba(255,0,0,.06), rgba(0,104,55,.08));
           mix-blend-mode: multiply;
         }
 
@@ -3855,12 +5007,6 @@ export default function App() {
           transform-origin: center;
           animation: hero-image-settle 1600ms ease both;
           will-change: transform;
-        }
-
-        .home-hero-africa.hero-image {
-          animation:
-            home-africa-settle 1600ms ease both,
-            hero-map-drift 5600ms ease-in-out 1600ms infinite alternate;
         }
 
         .page-hero-photo-wrap.hero-image {
@@ -3900,7 +5046,7 @@ export default function App() {
 
         .motion-card:hover {
           border-color: ${C.borderStrong};
-          box-shadow: 0 14px 34px rgba(5,46,20,.075);
+          box-shadow: 0 14px 34px rgba(0,104,55,.075);
         }
 
         .motion-photo {
@@ -3917,9 +5063,24 @@ export default function App() {
         }
 
         .farm-card:hover .motion-photo img,
+        .partner-image-card:hover .motion-photo img,
         .consumer-business-card:hover .motion-photo img,
         .founder-card:hover .motion-photo img {
           transform: scale(1.045);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .farm-card .motion-photo.is-loaded img,
+          .partner-image-card .motion-photo.is-loaded img {
+            animation: card-image-drift 9200ms ease-in-out infinite alternate;
+            animation-delay: calc(var(--card-index, 0) * 160ms);
+          }
+
+          .partner-image-card:nth-child(2n) .motion-photo.is-loaded img,
+          .farm-card:nth-child(2n) .motion-photo.is-loaded img {
+            animation-duration: 10800ms;
+            animation-direction: alternate-reverse;
+          }
         }
 
         .photo-frame:not(.founder-portrait)::after {
@@ -3929,8 +5090,8 @@ export default function App() {
           z-index: 2;
           pointer-events: none;
           background:
-            linear-gradient(180deg, rgba(255,255,255,.04), rgba(5,46,20,.1)),
-            linear-gradient(90deg, rgba(239,25,18,.04), rgba(11,69,31,.05));
+            linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,104,55,.1)),
+            linear-gradient(90deg, rgba(255,0,0,.04), rgba(0,104,55,.05));
           opacity: .72;
           mix-blend-mode: multiply;
         }
@@ -3960,27 +5121,13 @@ export default function App() {
           }
         }
 
-        @keyframes home-africa-settle {
+        @keyframes home-photo-breathe {
           from {
-            transform: scaleX(1.12) scale(1.045);
+            transform: scale(1.02) translate3d(-.7%, 0, 0);
           }
 
           to {
-            transform: scaleX(1.12) scale(1);
-          }
-        }
-
-        @keyframes hero-map-drift {
-          0% {
-            transform: translate3d(0, 0, 0) rotate(0deg) scaleX(1.12) scale(1);
-          }
-
-          45% {
-            transform: translate3d(-10px, 8px, 0) rotate(-1.1deg) scaleX(1.12) scale(1.018);
-          }
-
-          100% {
-            transform: translate3d(8px, -7px, 0) rotate(.9deg) scaleX(1.12) scale(1.032);
+            transform: scale(1.055) translate3d(.7%, -.5%, 0);
           }
         }
 
@@ -4038,6 +5185,18 @@ export default function App() {
           }
         }
 
+        @keyframes chip-settle {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
         @keyframes photo-rise {
           from {
             opacity: 0;
@@ -4047,6 +5206,26 @@ export default function App() {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        @keyframes story-image-breathe {
+          from {
+            transform: scale(1);
+          }
+
+          to {
+            transform: scale(1.035) translate3d(.6%, -.5%, 0);
+          }
+        }
+
+        @keyframes card-image-drift {
+          from {
+            transform: scale(1.01) translate3d(-.35%, .2%, 0);
+          }
+
+          to {
+            transform: scale(1.055) translate3d(.45%, -.45%, 0);
           }
         }
 
@@ -4089,8 +5268,8 @@ export default function App() {
           display: grid;
           place-items: center;
           background:
-            linear-gradient(90deg, rgba(5,46,20,.92), rgba(5,46,20,.74) 48%, rgba(5,46,20,.18)),
-            linear-gradient(180deg, rgba(5,46,20,.08), rgba(5,46,20,.72)),
+            linear-gradient(90deg, rgba(0,104,55,.92), rgba(0,104,55,.74) 48%, rgba(0,104,55,.18)),
+            linear-gradient(180deg, rgba(0,104,55,.08), rgba(0,104,55,.72)),
             url("${IMG.hero}") center / cover no-repeat;
         }
 
@@ -4143,7 +5322,7 @@ export default function App() {
           width: 12px;
           height: 12px;
           border-radius: 50%;
-          box-shadow: 0 0 0 6px rgba(11,69,31,.08);
+          box-shadow: 0 0 0 6px rgba(0,104,55,.08);
         }
 
         .loader-node-red {
@@ -4159,7 +5338,7 @@ export default function App() {
           height: 3px;
           overflow: hidden;
           border-radius: 999px;
-          background: #DCE8DF;
+          background: ${C.border};
         }
 
         .loader-track span {
@@ -4214,14 +5393,14 @@ export default function App() {
         }
 
         .dodo-logo {
-          height: 34px;
-          width: 85px;
+          height: 41px;
+          width: 102px;
         }
 
         @media (min-width: 640px) {
           .dodo-logo {
-            height: 36px;
-            width: 90px;
+            height: 43px;
+            width: 108px;
           }
         }
 
@@ -4239,41 +5418,77 @@ export default function App() {
           }
 
           .dodo-logo {
-            height: 38px;
-            width: 95px;
+            height: 47px;
+            width: 118px;
+          }
+        }
+
+        @media (max-width: 1023px) {
+          .desktop-nav-links,
+          .desktop-nav-cta {
+            display: none !important;
+          }
+
+          .nav-frame {
+            position: relative;
+          }
+
+          .floating-mobile-toggle {
+            display: flex !important;
+            position: fixed;
+            top: 10px;
+            right: 14px;
+            z-index: 150;
+            margin-left: 0;
+            transform: none;
+          }
+
+          .floating-mobile-toggle:hover {
+            transform: none;
           }
         }
 
         @media (max-width: 420px) {
           .dodo-logo {
-            height: 32px;
-            width: 80px;
+            height: 39px;
+            width: 98px;
           }
         }
 
         @media (max-width: 360px) {
           .dodo-logo {
-            height: 30px;
-            width: 75px;
+            height: 37px;
+            width: 93px;
           }
         }
 
         .footer-logo {
-          height: 32px;
-          width: 80px;
+          height: 47px;
+          width: 118px;
         }
 
-        @media (min-width: 640px) {
+        .footer-link {
+          text-underline-offset: 4px;
+          text-decoration-thickness: 1px;
+          transition: color 180ms ease;
+        }
+
+        .footer-link:hover {
+          color: ${C.leaf} !important;
+          text-decoration: underline;
+        }
+
+        @media (max-width: 420px) {
           .footer-logo {
-            height: 34px;
-            width: 85px;
+            height: 39px;
+            width: 98px;
           }
         }
 
         @media (max-width: 360px) {
           .footer-logo {
-            height: 30px;
-            width: 75px;
+            height: 37px;
+            width: 93px;
           }
         }
 
@@ -4282,20 +5497,41 @@ export default function App() {
             min-height: auto;
           }
 
+          .home-today-intro {
+            grid-template-columns: 1fr;
+            align-items: start;
+          }
+
+          .home-hero-shell {
+            min-height: min(720px, 100svh);
+          }
+
+          .home-hero-story .home-hero-inner {
+            min-height: inherit;
+          }
+
           .home-hero:not(.home-hero-light) h1 {
-            font-size: clamp(44px, 8vw, 72px) !important;
+            font-size: clamp(38px, 6.6vw, 56px) !important;
           }
 
           .home-hero-light h1 {
-            font-size: clamp(38px, 6.4vw, 60px) !important;
+            font-size: clamp(34px, 5.6vw, 50px) !important;
           }
 
           .home-hero-copy {
             width: min(560px, 54vw);
           }
 
+          .home-hero-story .home-hero-copy {
+            width: 100%;
+          }
+
           .page-hero h1 {
-            font-size: clamp(36px, 6.4vw, 60px) !important;
+            font-size: clamp(32px, 5.6vw, 50px) !important;
+          }
+
+          .page-hero-title.is-compact {
+            font-size: clamp(30px, 4.8vw, 46px) !important;
           }
         }
 
@@ -4318,6 +5554,11 @@ export default function App() {
             grid-template-columns: 1fr !important;
           }
 
+          .home-closing-panel,
+          .partner-contact-grid {
+            grid-template-columns: 1fr !important;
+          }
+
           .page-shell .md\\:flex-row,
           .page-shell .sm\\:flex-row {
             flex-direction: column !important;
@@ -4332,6 +5573,70 @@ export default function App() {
           .page-hero:not(.page-hero-light) > .relative {
             padding-top: 64px;
             padding-bottom: 58px;
+          }
+
+          .home-hero-story .home-hero-inner {
+            grid-template-columns: 1fr;
+            align-items: end;
+            gap: 22px;
+            padding-top: 118px;
+            padding-bottom: 48px;
+          }
+
+          .page-photo-hero {
+            min-height: auto;
+          }
+
+          .page-photo-hero-inner {
+            min-height: auto;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            padding-top: 118px;
+            padding-bottom: 52px;
+          }
+
+          .page-photo-hero-card {
+            justify-self: start;
+            width: min(100%, 520px);
+          }
+
+          .model-service-cards {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            width: min(100%, 720px);
+            margin-top: -34px;
+          }
+
+          .home-hero-mission {
+            max-width: 650px;
+            margin-left: 0;
+          }
+
+          .story-editorial-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .story-quote-panel {
+            max-width: 760px;
+          }
+
+          .story-photo-strip {
+            max-width: 680px;
+          }
+
+          .story-values-band {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .story-vision-card {
+            grid-template-columns: 1fr;
+            margin-top: -18px;
+            padding-top: 56px;
+          }
+
+          .story-vision-divider {
+            width: 100%;
+            min-height: 1px;
+            height: 1px;
           }
 
           .page-hero-light {
@@ -4369,22 +5674,6 @@ export default function App() {
             max-width: 620px;
           }
 
-          .home-hero-media {
-            position: relative;
-            inset: auto;
-            display: grid;
-            place-items: center;
-            width: min(114%, 620px);
-            aspect-ratio: 520 / 640;
-            margin: 42px auto -70px;
-          }
-
-          .home-hero-africa {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 14px 32px rgba(5,46,20,.1));
-          }
-
           .page-shell button,
           .page-shell a {
             white-space: normal;
@@ -4413,7 +5702,7 @@ export default function App() {
           }
 
           .page-shell section:not(.home-hero):not(.page-hero) > .max-w-7xl,
-          .home-hero-africa.hero-image,
+          .home-hero-photo img,
           .page-hero .hero-image {
             animation: none !important;
             transform: none !important;
@@ -4432,19 +5721,45 @@ export default function App() {
             transform: none;
           }
 
+          .site-nav {
+            top: 0 !important;
+          }
+
           .site-nav > div {
-            padding-left: 16px !important;
-            padding-right: 16px !important;
+            padding-left: clamp(20px, 5vw, 22px) !important;
+            padding-right: clamp(20px, 5vw, 22px) !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: auto;
+            margin-right: auto;
           }
 
           .nav-frame {
-            min-height: 54px !important;
-            padding: 0 8px !important;
+            min-height: 58px !important;
+            width: 100% !important;
+            padding: 0 !important;
+          }
+
+          .floating-mobile-toggle {
+            background: transparent !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
           }
 
           .home-hero:not(.home-hero-light) {
             min-height: auto;
             align-items: start;
+          }
+
+          .home-hero-story {
+            min-height: auto !important;
+            padding: 0;
+          }
+
+          .home-hero-shell {
+            width: 100%;
+            min-height: auto;
+            border-radius: 0;
           }
 
           .page-hero {
@@ -4462,6 +5777,39 @@ export default function App() {
             padding-bottom: 46px;
           }
 
+          .home-hero-story .home-hero-inner {
+            min-height: auto;
+            padding-top: 110px;
+            padding-bottom: 42px;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
+          }
+
+          .page-photo-hero-inner {
+            padding-top: 104px;
+            padding-bottom: 42px;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+
+          .page-photo-hero-copy,
+          .story-quote-panel,
+          .story-quote-panel p {
+            width: min(320px, calc(100vw - 40px)) !important;
+            max-width: min(320px, calc(100vw - 40px)) !important;
+          }
+
+          .page-photo-hero-card {
+            display: none;
+          }
+
+          .page-photo-hero .hero-pill {
+            display: none;
+          }
+
           .page-hero-soft-inner {
             padding-top: 104px;
             padding-bottom: 42px;
@@ -4473,21 +5821,15 @@ export default function App() {
           }
 
           .home-hero-light h1 {
-            font-size: clamp(34px, 9.4vw, 42px) !important;
+            font-size: clamp(30px, 8.4vw, 38px) !important;
             line-height: 1 !important;
             max-width: 100%;
           }
 
           .home-hero-light .home-hero-lede {
-            font-size: 16px !important;
+            font-size: 14px !important;
             line-height: 1.5 !important;
             max-width: 100%;
-          }
-
-          .home-hero-media {
-            width: min(116%, 460px);
-            margin-top: 34px;
-            margin-bottom: -66px;
           }
 
           .hero-title-line > span {
@@ -4495,9 +5837,30 @@ export default function App() {
           }
 
           .page-hero h1 {
-            font-size: clamp(34px, 9vw, 42px) !important;
-            line-height: 1.04 !important;
+            font-size: clamp(30px, 8.4vw, 38px) !important;
+            line-height: 1.08 !important;
             max-width: 100%;
+          }
+
+          .page-hero-title.is-compact {
+            font-size: clamp(29px, 7.8vw, 36px) !important;
+          }
+
+          .model-service-band {
+            min-height: 292px;
+            margin-left: -20px;
+            margin-right: -20px;
+            border-radius: 0;
+          }
+
+          .model-service-band-copy {
+            padding: 24px 20px;
+          }
+
+          .model-service-cards {
+            grid-template-columns: 1fr;
+            width: 100%;
+            margin-top: 16px;
           }
 
           .page-hero-photo-wrap {
@@ -4507,13 +5870,121 @@ export default function App() {
           }
 
           .hero-copy p {
-            font-size: 15px !important;
-            line-height: 1.65 !important;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
             max-width: 100%;
           }
 
-          .home-hero:not(.home-hero-light) .hero-copy button,
-          .home-hero:not(.home-hero-light) .hero-copy a {
+          .story-large-copy {
+            font-size: clamp(19px, 5.6vw, 24px) !important;
+            line-height: 1.52 !important;
+          }
+
+          .home-hero-story h1 {
+            max-width: 100%;
+            font-size: clamp(29px, 8vw, 35px) !important;
+            line-height: 1.08 !important;
+          }
+
+          .home-hero-story .home-hero-copy,
+          .home-hero-mission {
+            width: 100%;
+            max-width: 340px;
+          }
+
+          .home-hero-story .home-hero-lede {
+            font-size: 13px !important;
+            line-height: 1.52 !important;
+            max-width: 100%;
+          }
+
+          .home-hero-mission p {
+            font-size: 13px !important;
+            line-height: 1.58 !important;
+          }
+
+          .home-hero-badge {
+            padding: 7px 10px;
+            font-size: 11px;
+            white-space: normal;
+          }
+
+          .home-hero-story .home-hero-actions {
+            align-items: flex-start;
+          }
+
+          .home-story-button,
+          .home-hero-text-link,
+          .home-hero-mission button {
+            width: fit-content !important;
+          }
+
+          .section-heading {
+            width: min(100%, calc(100vw - 40px)) !important;
+            max-width: min(100%, calc(100vw - 40px)) !important;
+          }
+
+          .section-heading h2 {
+            max-width: 100%;
+            font-size: clamp(23px, 6.6vw, 30px) !important;
+            line-height: 1.14 !important;
+            white-space: normal !important;
+            overflow-wrap: anywhere !important;
+            word-break: normal !important;
+            text-wrap: balance;
+          }
+
+          .section-heading p {
+            max-width: 100%;
+            white-space: normal !important;
+            overflow-wrap: anywhere !important;
+            word-break: normal !important;
+          }
+
+          section h2 {
+            max-width: calc(100vw - 40px) !important;
+            white-space: normal !important;
+            overflow-wrap: anywhere !important;
+            word-break: normal !important;
+            text-wrap: balance;
+          }
+
+          section p {
+            max-width: calc(100vw - 40px);
+            white-space: normal !important;
+            overflow-wrap: anywhere !important;
+            word-break: normal !important;
+          }
+
+          .story-photo-strip {
+            gap: 10px;
+            max-width: 100%;
+          }
+
+          .story-strip-photo {
+            min-height: 225px;
+          }
+
+          .story-strip-photo.is-tall {
+            min-height: 280px;
+            margin-top: -16px;
+          }
+
+          .story-values-band {
+            gap: 10px;
+            padding: 18px 14px;
+          }
+
+          .story-value-item {
+            font-size: 12px;
+          }
+
+          .story-vision-card {
+            padding: 48px 20px 26px;
+          }
+
+          .home-hero:not(.home-hero-light):not(.home-hero-story) .hero-copy button,
+          .home-hero:not(.home-hero-light):not(.home-hero-story) .hero-copy a {
             width: 100%;
           }
 
@@ -4521,6 +5992,46 @@ export default function App() {
           .home-hero-light .home-hero-actions a {
             width: auto;
             align-self: flex-start;
+          }
+
+          .home-today-title-line {
+            display: block;
+          }
+
+          .home-today-desktop-copy {
+            display: none !important;
+          }
+
+          .home-today-mobile-copy {
+            display: block !important;
+            width: min(320px, calc(100vw - 40px)) !important;
+            max-width: min(320px, calc(100vw - 40px)) !important;
+            white-space: normal !important;
+            overflow-wrap: anywhere !important;
+          }
+
+          .home-today-intro .section-heading,
+          .home-today-intro .section-heading h2,
+          .home-today-intro .section-heading p {
+            width: 100% !important;
+            max-width: calc(100vw - 40px) !important;
+          }
+
+          .home-today-intro .section-heading h2 {
+            font-size: clamp(22px, 6vw, 28px) !important;
+            line-height: 1.16 !important;
+          }
+
+          .partner-card-photo {
+            min-height: 190px;
+          }
+
+          .partner-image-card h3 {
+            font-size: 18px !important;
+          }
+
+          .partner-image-card .p-5 {
+            padding: 18px !important;
           }
 
           .site-loader-card {
@@ -4531,15 +6042,29 @@ export default function App() {
 
         @media (max-width: 380px) {
           .home-hero:not(.home-hero-light) h1 {
-            font-size: 38px !important;
-          }
-
-          .home-hero-light h1 {
             font-size: 34px !important;
           }
 
+          .home-hero-light h1 {
+            font-size: 31px !important;
+          }
+
+          .home-hero-story h1 {
+            font-size: clamp(28px, 7.8vw, 32px) !important;
+            line-height: 1.08 !important;
+          }
+
+          .home-hero-story .home-hero-lede {
+            font-size: 14px !important;
+            line-height: 1.55 !important;
+          }
+
           .page-hero h1 {
-            font-size: 32px !important;
+            font-size: 30px !important;
+          }
+
+          .page-hero-title.is-compact {
+            font-size: 29px !important;
           }
         }
       `}</style>

@@ -1387,16 +1387,18 @@ function PageHeader({
             {title}
           </h1>
 
-          <p
-              className="mt-5 max-w-2xl text-sm md:text-base"
-              style={{
-              color: "rgba(242,255,248,.82)",
-              lineHeight: 1.62,
-              fontWeight: 400,
-            }}
-          >
-            {lede}
-          </p>
+          {lede && (
+            <p
+                className="mt-5 max-w-2xl text-sm md:text-base"
+                style={{
+                color: "rgba(242,255,248,.82)",
+                lineHeight: 1.62,
+                fontWeight: 400,
+              }}
+            >
+              {lede}
+            </p>
+          )}
 
           <div className="mt-8 flex flex-wrap gap-3">
             {chips.map((item) => (
@@ -1834,7 +1836,6 @@ function HomePage({ setPage }) {
             eyebrow="Integrated Business Model"
             title="Farm to Market to Food to Consumer."
             description="The businesses are designed to support one another rather than operate as unrelated ventures."
-            center
           />
 
           <div className="mt-11 grid md:grid-cols-2 xl:grid-cols-4 gap-5">
@@ -2146,7 +2147,6 @@ function StoryPage({ setPage }) {
       <PageHeader
         eyebrow="Our Story"
         title="Built in Nigeria. Designed for the long term."
-        lede="Dodo Africa began from practical farm production and is growing into markets, food products and operating systems that make Nigerian agriculture more valuable."
         photo={IMG.story}
         photoAlt="Smiling Nigerian farmer in a cultivated field"
         photoPosition="center 35%"
@@ -2255,7 +2255,6 @@ function StoryPage({ setPage }) {
             eyebrow="About Us"
             title="Our identity, vision and values."
             description="Dodo Africa exists to build a practical, trusted and scalable Nigerian agribusiness with production at its centre."
-            center
           />
 
           <div className="story-values-band mt-10">

@@ -3512,12 +3512,17 @@ export default function App() {
       : pageFromPath(window.location.pathname)
   );
   const [loaded, setLoaded] = useState(false);
+  const pendingScrollTop = useRef(false);
 
   const navigateToPage = (
     nextPage,
     { replace = false, scroll = true } = {}
   ) => {
     const safePage = PAGE_PATHS[nextPage] ? nextPage : "home";
+
+    if (scroll) {
+      pendingScrollTop.current = true;
+    }
 
     setPage(safePage);
 
@@ -3531,14 +3536,41 @@ export default function App() {
 
       window.history[method]({ page: safePage }, "", nextPath);
     }
-
-    if (scroll) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
   };
+
+  // Scroll to top only after the new page has actually rendered,
+  // so a shrinking scroll height (e.g. long page -> short page)
+  // can't clamp/derail an in-flight scroll animation on mobile.
+  useEffect(() => {
+    if (!pendingScrollTop.current) return;
+
+    pendingScrollTop.current = false;
+
+    if (typeof window === "undefined") return;
+
+    // The global `html { scroll-behavior: smooth }` rule hijacks
+    // scrollTo's "auto" option (per spec it defers to CSS), so an
+    // in-flight smooth animation can get clamped/derailed by the
+    // outgoing page's content unmounting mid-scroll. Force a real
+    // instant jump by overriding scroll-behavior inline, then
+    // restore it so anchor/in-page smooth scrolling still works.
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+
+    root.style.scrollBehavior = "auto";
+    // Force a synchronous style flush so the browser actually commits
+    // "auto" before scrollTo runs — otherwise it can still process the
+    // scroll against the stale "smooth" value and animate anyway.
+    void root.offsetHeight;
+    window.scrollTo(0, 0);
+
+    // Defer the restore a frame so the instant jump above is fully
+    // applied before smooth scrolling is re-enabled for in-page use
+    // (anchors, scrollIntoView, etc.).
+    requestAnimationFrame(() => {
+      root.style.scrollBehavior = previousScrollBehavior;
+    });
+  }, [page]);
 
   useEffect(() => {
     document.body.style.margin = "0";

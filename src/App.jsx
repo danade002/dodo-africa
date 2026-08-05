@@ -747,6 +747,35 @@ function useReveal() {
 }
 
 /* ============================================================
+   REVEAL
+
+   Drop-in wrapper that fades and lifts its children into place
+   the first time they scroll into view. Shares the same easing
+   and distance as the site's existing per-card stagger reveals
+   so every section animates in with one consistent feel.
+   ============================================================ */
+
+function Reveal({ children, className = "", delay = 0, y = 18, as = "div" }) {
+  const [ref, visible] = useReveal();
+  const Tag = as;
+
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : `translateY(${y}px)`,
+        transition: `opacity 640ms ease ${delay}ms, transform 640ms cubic-bezier(.22,1,.36,1) ${delay}ms`,
+        willChange: "opacity, transform",
+      }}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+/* ============================================================
    SHARED COMPONENTS
    ============================================================ */
 
@@ -890,9 +919,13 @@ function Photo({
   );
 }
 
-function SiteLoader() {
+function SiteLoader({ hiding = false }) {
   return (
-    <div className="site-loader" role="status" aria-live="polite">
+    <div
+      className={`site-loader ${hiding ? "is-hiding" : ""}`}
+      role="status"
+      aria-live="polite"
+    >
       <div className="site-loader-card">
         <Logo />
 
@@ -1462,12 +1495,15 @@ function FarmCard({ farm, index, visible }) {
     >
       <div
         style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
           opacity: 1,
           transform: visible ? "translateY(0)" : "translateY(8px)",
           transition: `all 480ms ease ${index * 65}ms`,
         }}
       >
-        <div className="p-5">
+        <div className="p-5" style={{ flex: 1 }}>
           <h3
             style={{
               ...SERIF,
@@ -1502,14 +1538,16 @@ function FarmCard({ farm, index, visible }) {
           </p>
         </div>
 
-        <Photo
-          src={farm.photo}
-          alt={`${farm.name} production reference`}
-          ratio="4 / 3"
-          radius={0}
-          eager
-          position={farm.photoPosition}
-        />
+        <div style={{ flexShrink: 0 }}>
+          <Photo
+            src={farm.photo}
+            alt={`${farm.name} production reference`}
+            ratio="4 / 3"
+            radius={0}
+            eager
+            position={farm.photoPosition}
+          />
+        </div>
       </div>
     </Card>
   );
@@ -1656,7 +1694,7 @@ function HomePage({ setPage }) {
           />
         </svg>
 
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
           <div className="home-today-intro">
             <div
               className="home-today-copy"
@@ -1774,7 +1812,7 @@ function HomePage({ setPage }) {
               />
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* REAL FARM PHOTOGRAPHY */}
@@ -1789,7 +1827,15 @@ function HomePage({ setPage }) {
           ref={farmRef}
           className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20"
         >
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6"
+            style={{
+              opacity: farmVisible ? 1 : 0,
+              transform: farmVisible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
             <SectionHeading
               eyebrow="Dodo Africa Farms"
               title="One agricultural base. Multiple production lines."
@@ -1799,7 +1845,7 @@ function HomePage({ setPage }) {
             <button
               type="button"
               onClick={() => setPage("model")}
-              className="inline-flex items-center gap-2 text-sm font-extrabold"
+              className="farm-model-link inline-flex items-center gap-2 text-sm font-extrabold"
               style={{
                 background: "transparent",
                 color: C.red,
@@ -1832,11 +1878,20 @@ function HomePage({ setPage }) {
         }}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <SectionHeading
-            eyebrow="Integrated Business Model"
-            title="Farm to Market to Food to Consumer."
-            description="The businesses are designed to support one another rather than operate as unrelated ventures."
-          />
+          <div
+            style={{
+              opacity: modelVisible ? 1 : 0,
+              transform: modelVisible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="Integrated Business Model"
+              title="Farm to Market to Food to Consumer."
+              description="The businesses are designed to support one another rather than operate as unrelated ventures."
+            />
+          </div>
 
           <div className="mt-11 grid md:grid-cols-2 xl:grid-cols-4 gap-5">
             {[
@@ -1961,7 +2016,7 @@ function HomePage({ setPage }) {
       {/* CTA */}
 
       <section className="home-closing-section" style={{ background: C.greenMist }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-24">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-24">
           <div
             className="overflow-hidden rounded-lg"
             style={{
@@ -2034,7 +2089,7 @@ function HomePage({ setPage }) {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -2156,10 +2211,10 @@ function StoryPage({ setPage }) {
       />
 
       <section className="story-editorial-section" style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
           <div className="story-editorial-grid">
             <div className="story-quote-panel">
-              <Eyebrow>Our Story</Eyebrow>
+              <Eyebrow>Our Foundation</Eyebrow>
 
               <h2
                 className="mt-4"
@@ -2175,7 +2230,7 @@ function StoryPage({ setPage }) {
               </h2>
 
               <p
-                className="story-large-copy mt-6"
+                className="story-large-copy story-desktop-copy mt-6"
                 style={{
                   color: C.ink,
                   lineHeight: 1.68,
@@ -2188,7 +2243,7 @@ function StoryPage({ setPage }) {
               </p>
 
               <p
-                className="mt-5"
+                className="story-desktop-copy mt-5"
                 style={{
                   color: C.inkSoft,
                   lineHeight: 1.82,
@@ -2198,6 +2253,18 @@ function StoryPage({ setPage }) {
                 production focus. From there, the business grows
                 carefully into distribution, processing, hospitality
                 and digital systems without losing sight of the farm.
+              </p>
+
+              <p
+                className="story-mobile-copy mt-5 text-sm"
+                style={{
+                  color: C.inkSoft,
+                  lineHeight: 1.64,
+                }}
+              >
+                <span>Primary production comes first.</span>
+                <span>Market routes and food products follow.</span>
+                <span>100 plots of land, growing without losing the farm.</span>
               </p>
 
               <button
@@ -2239,7 +2306,7 @@ function StoryPage({ setPage }) {
               />
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section
@@ -2250,7 +2317,7 @@ function StoryPage({ setPage }) {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
           <SectionHeading
             eyebrow="About Us"
             title="Our identity, vision and values."
@@ -2318,7 +2385,7 @@ function StoryPage({ setPage }) {
               </p>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section
@@ -2330,11 +2397,20 @@ function StoryPage({ setPage }) {
         }}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <SectionHeading
-            eyebrow="The Founders"
-            title="Agriculture, law, technology and operations."
-            description="The founding team brings complementary capabilities that are directly relevant to building a modern agricultural business."
-          />
+          <div
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="The Founders"
+              title="Agriculture, law, technology and operations."
+              description="The founding team brings complementary capabilities that are directly relevant to building a modern agricultural business."
+            />
+          </div>
 
           <div className="mt-10 grid lg:grid-cols-2 gap-6">
             {FOUNDERS.map((founder, index) => (
@@ -2350,7 +2426,7 @@ function StoryPage({ setPage }) {
       </section>
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16">
           <div className="grid lg:grid-cols-[.88fr_1.12fr] gap-7">
             <Card green className="p-8 md:p-10">
               <Quote size={34} style={{ color: "#A9D4B7" }} />
@@ -2466,7 +2542,7 @@ function StoryPage({ setPage }) {
               </button>
             </div>
           </Card>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -2500,11 +2576,20 @@ function ModelPage({ setPage }) {
         }}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <SectionHeading
-            eyebrow="Business Architecture"
-            title="Different businesses. One connected value chain."
-            description="Not every division is at the same stage. Farming is the foundation, while other business lines are introduced as operations and market demand support them."
-          />
+          <div
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="Business Architecture"
+              title="Different businesses. One connected value chain."
+              description="Not every division is at the same stage. Farming is the foundation, while other business lines are introduced as operations and market demand support them."
+            />
+          </div>
 
           <div className="model-service-band mt-10">
             <img
@@ -2603,7 +2688,7 @@ function ModelPage({ setPage }) {
       </section>
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
           <div className="grid lg:grid-cols-[1fr_.85fr] gap-8">
             <div>
               <SectionHeading
@@ -2692,7 +2777,7 @@ function ModelPage({ setPage }) {
               </div>
             </Card>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -2852,7 +2937,7 @@ function MartPage() {
       />
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-12 md:py-18">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-12 md:py-18">
           <div className="grid lg:grid-cols-[.88fr_1.12fr] gap-8 items-start">
             <div>
               <Eyebrow>Two Routes to Market</Eyebrow>
@@ -2916,7 +3001,7 @@ function MartPage() {
               accent="red"
             />
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* MENU */}
@@ -2929,11 +3014,20 @@ function MartPage() {
         }}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <SectionHeading
-            eyebrow="The Dodo + X Concept"
-            title="Plantain at the centre."
-            description="The initial concept focuses on recognizable Nigerian combinations that can eventually connect the farm, food processing and consumer businesses."
-          />
+          <div
+            style={{
+              opacity: menuVisible ? 1 : 0,
+              transform: menuVisible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="The Dodo + X Concept"
+              title="Plantain at the centre."
+              description="The initial concept focuses on recognizable Nigerian combinations that can eventually connect the farm, food processing and consumer businesses."
+            />
+          </div>
 
           <div className="mt-9 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {MENU.map((item, index) => {
@@ -2998,7 +3092,7 @@ function MartPage() {
       {/* CHANNEL MODEL */}
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-14 md:py-16">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-14 md:py-16">
           <Card green className="p-7 md:p-10">
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -3041,7 +3135,7 @@ function MartPage() {
               ))}
             </div>
           </Card>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -3052,6 +3146,9 @@ function MartPage() {
    ============================================================ */
 
 function PartnersPage() {
+  const [oppRef, oppVisible] = useReveal();
+  const [roadmapRef, roadmapVisible] = useReveal();
+
   return (
     <>
       <PageHeader
@@ -3066,11 +3163,23 @@ function PartnersPage() {
       />
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <SectionHeading
-            eyebrow="Partnership Opportunities"
-            title="Different partners. Shared growth."
-          />
+        <div
+          ref={oppRef}
+          className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20"
+        >
+          <div
+            style={{
+              opacity: oppVisible ? 1 : 0,
+              transform: oppVisible ? "translateY(0)" : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="Partnership Opportunities"
+              title="Different partners. Shared growth."
+            />
+          </div>
 
           <div className="partner-opportunity-grid mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {PARTNER_OPPORTUNITIES.map((item, index) => (
@@ -3081,38 +3190,48 @@ function PartnersPage() {
                   "--card-index": index,
                 }}
               >
-                <div className="p-5">
-                  <h3
-                    className="mt-1"
-                    style={{
-                      ...SERIF,
-                      color: C.greenDeep,
-                      fontWeight: 700,
-                      fontSize: 21,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                <div
+                  style={{
+                    opacity: oppVisible ? 1 : 0,
+                    transform: oppVisible
+                      ? "translateY(0)"
+                      : "translateY(16px)",
+                    transition: `all 480ms ease ${index * 65}ms`,
+                  }}
+                >
+                  <div className="p-5">
+                    <h3
+                      className="mt-1"
+                      style={{
+                        ...SERIF,
+                        color: C.greenDeep,
+                        fontWeight: 700,
+                        fontSize: 21,
+                      }}
+                    >
+                      {item.title}
+                    </h3>
 
-                  <p
-                    className="mt-3 text-sm"
-                    style={{
-                      color: C.inkSoft,
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    {item.body}
-                  </p>
+                    <p
+                      className="mt-3 text-sm"
+                      style={{
+                        color: C.inkSoft,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {item.body}
+                    </p>
+                  </div>
+
+                  <Photo
+                    src={item.image}
+                    alt={item.imageAlt}
+                    ratio="16 / 10"
+                    radius={0}
+                    position={item.imagePosition}
+                    className="partner-card-photo"
+                  />
                 </div>
-
-                <Photo
-                  src={item.image}
-                  alt={item.imageAlt}
-                  ratio="16 / 10"
-                  radius={0}
-                  position={item.imagePosition}
-                  className="partner-card-photo"
-                />
               </Card>
             ))}
           </div>
@@ -3125,20 +3244,43 @@ function PartnersPage() {
           borderTop: `1px solid ${C.border}`,
         }}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
-          <SectionHeading
-            eyebrow="Growth Roadmap"
-            title="Build proof, then scale."
-            description="Growth is intended to be sequential: establish production, strengthen market channels, build operating evidence and expand from a stronger base."
-          />
+        <div
+          ref={roadmapRef}
+          className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20"
+        >
+          <div
+            style={{
+              opacity: roadmapVisible ? 1 : 0,
+              transform: roadmapVisible
+                ? "translateY(0)"
+                : "translateY(18px)",
+              transition:
+                "opacity 640ms ease, transform 640ms cubic-bezier(.22,1,.36,1)",
+            }}
+          >
+            <SectionHeading
+              eyebrow="Growth Roadmap"
+              title="Build proof, then scale."
+              description="Growth is intended to be sequential: establish production, strengthen market channels, build operating evidence and expand from a stronger base."
+            />
+          </div>
 
           <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PHASES.map((phase) => {
+            {PHASES.map((phase, index) => {
               const done = phase.state === "done";
               const current = phase.state === "current";
 
               return (
                 <Card key={phase.n} className="p-5 h-full">
+                  <div
+                    style={{
+                      opacity: roadmapVisible ? 1 : 0,
+                      transform: roadmapVisible
+                        ? "translateY(0)"
+                        : "translateY(16px)",
+                      transition: `all 480ms ease ${index * 65}ms`,
+                    }}
+                  >
                   <div className="flex items-start gap-4">
                     <div
                       className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-black"
@@ -3203,6 +3345,7 @@ function PartnersPage() {
                       </div>
                     </div>
                   </div>
+                  </div>
                 </Card>
               );
             })}
@@ -3211,7 +3354,7 @@ function PartnersPage() {
       </section>
 
       <section style={{ background: C.white }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-16">
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16">
           <div className="partner-contact-grid grid lg:grid-cols-[.9fr_1fr] gap-6">
             <Card pale className="p-8 md:p-10">
               <Eyebrow>Contact</Eyebrow>
@@ -3278,7 +3421,7 @@ function PartnersPage() {
               </p>
             </Card>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -3512,7 +3655,16 @@ export default function App() {
       : pageFromPath(window.location.pathname)
   );
   const [loaded, setLoaded] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
   const pendingScrollTop = useRef(false);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    const timer = setTimeout(() => setShowLoader(false), 420);
+
+    return () => clearTimeout(timer);
+  }, [loaded]);
 
   const navigateToPage = (
     nextPage,
@@ -3943,6 +4095,18 @@ export default function App() {
         .primary-button > * {
           position: relative;
           z-index: 1;
+        }
+
+        .farm-model-link svg {
+          transition: transform 220ms ease;
+        }
+
+        .farm-model-link:hover {
+          color: ${C.redDeep} !important;
+        }
+
+        .farm-model-link:hover svg {
+          transform: translateX(4px);
         }
 
         .surface-card {
@@ -4815,6 +4979,14 @@ export default function App() {
           font-weight: 500 !important;
         }
 
+        .story-mobile-copy {
+          display: none;
+        }
+
+        .story-mobile-copy span {
+          display: block;
+        }
+
         .story-discover-button {
           position: relative;
           overflow: hidden;
@@ -5031,7 +5203,13 @@ export default function App() {
         }
 
         .page-shell {
-          animation: page-enter 520ms cubic-bezier(.2,.7,.2,1) both;
+          animation: page-enter 560ms cubic-bezier(.22,1,.36,1) both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .page-shell {
+            animation: none;
+          }
         }
 
         .hero-image {
@@ -5135,10 +5313,12 @@ export default function App() {
         @keyframes page-enter {
           from {
             opacity: 0;
+            transform: translateY(12px);
           }
 
           to {
             opacity: 1;
+            transform: translateY(0);
           }
         }
 
@@ -5298,10 +5478,17 @@ export default function App() {
           z-index: 999;
           display: grid;
           place-items: center;
+          opacity: 1;
+          transition: opacity 420ms ease;
           background:
             linear-gradient(90deg, rgba(0,104,55,.92), rgba(0,104,55,.74) 48%, rgba(0,104,55,.18)),
             linear-gradient(180deg, rgba(0,104,55,.08), rgba(0,104,55,.72)),
             url("${IMG.hero}") center / cover no-repeat;
+        }
+
+        .site-loader.is-hiding {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .site-loader-card {
@@ -5424,14 +5611,14 @@ export default function App() {
         }
 
         .dodo-logo {
-          height: 41px;
-          width: 102px;
+          height: 37px;
+          width: 93px;
         }
 
         @media (min-width: 640px) {
           .dodo-logo {
-            height: 43px;
-            width: 108px;
+            height: 39px;
+            width: 98px;
           }
         }
 
@@ -5449,8 +5636,8 @@ export default function App() {
           }
 
           .dodo-logo {
-            height: 47px;
-            width: 118px;
+            height: 42px;
+            width: 106px;
           }
         }
 
@@ -5481,21 +5668,21 @@ export default function App() {
 
         @media (max-width: 420px) {
           .dodo-logo {
-            height: 39px;
-            width: 98px;
+            height: 35px;
+            width: 88px;
           }
         }
 
         @media (max-width: 360px) {
           .dodo-logo {
-            height: 37px;
-            width: 93px;
+            height: 33px;
+            width: 84px;
           }
         }
 
         .footer-logo {
-          height: 47px;
-          width: 118px;
+          height: 42px;
+          width: 106px;
         }
 
         .footer-link {
@@ -5511,15 +5698,15 @@ export default function App() {
 
         @media (max-width: 420px) {
           .footer-logo {
-            height: 39px;
-            width: 98px;
+            height: 35px;
+            width: 88px;
           }
         }
 
         @media (max-width: 360px) {
           .footer-logo {
-            height: 37px;
-            width: 93px;
+            height: 33px;
+            width: 84px;
           }
         }
 
@@ -6041,6 +6228,14 @@ export default function App() {
             overflow-wrap: anywhere !important;
           }
 
+          .story-desktop-copy {
+            display: none !important;
+          }
+
+          .story-mobile-copy {
+            display: block !important;
+          }
+
           .home-today-intro .section-heading,
           .home-today-intro .section-heading h2,
           .home-today-intro .section-heading p {
@@ -6100,7 +6295,7 @@ export default function App() {
         }
       `}</style>
 
-      {!loaded && <SiteLoader />}
+      {showLoader && <SiteLoader hiding={loaded} />}
 
       <NavBar page={page} setPage={navigateToPage} />
 

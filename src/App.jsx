@@ -733,8 +733,14 @@ function useReveal() {
         }
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -50px 0px",
+        // A positive bottom margin triggers the reveal while the
+        // section is still below the fold, so the fade/lift finishes
+        // (or is well underway) by the time a scrolling reader's eye
+        // actually reaches it — on a fast mobile flick-scroll the old
+        // negative margin meant content was still visibly fading in
+        // exactly as it entered view, reading as a "blank pocket".
+        threshold: 0,
+        rootMargin: "0px 0px 200px 0px",
       }
     );
 
@@ -876,8 +882,16 @@ function Photo({
         backgroundSize: "cover",
       }}
     >
-      {!loaded && !failed && (
-        <div className="photo-loader" aria-hidden="true">
+      {!failed && (
+        <div
+          className="photo-loader"
+          aria-hidden="true"
+          style={{
+            opacity: loaded ? 0 : 1,
+            transition: "opacity 420ms ease",
+            pointerEvents: "none",
+          }}
+        >
           <span />
         </div>
       )}
@@ -900,8 +914,8 @@ function Photo({
             display: "block",
             objectFit: "cover",
             objectPosition: position,
-            opacity: 1,
-            transition: "opacity 220ms ease, transform 760ms ease",
+            opacity: loaded ? 1 : 0,
+            transition: "opacity 420ms ease, transform 760ms ease",
           }}
         />
       ) : (
@@ -953,6 +967,15 @@ function SiteLoader({ hiding = false }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function RouteProgress({ phase }) {
+  return (
+    <div
+      className={`route-progress ${phase !== "idle" ? `is-${phase}` : ""}`}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -3542,7 +3565,7 @@ function Footer({ setPage }) {
                 Company
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-2">
                 {[
                   ["story", "Our Story"],
                   ["model", "The Model"],
@@ -3654,9 +3677,24 @@ export default function App() {
       ? "home"
       : pageFromPath(window.location.pathname)
   );
+  // `renderedPage` lags behind `page` just long enough for the outgoing
+  // page to fade out, so route changes read as a cross-fade rather than
+  // an instant, jarring swap of content.
+  const [renderedPage, setRenderedPage] = useState(page);
+  const [isExiting, setIsExiting] = useState(false);
+  const [progressPhase, setProgressPhase] = useState("idle");
   const [loaded, setLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const pendingScrollTop = useRef(false);
+  const exitTimerRef = useRef(0);
+  const progressTimersRef = useRef([]);
+
+  const reducedMotionRef = useRef(
+    typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  const EXIT_MS = reducedMotionRef.current ? 0 : 190;
 
   useEffect(() => {
     if (!loaded) return;
@@ -3666,28 +3704,84 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [loaded]);
 
+  const clearProgressTimers = () => {
+    progressTimersRef.current.forEach((id) => window.clearTimeout(id));
+    progressTimersRef.current = [];
+  };
+
+  // A slim top progress bar that fills while the outgoing page fades
+  // out, snaps to complete once the new page has mounted, then fades
+  // away — the same "something is happening" cue used by GitHub/Linear
+  // style route changes, so navigation reads as responsive right away.
+  const runProgress = () => {
+    clearProgressTimers();
+    setProgressPhase("loading");
+  };
+
+  const finishProgress = () => {
+    setProgressPhase("complete");
+
+    progressTimersRef.current.push(
+      window.setTimeout(() => setProgressPhase("fading"), 160),
+      window.setTimeout(() => setProgressPhase("idle"), 160 + 260)
+    );
+  };
+
+  // Shared by click-driven navigation and browser back/forward so both
+  // paths get the same fade-out -> swap -> fade-in treatment.
+  const transitionToPage = (nextPage, { scroll = true } = {}) => {
+    if (nextPage === page && nextPage === renderedPage) return;
+
+    setPage(nextPage);
+
+    if (nextPage === renderedPage) return;
+
+    runProgress();
+    setIsExiting(true);
+
+    window.clearTimeout(exitTimerRef.current);
+    exitTimerRef.current = window.setTimeout(() => {
+      if (scroll) {
+        pendingScrollTop.current = true;
+      }
+
+      setRenderedPage(nextPage);
+      setIsExiting(false);
+      finishProgress();
+    }, EXIT_MS);
+  };
+
+  // Kept up to date every render so the mount-only popstate listener
+  // below never closes over a stale `page`/`renderedPage` pair.
+  const transitionToPageRef = useRef(transitionToPage);
+  transitionToPageRef.current = transitionToPage;
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(exitTimerRef.current);
+      clearProgressTimers();
+    },
+    []
+  );
+
   const navigateToPage = (
     nextPage,
     { replace = false, scroll = true } = {}
   ) => {
     const safePage = PAGE_PATHS[nextPage] ? nextPage : "home";
 
-    if (scroll) {
-      pendingScrollTop.current = true;
+    if (typeof window !== "undefined") {
+      const nextPath = pathForPage(safePage);
+      const currentPath = cleanPath(window.location.pathname);
+
+      if (currentPath !== nextPath) {
+        const method = replace ? "replaceState" : "pushState";
+
+        window.history[method]({ page: safePage }, "", nextPath);
+      }
     }
 
-    setPage(safePage);
-
-    if (typeof window === "undefined") return;
-
-    const nextPath = pathForPage(safePage);
-    const currentPath = cleanPath(window.location.pathname);
-
-    if (currentPath !== nextPath) {
-      const method = replace ? "replaceState" : "pushState";
-
-      window.history[method]({ page: safePage }, "", nextPath);
-    }
+    transitionToPage(safePage, { scroll });
   };
 
   // Scroll to top only after the new page has actually rendered,
@@ -3722,7 +3816,7 @@ export default function App() {
     requestAnimationFrame(() => {
       root.style.scrollBehavior = previousScrollBehavior;
     });
-  }, [page]);
+  }, [renderedPage]);
 
   useEffect(() => {
     document.body.style.margin = "0";
@@ -3750,7 +3844,7 @@ export default function App() {
     }
 
     const handlePopState = () => {
-      setPage(pageFromPath(window.location.pathname));
+      transitionToPageRef.current(pageFromPath(window.location.pathname));
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -3829,7 +3923,7 @@ export default function App() {
 
   let content;
 
-  switch (page) {
+  switch (renderedPage) {
     case "story":
       content = <StoryPage setPage={navigateToPage} />;
       break;
@@ -4095,6 +4189,11 @@ export default function App() {
         .primary-button > * {
           position: relative;
           z-index: 1;
+        }
+
+        .farm-model-link {
+          padding: 11px 0;
+          margin: -11px 0;
         }
 
         .farm-model-link svg {
@@ -5206,9 +5305,60 @@ export default function App() {
           animation: page-enter 560ms cubic-bezier(.22,1,.36,1) both;
         }
 
+        .page-shell-exiting {
+          animation: none;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 190ms ease, transform 190ms ease;
+          pointer-events: none;
+        }
+
+        .route-progress {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 3px;
+          width: 0%;
+          opacity: 0;
+          background: linear-gradient(90deg, ${C.red}, ${C.green2});
+          z-index: 300;
+          pointer-events: none;
+        }
+
+        .route-progress.is-loading {
+          opacity: 1;
+          width: 74%;
+          transition: width 900ms cubic-bezier(.2,.7,.2,1), opacity 150ms ease;
+        }
+
+        .route-progress.is-complete {
+          opacity: 1;
+          width: 100%;
+          transition: width 220ms ease;
+        }
+
+        .route-progress.is-fading {
+          opacity: 0;
+          width: 100%;
+          transition: opacity 260ms ease;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .page-shell {
             animation: none;
+          }
+
+          .page-shell-exiting {
+            opacity: 1;
+            transform: none;
+            transition: none;
+          }
+
+          .route-progress,
+          .route-progress.is-loading,
+          .route-progress.is-complete,
+          .route-progress.is-fading {
+            transition: none;
           }
         }
 
@@ -5686,6 +5836,7 @@ export default function App() {
         }
 
         .footer-link {
+          padding: 9px 0;
           text-underline-offset: 4px;
           text-decoration-thickness: 1px;
           transition: color 180ms ease;
@@ -6297,9 +6448,14 @@ export default function App() {
 
       {showLoader && <SiteLoader hiding={loaded} />}
 
+      <RouteProgress phase={progressPhase} />
+
       <NavBar page={page} setPage={navigateToPage} />
 
-      <main key={page} className="page-shell">
+      <main
+        key={renderedPage}
+        className={`page-shell ${isExiting ? "page-shell-exiting" : ""}`}
+      >
         {content}
       </main>
 

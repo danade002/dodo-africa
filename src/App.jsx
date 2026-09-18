@@ -21,6 +21,8 @@ import {
   Package,
   Smartphone,
   CheckCircle2,
+  Landmark,
+  FileSignature,
 } from "lucide-react";
 
 /* ============================================================
@@ -1131,7 +1133,7 @@ function Tag({ children, tone = "green" }) {
   );
 }
 
-function PrimaryButton({ children, onClick, href }) {
+function PrimaryButton({ children, onClick, href, external }) {
   const styles = {
     position: "relative",
     overflow: "hidden",
@@ -1153,7 +1155,14 @@ function PrimaryButton({ children, onClick, href }) {
 
   if (href) {
     return (
-      <a className="primary-button" href={href} style={styles}>
+      <a
+        className="primary-button"
+        href={href}
+        style={styles}
+        {...(external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
         {children}
       </a>
     );
@@ -3374,6 +3383,166 @@ function PartnersPage() {
             })}
           </div>
         </div>
+      </section>
+
+      <section
+        style={{
+          background: C.footerGreenDeep,
+          borderTop: `1px solid ${C.border}`,
+        }}
+      >
+        <Reveal className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20">
+          <div className="investor-portal-grid grid lg:grid-cols-[1fr_.85fr] gap-10 items-center">
+            <div>
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-full"
+                style={{ background: "rgba(140,249,187,.14)" }}
+              >
+                <Landmark size={22} style={{ color: C.leaf }} />
+              </div>
+
+              <div
+                className="mt-6 text-xs font-bold uppercase"
+                style={{ color: C.leaf, letterSpacing: 0.4 }}
+              >
+                Investor Relations
+              </div>
+
+              <h2
+                className="mt-3"
+                style={{
+                  ...SERIF,
+                  color: "#fff",
+                  fontSize: "clamp(26px,3.4vw,38px)",
+                  fontWeight: 700,
+                }}
+              >
+                Already discussing an investment with us?
+              </h2>
+
+              <p
+                className="mt-4"
+                style={{
+                  color: "#D8ECDD",
+                  lineHeight: 1.8,
+                  maxWidth: 560,
+                }}
+              >
+                Once terms have been discussed and agreed with our team,
+                investors can review and sign their offer securely
+                through our dedicated investment platform.
+              </p>
+
+              <ul className="mt-6 space-y-3">
+                {[
+                  "For investors who have completed discussions with the Dodo Africa team",
+                  "Review your investment offer and sign it online",
+                  "Track your investment fund status in one place",
+                ].map((line) => (
+                  <li
+                    key={line}
+                    className="flex items-start gap-3 text-sm"
+                    style={{ color: "#D8ECDD" }}
+                  >
+                    <FileSignature
+                      size={16}
+                      style={{
+                        color: C.leaf,
+                        marginTop: 3,
+                        flexShrink: 0,
+                      }}
+                    />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8">
+                <PrimaryButton
+                  href="https://invest.dodoafricagroup.com/"
+                  external
+                >
+                  Go to Investment Portal
+                  <ArrowRight size={16} />
+                </PrimaryButton>
+              </div>
+
+              <p
+                className="mt-4 text-xs"
+                style={{ color: "#9FC2A9" }}
+              >
+                New to investing with Dodo Africa? Reach out first via{" "}
+                <a
+                  href="mailto:hello@dodoafrica.com"
+                  style={{ color: C.leaf, fontWeight: 600 }}
+                >
+                  hello@dodoafrica.com
+                </a>{" "}
+                to start the conversation.
+              </p>
+            </div>
+
+            <Card className="p-8 md:p-10" style={{ background: "#fff" }}>
+              <ShieldCheck size={28} style={{ color: C.greenDeep }} />
+
+              <h3
+                className="mt-5"
+                style={{
+                  ...SERIF,
+                  color: C.greenDeep,
+                  fontSize: 22,
+                  fontWeight: 700,
+                }}
+              >
+                How it works
+              </h3>
+
+              <ol className="mt-5 space-y-4">
+                {[
+                  [
+                    "Conversation",
+                    "Terms are discussed and agreed directly with our team.",
+                  ],
+                  [
+                    "Offer",
+                    "An investment offer reflecting those terms is prepared for you.",
+                  ],
+                  [
+                    "Sign & fund",
+                    "Review and sign your offer on the investment portal.",
+                  ],
+                ].map(([step, desc], index) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <div
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black"
+                      style={{
+                        background: C.mist2,
+                        color: C.greenDeep,
+                        border: `1px solid ${C.borderStrong}`,
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                    <div>
+                      <div
+                        className="text-sm font-bold"
+                        style={{ color: C.greenDeep }}
+                      >
+                        {step}
+                      </div>
+                      <div
+                        className="mt-1 text-sm"
+                        style={{ color: C.inkSoft, lineHeight: 1.6 }}
+                      >
+                        {desc}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </Card>
+          </div>
+        </Reveal>
       </section>
 
       <section style={{ background: C.white }}>
